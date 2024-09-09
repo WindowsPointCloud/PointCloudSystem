@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>3D Point Cloud Object Detection - Inference</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_main">
+
+    <!-- Backbone Selector -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_backbone">
+      <item>
+       <widget class="QLabel" name="backboneLabel">
+        <property name="text">
+         <string>Backbone Architecture:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="backboneComboBox">
+        <item>
+         <property name="text">
+          <string>PointPillar</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>PV-RCNN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Point-RCNN</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Inference Directory -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_inferenceDir">
+      <item>
+       <widget class="QLabel" name="inferenceDirLabel">
+        <property name="text">
+         <string>Inference Directory:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="inferenceDirLineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="browseInferenceDirButton">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Save Prediction Labels -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_savePredictions">
+      <item>
+       <widget class="QLabel" name="savePredictionsLabel">
+        <property name="text">
+         <string>Save Prediction Labels:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="savePredictionsLineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="browseSavePredictionsButton">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Model Checkpoint -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_modelCheckpoint">
+      <item>
+       <widget class="QLabel" name="modelCheckpointLabel">
+        <property name="text">
+         <string>Model Checkpoint:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="modelCheckpointLineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="browseModelCheckpointButton">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Progress Bar -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_progressBar">
+      <item>
+       <widget class="QProgressBar" name="progressBar"/>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Visualization Button -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_visualization">
+      <item>
+       <spacer name="horizontalSpacer_1">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="visualizationButton">
+        <property name="text">
+         <string>Enter Visualization</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Spacer to push buttons to the bottom -->
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+     </spacer>
+    </item>
+
+    <!-- Buttons at the bottom -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_buttons">
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="startInferenceButton">
+        <property name="text">
+         <string>Start Inference</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="resetButton">
+        <property name="text">
+         <string>Reset</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cancelButton">
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
