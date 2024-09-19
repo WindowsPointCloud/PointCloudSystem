@@ -1,5 +1,8 @@
 # PointCloudSystem
 
+## System
+1. Operating System (OS): Window 10
+2. CUDA version: 10.2
 
 ## Setup
 Conda environment
