@@ -59,7 +59,7 @@ python setup.py develop
 python -c "import os; os.rename('SharedNumpyArray', 'SharedArray')"
 ```
 
-Check if installation is succesful
+Check if installation is succesful. You should see a GUI appear if no problem occurs.
 ```
 cd tools
 python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\kitti\pointpillar_7728.pth" --data_path "..\data\kitti\000000.bin"
