@@ -10,19 +10,24 @@ from labelCloud.view.inference import InferenceController, InferenceWindow
 import pkg_resources
 import logging
 import sys
+import os
+from pathlib import Path
 import platform
 from PyQt5.QtCore import QSettings
 
 class MainMenu(QMainWindow):
     def __init__(self):
         super().__init__()
-
-        uic.loadUi(
-            pkg_resources.resource_filename(
-                "labelCloud.resources.interfaces", "main_menu_interface.ui"
-            ),
-            self,
-        )
+        
+        # Determine the path to the UI file
+        self.ui_path = self._get_ui_path("main_menu_interface.ui")
+        uic.loadUi(self.ui_path, self)
+        #uic.loadUi(
+        #     pkg_resources.resource_filename(
+        #        "labelCloud.resources.interfaces", #"main_menu_interface.ui"
+        #     ),
+        #     self,
+        # )
         self.setWindowTitle("MIMOS Main Menu")
         self.setMinimumSize(QSize(500, 500))
 
@@ -63,7 +68,18 @@ class MainMenu(QMainWindow):
         theme = "dark" if self.is_dark_mode() else "light"
         self.setProperty("theme", theme)
         self.setStyleSheet(self.get_stylesheet())
+        
+    def _get_ui_path(self, ui_filename):
+            """Get the path to the UI file, considering whether running in PyInstaller bundle or not."""
+            if getattr(sys, 'frozen', False):
+                # Running in a PyInstaller bundle
+                base_path = Path(sys._MEIPASS)
+            else:
+                # Running in a development environment
+                base_path = Path(__file__).resolve().parent.parent.parent
 
+            
+            return base_path / "resources" /"interfaces" / ui_filename
 
     def start_application(self, window_class, controller_class):
   

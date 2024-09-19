@@ -119,12 +119,9 @@ STYLESHEET = """
 class GUI(QtWidgets.QMainWindow):
     def __init__(self, control: "Controller") -> None:
         super(GUI, self).__init__()
-        uic.loadUi(
-            pkg_resources.resource_filename(
-                "labelCloud.resources.interfaces", "interface.ui"
-            ),
-            self,
-        )
+        ui_path = self._get_ui_path("interface.ui")
+        uic.loadUi(ui_path,self)
+        
         self.resize(1500, 900)
         self.setWindowTitle("PointCloud Annotation")
         self.setStyleSheet(
@@ -277,7 +274,17 @@ class GUI(QtWidgets.QMainWindow):
         # Initialize the current_class_dropdown with class names
         self.update_current_class_dropdown()
 
-    
+    def _get_ui_path(self, ui_filename):
+        """Get the path to the UI file, considering whether running in PyInstaller bundle or not."""
+        if getattr(sys, 'frozen', False):
+            # Running in a PyInstaller bundle
+            base_path = Path(sys._MEIPASS)
+        else:
+            # Running in a development environment
+            base_path = Path(__file__).resolve().parent.parent
+        
+        return base_path / "resources" / "interfaces" / ui_filename   
+            
     def apply_dark_mode_stylesheet(self):
         dark_mode_stylesheet = """
         QMainWindow {

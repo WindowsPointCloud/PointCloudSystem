@@ -1,6 +1,8 @@
 import random
 from typing import List, Optional
-
+import os
+import sys
+from pathlib import Path
 import pkg_resources
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import QIcon, QPixmap
@@ -89,17 +91,9 @@ class ClassList(QWidget):
 
         label_color = ColorButton(color=hex_color)
         row_label.addWidget(label_color)
-
+        icon_path = self._get_icon_path("delete-outline.svg")
         label_delete = QPushButton(
-            icon=QIcon(
-                QPixmap(
-                    pkg_resources.resource_filename(
-                        "labelCloud.resources.icons", "delete-outline.svg"
-                    )
-                )
-            ),
-            text="",
-        )
+            icon=QIcon(QPixmap(str(icon_path))), text="")
         self.delete_buttons.addButton(label_delete)
         row_label.addWidget(label_delete)
 
@@ -107,6 +101,16 @@ class ClassList(QWidget):
 
         self.changed.emit()
 
+    def _get_icon_path(self, icon_filename):
+            """Get the path to the icon file, considering whether running in PyInstaller bundle or not."""
+            if getattr(sys, 'frozen', False):
+                # Running in a PyInstaller bundle
+                base_path = Path(sys._MEIPASS)
+            else:
+                # Running in a development environment
+                base_path = Path(__file__).resolve().parent.parent.parent
+
+            return base_path / "resources" / "icons" / icon_filename
     def _delete_label(self, delete_button: QPushButton) -> None:
         row_label: QHBoxLayout
         for row_index, row_label in enumerate(self.class_labels.children()):  # type: ignore

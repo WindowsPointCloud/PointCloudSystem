@@ -2,7 +2,7 @@
 
 import logging
 from pathlib import Path
-
+import sys
 import pkg_resources
 from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog, QApplication
@@ -19,12 +19,8 @@ class SettingsDialog(QDialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.parent_gui = parent
-        uic.loadUi(
-            pkg_resources.resource_filename(
-                "labelCloud.resources.interfaces", "settings_interface.ui"
-            ),
-            self,
-        )
+        ui_path = self._get_ui_path("settings_interface.ui")
+        uic.loadUi(ui_path, self)
         self.fill_with_current_settings()
 
         self.save_button.clicked.connect(self.save)
@@ -33,6 +29,16 @@ class SettingsDialog(QDialog):
 
         self.apply_theme()
 
+    def _get_ui_path(self, ui_filename):
+            """Get the path to the UI file, considering whether running in PyInstaller bundle or not."""
+            if getattr(sys, 'frozen', False):
+                # Running in a PyInstaller bundle
+                base_path = Path(sys._MEIPASS)
+            else:
+                # Running in a development environment
+                base_path = Path(__file__).resolve().parent.parent
+            
+            return base_path / "resources" / "interfaces" / ui_filename
     def fill_with_current_settings(self) -> None:
         # File
         self.lineEdit_pointcloudfolder.setText(config.get("FILE", "pointcloud_folder"))

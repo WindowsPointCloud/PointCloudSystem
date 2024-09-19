@@ -1,6 +1,8 @@
 import traceback
 import platform
 import pkg_resources
+import sys 
+from pathlib import Path
 import logging
 from PyQt5.QtCore import Qt, QSettings
 from PyQt5.QtGui import QIcon
@@ -39,13 +41,15 @@ class StartupDialog(QDialog):
         self.setWindowTitle("Point Cloud Annotation Menu")
         screen_size = QDesktopWidget().availableGeometry(self).size()
         self.resize(screen_size * 0.5)
-        self.setWindowIcon(
-            QIcon(
-                pkg_resources.resource_filename(
-                    "labelCloud.resources.icons", "labelCloud.ico"
-                )
-            )
-        )
+        icon_path = self._get_icon_path("labelCloud.ico")
+        self.setWindowIcon(QIcon(str(icon_path)))
+#        self.setWindowIcon(
+#           QIcon(
+#                pkg_resources.resource_filename(
+#                    "labelCloud.resources.icons", #"labelCloud.ico"
+#                )
+#            )
+#        )
         self.setContentsMargins(50, 10, 50, 10)
 
         main_layout = QVBoxLayout()
@@ -73,7 +77,18 @@ class StartupDialog(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
         main_layout.addWidget(self.buttonBox)
-
+        
+    def _get_icon_path(self, icon_filename):
+        """Get the path to the icon file, considering whether running in PyInstaller bundle or not."""
+        if getattr(sys, 'frozen', False):
+            # Running in a PyInstaller bundle
+            base_path = Path(sys._MEIPASS)
+        else:
+            # Running in a development environment
+            base_path = Path(__file__).resolve().parent.parent.parent
+        
+        return base_path / "resources" / "icons" / icon_filename
+        
     def apply_dark_mode_stylesheet(self):
         dark_mode_stylesheet = """
         QDialog {

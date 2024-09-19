@@ -7,7 +7,7 @@ import logging
 from pathlib import Path
 from shutil import copyfile
 from typing import TYPE_CHECKING, List, Optional, Set, Tuple
-
+import sys
 import numpy as np
 import open3d as o3d
 import pkg_resources
@@ -55,7 +55,18 @@ class PointCloudManger(object):
         if self.current_id >= 0:
             return self.pcd_path.name
         return None
+    @staticmethod 
+    def _get_resource_path(resource_filename: str) -> Path:
+        """Get the path to a resource file, considering whether running in PyInstaller bundle or not."""
+        if getattr(sys, 'frozen', False):
+            # Running in a PyInstaller bundle
+            base_path = Path(sys._MEIPASS)
+        else:
+            # Running in a development environment
+            base_path = Path(__file__).resolve().parent.parent.parent
 
+        return base_path / "resources" / resource_filename
+    
     def read_pointcloud_folder(self) -> None:
         """Checks point cloud folder and sets self.pcds to all valid point cloud file names."""
         if self.pcd_folder.is_dir():
@@ -80,13 +91,8 @@ class PointCloudManger(object):
             self.view.status_manager.set_message(
                 "Please set the point cloud folder to a location that contains point cloud files."
             )
-            self.pointcloud = PointCloud.from_file(
-                Path(
-                    pkg_resources.resource_filename(
-                        "labelCloud.resources", "labelCloud_icon.pcd"
-                    )
-                )
-            )
+            icon_path = PointCloudManger._get_resource_path("labelCloud_icon.pcd")
+            self.pointcloud = PointCloud.from_file(icon_path)
             self.update_pcd_infos(pointcloud_label=" – (select folder!)")
 
         self.view.init_progress(min_value=0, max_value=len(self.pcds) - 1)
