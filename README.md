@@ -42,9 +42,7 @@ pip install open3d
 pip install mayavi
 
 # Finally, setup the openpcdet (which will auto install the remaining dependencies)
-cd OpenPCDet
 python setup.py develop
-cd ../
 ```
 
 
