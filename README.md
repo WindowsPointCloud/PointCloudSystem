@@ -12,6 +12,8 @@
 3. Python version: 3.8
 4. PyTorch version: 1.10.1
 
+So far, we have been able to reimplement this repository as long as the following system conditions are met. Ensure you are using Windows 10 and CUDA 10.2. We will guide you through setting up the remaining Python dependencies in the next section.
+
 ## Setup
 ⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
 
