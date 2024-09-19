@@ -37,4 +37,4 @@ pip install mayavi
 ## Troubleshooting
 
 1. SharedArray is not supported in windows
-2. 
+2. 1.10.1 + CUDA 10.2
