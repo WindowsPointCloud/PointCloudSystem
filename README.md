@@ -34,7 +34,7 @@ Install pytorch and spconv. Find the installation command via [pytorch get start
 pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu102/torch_stable.html
 
 # Install the corresponding spconv version
-pip install spconv-cu102
+pip install spconv-cu102==2.3.6
 ```
 
 Install dependencies
@@ -47,10 +47,11 @@ cd ../
 
 # Some other dependencies
 pip install numba==0.58.1 #python 3.8 and above
-pip install open3d
-pip install mayavi
-pip install scipy
-pip install scikit-image
+pip install open3d==0.18.0
+pip install mayavi==4.8.2
+pip install scipy==1.10.1
+pip install scikit-image==0.21.0
+pip install scikit-build==0.18.1
 
 # Finally, setup the openpcdet (which will auto install the remaining dependencies)
 python setup.py develop
