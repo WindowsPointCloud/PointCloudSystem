@@ -1,6 +1,8 @@
 # PointCloudSystem
 
 [![](https://img.shields.io/badge/Windows-10-0078D6?style=flat-square&logo=Windows)](https://www.microsoft.com/en-us/windows/)
+[![](https://img.shields.io/badge/Python-3-3776AB?style=flat-square&logo=Python)](https://www.python.org/)
+[![](https://img.shields.io/badge/PyTorch-000000?style=flat-square&logo=PyTorch)](https://pytorch.org/)
 
 ## System
 ⚠️ Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
