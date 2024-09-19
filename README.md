@@ -7,6 +7,6 @@ Conda environment
 conda create --name windowpointcloud python=3.8 -y
 conda activate windowpointcloud
 
-git clone
-cd
+git clone https://github.com/WindowPointCloud/PointCloudSystem.git
+cd PointCloudSystem
 ```
