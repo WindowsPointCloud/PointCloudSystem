@@ -6,16 +6,16 @@
 
 ## System
 ⚠️ Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
-1. Operating System (OS): Window 10
+1. Operating System (OS): Windows 10
 2. CUDA version: 10.2
 
 ## Setup
 Conda environment
 ```bash
-conda create --name windowpointcloud python=3.8 -y
-conda activate windowpointcloud
+conda create --name windowspointcloud python=3.8 -y
+conda activate windowspointcloud
 
-git clone https://github.com/WindowPointCloud/PointCloudSystem.git
+git clone https://github.com/WindowsPointCloud/PointCloudSystem.git
 cd PointCloudSystem
 ```
 
