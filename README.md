@@ -25,13 +25,14 @@ pip install spconv-cu102
 ```
 
 Install dependencies
+⚠️ Please follow the sequence! Any other sequence may results in unknown errors whcih no one has solved before
 ```bash
 # Setup SharedArray
 cd SharedNumpyArray
 python setup.py develop (make sure in the same virtual env)
 cd ../
 
-# the remaining dependencies
+# Some other dependencies
 pip install numba==0.58.1 #python 3.8 and above
 pip install open3d
 pip install mayavi
