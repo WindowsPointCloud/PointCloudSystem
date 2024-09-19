@@ -37,7 +37,6 @@ pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f 
 pip install spconv-cu102==2.3.6
 ```
 
-Install dependencies
 Install the remaining dependencies and setup the OpenPCDet code
 ```bash
 # Setup SharedArray (make sure in the same virtual env)
@@ -58,6 +57,13 @@ python setup.py develop
 
 # Lastly, rename SharedNumpyArray to SharedArray
 python -c "import os; os.rename('SharedNumpyArray', 'SharedArray')"
+```
+
+Check if installation is succesful
+```
+cd tools
+python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\kitti\pointpillar_7728.pth" --data_path "..\data\kitti\000000.bin"
+cd ../
 ```
 
 
