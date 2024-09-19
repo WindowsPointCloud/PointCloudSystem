@@ -1,7 +1,7 @@
 # PointCloudSystem
 
 ## System
-Installing OpenPCDet (and generally all other 3D object detection repos) on Windows device can be extremely tedious, since most of the open-sourced dependencies for OpenPCDet are not well-maintained on Windows. Hence, we explicitly define our device system as such for your reference:
+Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Window 10
 2. CUDA version: 10.2
 
