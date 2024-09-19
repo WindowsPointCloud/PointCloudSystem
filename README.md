@@ -10,6 +10,8 @@
 2. CUDA version: 10.2
 
 ## Setup
+⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
+
 Conda environment
 ```bash
 conda create --name windowspointcloud python=3.8 -y
@@ -29,7 +31,7 @@ pip install spconv-cu102
 ```
 
 Install dependencies
-⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
+Install the remaining dependencies and setup the OpenPCDet code
 ```bash
 # Setup SharedArray (make sure in the same virtual env)
 cd SharedNumpyArray
