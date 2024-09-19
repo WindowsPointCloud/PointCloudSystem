@@ -1,7 +1,7 @@
 # PointCloudSystem
 
 ## System
-Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
+⚠️ Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Window 10
 2. CUDA version: 10.2
 
@@ -25,7 +25,7 @@ pip install spconv-cu102
 ```
 
 Install dependencies
-⚠️ Please follow the sequence! Any other sequence may results in unknown errors whcih no one has solved before
+⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
 ```bash
 # Setup SharedArray
 cd SharedNumpyArray
