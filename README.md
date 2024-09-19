@@ -11,7 +11,7 @@ git clone https://github.com/WindowPointCloud/PointCloudSystem.git
 cd PointCloudSystem
 ```
 
-Install pytorch and spconv
+Install pytorch and spconv. Find the installation command via [pytorch get started](https://pytorch.org/get-started/previous-versions/) and [spconv repo](https://github.com/traveller59/spconv)
 ```
 # Install torch version 1.10.1 + CUDA 10.2!
 pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu102/torch_stable.html
