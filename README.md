@@ -49,6 +49,8 @@ cd ../
 pip install numba==0.58.1 #python 3.8 and above
 pip install open3d
 pip install mayavi
+pip install scipy
+pip install scikit-image
 
 # Finally, setup the openpcdet (which will auto install the remaining dependencies)
 python setup.py develop
