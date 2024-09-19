@@ -31,9 +31,9 @@ pip install spconv-cu102
 Install dependencies
 ⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
 ```bash
-# Setup SharedArray
+# Setup SharedArray (make sure in the same virtual env)
 cd SharedNumpyArray
-python setup.py develop (make sure in the same virtual env)
+python setup.py develop
 cd ../
 
 # Some other dependencies
