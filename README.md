@@ -54,6 +54,9 @@ pip install scikit-image
 
 # Finally, setup the openpcdet (which will auto install the remaining dependencies)
 python setup.py develop
+
+# Lastly, rename SharedNumpyArray to SharedArray
+python -c "import os; os.symlink('ModuleNew', 'Module', target_is_directory=True); print('Symbolic link created successfully')"
 ```
 
 
