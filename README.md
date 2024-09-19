@@ -8,10 +8,11 @@
 
 ## System
 🤔 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
-1. Operating System (OS): Windows 10
+1. Operating System (OS): Windows 10 Pro (version 22H2)
 2. CUDA version: 10.2
 3. Python version: 3.8
 4. PyTorch version: 1.10.1
+5. CPU: Intel(R) Xeon(R) E-2176G CPU @ 3.70GHz 
 
 So far, we have been able to reimplement this repository as long as the following system conditions are met. Ensure you are using Windows 10 and CUDA 10.2. We will guide you through setting up the remaining Python dependencies in the next section.
 
