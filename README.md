@@ -2,13 +2,15 @@
 
 [![](https://img.shields.io/badge/Windows-10-0078D6?style=flat-square&logo=Windows)](https://www.microsoft.com/en-us/windows/)
 [![](https://img.shields.io/badge/Cuda-10.2-6B8E23?style=flat-square&logo=Nvidia)](https://pytorch.org/)
-[![](https://img.shields.io/badge/Python-3-3776AB?style=flat-square&logo=Python)](https://www.python.org/)
+[![](https://img.shields.io/badge/Python-3.8-3776AB?style=flat-square&logo=Python)](https://www.python.org/)
 [![](https://img.shields.io/badge/PyTorch-000000?style=flat-square&logo=PyTorch)](https://pytorch.org/)
 
 ## System
 🤔 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Windows 10
 2. CUDA version: 10.2
+3. Python version: 3.8
+4. PyTorch version: 1.10.1
 
 ## Setup
 ⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
