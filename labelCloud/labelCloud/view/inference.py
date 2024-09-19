@@ -1,17 +1,4 @@
 import logging
-from PyQt5.QtWidgets import QMainWindow, QPushButton
-from PyQt5 import uic
-from PyQt5.QtCore import QSize, QSettings
-import pkg_resources
-import platform
-import sys
-from pathlib import Path
-
-class InferenceController:
-    def __init__(self):
-        self.view = None
-
-    def startup(self, viewimport logging
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings
