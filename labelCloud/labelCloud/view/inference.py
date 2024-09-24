@@ -2,11 +2,16 @@ import logging
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings
-
 import pkg_resources
 import platform
 import sys
 from pathlib import Path
+import pkg_resources
+import platform
+import sys
+from pathlib import Path
+import os
+from labelCloud.utils.command import run_command
 
 from tools.demo_2 import run_demo
 
@@ -38,10 +43,25 @@ class InferenceController:
     def start_visualization(self):
         logging.info("Starting visualization...")
         
+        # Hardcoded values
+        CFG_FILE = r"cfgs\kitti_models\pointpillar.yaml"
+        CKPT = r"..\data\kitti\pointpillar_7728.pth"
+        DATA_PATH = r"..\data\kitti\000000.bin"
+        EXT = r".bin"
+        
+        cmd = f'conda activate windowspointcloud && python demo.py --cfg_file "{CFG_FILE}" --ckpt "{CKPT}" --data_path "{DATA_PATH}" --ext "{EXT}"'
+        subdirectory = '..\\tools'
+        
+ 
+        
+        print(os.getcwd())
+        
         try:
-            logging.info("Starting demo...")
-            run_demo()  # Replace with the actual demo function or logic
-            logging.info("Ending demo...")
+            logging.info("Starting demo...") 
+            run_command(cmd, subdirectory)
+            #run_demo()  # Replace with the actual demo function or logic
+
+            logging.info("Ending demo... with virtual env")
             
         except Exception as e:
             # Log the error
@@ -54,6 +74,8 @@ class InferenceController:
                 f"An error occurred while starting the visualization:\n{str(e)}",
                 QMessageBox.Ok
             )
+            
+           
         
 
     def reset_augmentation(self):
