@@ -4,10 +4,11 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
 from labelCloud.control.controller import Controller
 from labelCloud.view.gui import GUI
+from labelCloud.view.preprocess import PreprocessController, PreprocessWindow
 from labelCloud.view.augmentation import AugmentationController, AugmentationWindow
 from labelCloud.view.training import TrainingController, TrainingWindow
 from labelCloud.view.inference import InferenceController, InferenceWindow
-import pkg_resources
+
 import logging
 import sys
 import os
@@ -22,12 +23,6 @@ class MainMenu(QMainWindow):
         # Determine the path to the UI file
         self.ui_path = self._get_ui_path("main_menu_interface.ui")
         uic.loadUi(self.ui_path, self)
-        #uic.loadUi(
-        #     pkg_resources.resource_filename(
-        #        "labelCloud.resources.interfaces", #"main_menu_interface.ui"
-        #     ),
-        #     self,
-        # )
         self.setWindowTitle("MIMOS Main Menu")
         self.setMinimumSize(QSize(500, 500))
 
@@ -45,11 +40,12 @@ class MainMenu(QMainWindow):
         button_layout.setSpacing(20)
 
         self.annotate_pushButton = self.findChild(QPushButton, 'annotate_pushButton')
+        self.preprocess_pushButton = self.findChild(QPushButton, 'preprocess_pushButton')
         self.aug_pushButton = self.findChild(QPushButton, 'aug_pushButton')
         self.training_pushButton = self.findChild(QPushButton, 'training_pushButton')
         self.inf_pushButton = self.findChild(QPushButton, 'inf_pushButton')
 
-        buttons = [self.annotate_pushButton, self.aug_pushButton, self.training_pushButton, self.inf_pushButton]
+        buttons = [self.annotate_pushButton, self.preprocess_pushButton, self.aug_pushButton, self.training_pushButton, self.inf_pushButton]
         for button in buttons:
             button.setMinimumSize(QSize(150, 50))
             button.setStyleSheet("background-color: #007AFF; color: white; border-radius: 10px;")
@@ -60,6 +56,7 @@ class MainMenu(QMainWindow):
 
         # Connect buttons to their functions
         self.annotate_pushButton.clicked.connect(lambda: self.start_application(GUI, Controller))
+        self.preprocess_pushButton.clicked.connect(lambda: self.start_application(PreprocessWindow, PreprocessController))
         self.aug_pushButton.clicked.connect(lambda: self.start_application(AugmentationWindow, AugmentationController))
         self.training_pushButton.clicked.connect(lambda: self.start_application(TrainingWindow, TrainingController))
         self.inf_pushButton.clicked.connect(lambda: self.start_application(InferenceWindow, InferenceController))
