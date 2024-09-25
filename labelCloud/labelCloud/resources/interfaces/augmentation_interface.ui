@@ -104,14 +104,28 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_charts">
        <item>
-        <widget class="QWidget" name="chart_before" minimumSize="380,250"/>
-       </item>
-       <item>
-        <widget class="QWidget" name="chart_after" minimumSize="380,250"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
+        <widget class="QWidget" name="chart_before">
+         <property name="minimumSize">
+      <size>
+       <width>380</width>
+       <height>250</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="chart_after">
+     <property name="minimumSize">
+      <size>
+       <width>380</width>
+       <height>250</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+</item>
 
     <!-- Control Buttons -->
     <item>
