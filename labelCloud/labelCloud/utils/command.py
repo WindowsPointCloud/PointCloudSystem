@@ -1,5 +1,7 @@
 import subprocess
 import os
+import torch
+import logging
 
 def run_command(command, target_subdirectory=None):
     """
@@ -16,14 +18,20 @@ def run_command(command, target_subdirectory=None):
             print(command)
 
         # run the command
-        subprocess.run(command, shell=True, check=True)
+        output = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
         
         # switch back to original directory
         if target_subdirectory is not None:
             os.chdir(cwd)
             
-        import torch
+        
         torch.cuda.empty_cache()
         
+        return output
+        
     except subprocess.CalledProcessError as e:
+        error_message = e.stderr.strip()
         print(f"Error executing command: {e}")
+        return None, error_message
+        
+
