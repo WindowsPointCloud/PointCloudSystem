@@ -75,27 +75,6 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_processed_data">
-      <item>
-       <widget class="QLabel" name="label_processed_data">
-        <property name="text">
-         <string>Processed Data Folder:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_processed_data"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_browse_processed_data">
-        <property name="text">
-         <string>Browse...</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_controls">
       <item>
        <widget class="QPushButton" name="button_start">
