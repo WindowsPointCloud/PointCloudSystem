@@ -15,13 +15,8 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_main">
-
-    <!-- Title -->
     <item>
      <widget class="QLabel" name="label_title">
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
       <property name="font">
        <font>
         <pointsize>24</pointsize>
@@ -32,17 +27,17 @@
       <property name="text">
        <string>Data Augmentation Tool</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
     </item>
-
-    <!-- Hyperparameter Controls -->
     <item>
      <widget class="QGroupBox" name="groupBox_hyperparameters">
       <property name="title">
        <string>Hyperparameters</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_hyperparameters">
-       <!-- Rotation Angle -->
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_rotation">
          <item>
@@ -54,20 +49,19 @@
          </item>
          <item>
           <widget class="QSlider" name="slider_rotation">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
            <property name="minimum">
             <number>0</number>
            </property>
            <property name="maximum">
             <number>180</number>
            </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
           </widget>
          </item>
         </layout>
        </item>
-       <!-- Displacement -->
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_displacement">
          <item>
@@ -79,14 +73,14 @@
          </item>
          <item>
           <widget class="QSlider" name="slider_displacement">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
            <property name="minimum">
             <number>0</number>
            </property>
            <property name="maximum">
             <number>100</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -95,39 +89,65 @@
       </layout>
      </widget>
     </item>
-
-    <!-- Visualization Charts -->
+    
+    <!-- Directory Selection -->
     <item>
-     <widget class="QGroupBox" name="groupBox_charts">
-      <property name="title">
-       <string>Data Visualization</string>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_charts">
-       <item>
-        <widget class="QWidget" name="chart_before">
-         <property name="minimumSize">
-      <size>
-       <width>380</width>
-       <height>250</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="chart_after">
-     <property name="minimumSize">
-      <size>
-       <width>380</width>
-       <height>250</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-  </layout>
- </widget>
-</item>
+     <layout class="QVBoxLayout" name="verticalLayout_dirs">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_ply_dir">
+        <item>
+         <widget class="QLabel" name="label_ply_dir">
+          <property name="text">
+           <string>PLY Directory:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_ply_dir"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_browse_ply">
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_label_dir">
+        <item>
+         <widget class="QLabel" name="label_label_dir">
+          <property name="text">
+           <string>Label Directory:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_label_dir"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_browse_label">
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
 
-    <!-- Control Buttons -->
+    <item>
+     <widget class="QTextEdit" name="textEdit_progress">
+      <property name="placeholderText">
+       <string>Progress log...</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_buttons">
       <item>
@@ -138,26 +158,18 @@
         <property name="sizeType">
          <enum>QSizePolicy::Expanding</enum>
         </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
        </spacer>
       </item>
       <item>
        <widget class="QPushButton" name="button_start">
         <property name="text">
          <string>Start</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_reset">
-        <property name="text">
-         <string>Reset</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_save">
-        <property name="text">
-         <string>Save</string>
         </property>
        </widget>
       </item>
@@ -176,16 +188,19 @@
         <property name="sizeType">
          <enum>QSizePolicy::Expanding</enum>
         </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
        </spacer>
       </item>
      </layout>
     </item>
-
-    <!-- Progress Bar -->
     <item>
      <widget class="QProgressBar" name="progressBar"/>
     </item>
-    
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
