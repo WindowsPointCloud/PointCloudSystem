@@ -7,6 +7,55 @@ import json
 import copy
 import logging
 
+
+def read_all_json_files(label_dir, ply_dir):
+    logging.info(f"Reading JSON files from directory: {label_dir}")
+    file_list = os.listdir(label_dir)
+    file_list.sort()
+    data_list = []
+
+    for file in file_list:
+        if file == '_classes.json':
+            logging.info("Skipping '_classes.json'")
+            continue
+        
+        file_path = os.path.join(label_dir, file)
+        
+        if not os.path.exists(file_path):
+            logging.warning("File does not exist: %s", file_path)
+            continue
+        
+        try:
+            with open(file_path, 'r') as f:
+                data = json.load(f)
+                logging.info(f"Loaded JSON data from: {file_path}")
+
+            # Modify the folder that contains the ply file
+            data['folder'] =  os.path.normpath(ply_dir)
+            logging.debug(f"Updated folder path in JSON data to: {ply_dir}")
+
+            # Modify the label path
+            path = data['path']
+            if len(data['objects']) == 0:
+                logging.warning(f"Removing empty file: {file_path}")
+                os.remove(file_path)
+                continue
+            
+            # Get the filename without parents directory
+            path = path.split('/')[-1]
+            path = os.path.join(os.getcwd(), ply_dir, path)
+            data['path'] =  os.path.normpath(path)
+            logging.debug(f"Updated path in JSON data to: {path}")
+
+            # Write to JSON file
+            with open(file_path, 'w') as f:
+                json.dump(data, f, indent=4)
+                logging.info(f"Saved updated JSON data to: {file_path}")
+
+        except Exception as e:
+            logging.error(f"Error processing file {file_path}: {e}")
+
+
 class DataPreprocessor(QThread):
     progress = pyqtSignal(str)
 
@@ -59,7 +108,7 @@ class DataPreprocessor(QThread):
                     logging.error("Error processing file %s: %s", file_name, str(e))
              
             # fix the path of the labels
-            self.read_all_json_files(self.modified_label_dir, self.modified_data_dir)   
+            read_all_json_files(self.modified_label_dir, self.modified_data_dir)   
             
             self.progress.emit('Data preprocessing completed!')
             logging.info("Data preprocessing completed!")
@@ -171,52 +220,7 @@ class DataPreprocessor(QThread):
             logging.error("Error modifying labels: %s", str(e))
             
 
-    def read_all_json_files(self, label_dir, ply_dir):
-        logging.info(f"Reading JSON files from directory: {label_dir}")
-        file_list = os.listdir(label_dir)
-        file_list.sort()
-        data_list = []
 
-        for file in file_list:
-            if file == '_classes.json':
-                logging.info("Skipping '_classes.json'")
-                continue
-            
-            file_path = os.path.join(label_dir, file)
-            
-            if not os.path.exists(file_path):
-                logging.warning("File does not exist: %s", file_path)
-                continue
-            
-            try:
-                with open(file_path, 'r') as f:
-                    data = json.load(f)
-                    logging.info(f"Loaded JSON data from: {file_path}")
-
-                # Modify the folder that contains the ply file
-                data['folder'] =  os.path.normpath(ply_dir)
-                logging.debug(f"Updated folder path in JSON data to: {ply_dir}")
-
-                # Modify the label path
-                path = data['path']
-                if len(data['objects']) == 0:
-                    logging.warning(f"Removing empty file: {file_path}")
-                    os.remove(file_path)
-                    continue
-                
-                # Get the filename without parents directory
-                path = path.split('/')[-1]
-                path = os.path.join(os.getcwd(), ply_dir, path)
-                data['path'] =  os.path.normpath(path)
-                logging.debug(f"Updated path in JSON data to: {path}")
-
-                # Write to JSON file
-                with open(file_path, 'w') as f:
-                    json.dump(data, f, indent=4)
-                    logging.info(f"Saved updated JSON data to: {file_path}")
-
-            except Exception as e:
-                logging.error(f"Error processing file {file_path}: {e}")
                 
     def stop(self):
         self._is_running = False
