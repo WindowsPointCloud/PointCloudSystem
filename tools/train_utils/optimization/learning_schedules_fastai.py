@@ -44,6 +44,7 @@ class LRSchedulerStep(object):
     def step(self, step):
         for start, end, func in self.lr_phases:
             if step >= start:
+        
                 self.optimizer.lr = func((step - start) / (end - start))
         for start, end, func in self.mom_phases:
             if step >= start:
