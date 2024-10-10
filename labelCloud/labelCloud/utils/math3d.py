@@ -3,19 +3,19 @@ import math
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
-import numpy.typing as npt
+#import numpy.typing as npt
 
 from ..definitions import Point3D, Rotations3D
 
 
 # LENGTH
-def vector_length(point: Union[Point3D, npt.ArrayLike]) -> float:
+def vector_length(point: Union[Point3D, np.ndarray]) -> float:
     return float(np.linalg.norm(point))
 
 
 # TRANSLATION
 def translate_point(
-    point: Union[Point3D, npt.NDArray],
+    point: Union[Point3D, np.ndarray],
     dx: float,
     dy: float,
     dz: float,
@@ -37,7 +37,7 @@ def radians_to_degrees(radians: float) -> float:
     return radians * (180 / np.pi)
 
 
-def rotate_around_x(point: Point3D, angle: float, degrees: bool = False) -> npt.NDArray:
+def rotate_around_x(point: Point3D, angle: float, degrees: bool = False) -> np.ndarray:
     if degrees:
         angle = degrees_to_radians(angle)
     r_matrix = np.array(
@@ -51,8 +51,8 @@ def rotate_around_x(point: Point3D, angle: float, degrees: bool = False) -> npt.
 
 
 def rotate_around_y(
-    point: npt.NDArray, angle: float, degrees: bool = False
-) -> npt.NDArray:
+    point: np.ndarray, angle: float, degrees: bool = False
+) -> np.ndarray:
     if degrees:
         angle = degrees_to_radians(angle)
     r_matrix = np.array(
@@ -66,8 +66,8 @@ def rotate_around_y(
 
 
 def rotate_around_z(
-    point: npt.NDArray, angle: float, degrees: bool = False
-) -> npt.NDArray:
+    point: np.ndarray, angle: float, degrees: bool = False
+) -> np.ndarray:
     if degrees:
         angle = degrees_to_radians(angle)
     r_matrix = np.array(
@@ -86,7 +86,7 @@ def rotate_around_zyx(
     y_angle: float,
     z_angle: float,
     degrees: bool = False,
-) -> npt.NDArray:  # TODO: Return Point3D?
+) -> np.ndarray:  # TODO: Return Point3D?
     return rotate_around_z(
         rotate_around_y(rotate_around_x(point, x_angle, degrees), y_angle, degrees),
         z_angle,
