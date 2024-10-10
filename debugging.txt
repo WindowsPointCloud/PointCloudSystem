@@ -1,0 +1,150 @@
+Overview:
+https://medium.com/@alifyafebriana/setting-up-3d-open-source-openpcdet-with-anaconda-a-step-by-step-guide-66126107215
+
+Install Cuda 10.2
+https://developer.nvidia.com/cuda-11-6-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local
+
+conda create --name mimosdet python=3.8 -y
+conda activate mimosdet
+
+
+Install Torch
+pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu102/torch_stable.html
+https://pytorch.org/get-started/previous-versions/
+
+
+Install spconv-cu102
+pip install spconv-cu102	
+https://github.com/traveller59/spconv
+
+
+pip install scikit-image
+pip install numba==0.58.1 #python 3.8 and above
+
+
+Clone the version that is compatible with Windows
+git clone https://github.com/yihuajack/OpenPCDet.git
+cd OpenPCDet
+git checkout fe62793
+
+Remove SharedArray in setup.py
+and Install this version:
+https://github.com/imaginary-friend94/SharedNumpyArray
+git clone https://github.com/imaginary-friend94/SharedNumpyArray.git
+cd SharedNumpyArray
+python setup.py develop (make sure in the same virtual env)
+
+
+
+
+#pip install mayavi
+
+
+run this:
+cd OpenPCDet
+python setup.py develop 
+
+Edit the code to replace SharedArray to SharedNumpyArray
+
+Edit the code:
+"C:\Users\PCA\test\OpenPCDet\pcdet\ops\iou3d_nms\iou3d_nms_utils.py"
+line 98
+num_out = iou3d_nms_cuda.nms_gpu(boxes, keep.int(), thresh)
+
+Run demo:
+python demo.py --cfg_file "C:\Users\PCA\test\OpenPCDet\tools\cfgs\kitti_models\pointpillar.yaml" --ckpt "C:\Users\PCA\test\OpenPCDet\pointpillar_7728.pth" --data_path "C:\Users\PCA\test\OpenPCDet\data\kitti\000000.bin"
+
+
+python demo.py --cfg_file "C:\Users\PCA\temp\PointCloudSystem\tools\cfgs\kitti_models\pointpillar.yaml" --ckpt "C:\Users\PCA\temp\PointCloudSystem\data\kitti\pointpillar_7728.pth" --data_path "C:\Users\PCA\temp\PointCloudSystem\data\kitti\000000.bin"
+
+
+
+
+
+Reference:
+
+https://github.com/open-mmlab/OpenPCDet/pull/1040
+https://github.com/open-mmlab/OpenPCDet/issues/1014
+https://github.com/open-mmlab/OpenPCDet/issues/688
+
+
+https://blog.csdn.net/qq_44080282/article/details/130465941
+https://blog.csdn.net/weixin_49252254/article/details/135087124
+
+https://numba.readthedocs.io/en/stable/user/installing.html
+
+
+python 3.8
+cd labelCloud
+pip install numpy
+pip install open3d
+pip install PyQt5
+pip install pyopengl==3.1.6
+
+python labelCloud.py
+
+pip install pyinstaller
+
+pyinstaller --onefile --noconsole --icon=your_icon.ico labelCloud.py
+
+pyinstaller --onefile --noconsole labelCloud.py
+
+in the spec file:
+        datas=[
+	  ('C:\\Users\\PCA\\temp\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
+      ('C:\\Users\\PCA\\temp\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.ico', 'resources/icons'),
+	   ('C:\\Users\\user\\anaconda3\\envs\\mimosdet\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
+	],
+    hiddenimports=['cumm.tensorview'], not sure this one useful or not
+
+
+Directory of C:\Users\PCA\labelCloud\dist
+17/09/2024  12:46 PM             3,013 .labelCloud.log
+12/09/2024  04:22 PM             2,732 config.ini (copy)
+17/09/2024  12:39 PM       130,784,226 labelCloud.exe
+17/09/2024  12:46 PM    <DIR>          labels
+17/09/2024  12:43 PM    <DIR>          pointclouds (copy)
+12/09/2024  05:12 PM                32 run.bat (temporary copy)
+
+			   
+			   
+File "cumm\constants.py", line 35, in <module>
+AssertionError		   
+C:\Users\user\anaconda3\envs\mimosdet\Lib\site-packages\cumm\include			  
+pip install scikit-build
+pip install pandas plyfile (for convert_raw_data.py)
+
+
+9 October update
+
+2024-10-09 14:56:32,285   INFO  recall_roi_0.3: 0.000000
+2024-10-09 14:56:32,285   INFO  recall_rcnn_0.3: 0.847502
+2024-10-09 14:56:32,285   INFO  recall_roi_0.5: 0.000000
+2024-10-09 14:56:32,285   INFO  recall_rcnn_0.5: 0.779689
+2024-10-09 14:56:32,285   INFO  recall_roi_0.7: 0.000000
+2024-10-09 14:56:32,285   INFO  recall_rcnn_0.7: 0.433485
+2024-10-09 14:56:32,285   INFO  Average predicted number of objects(240 samples): 11.117
+
+
+2024-10-09 15:04:27,376   INFO  Generate label finished(sec_per_example: 0.0760 second).
+2024-10-09 15:04:27,376   INFO  recall_roi_0.3: 0.000000
+2024-10-09 15:04:27,376   INFO  recall_rcnn_0.3: 0.847502
+2024-10-09 15:04:27,376   INFO  recall_roi_0.5: 0.000000
+2024-10-09 15:04:27,376   INFO  recall_rcnn_0.5: 0.779689
+2024-10-09 15:04:27,376   INFO  recall_roi_0.7: 0.000000
+2024-10-09 15:04:27,376   INFO  recall_rcnn_0.7: 0.433485
+2024-10-09 15:04:27,376   INFO  Average predicted number of objects(240 samples): 11.117
+
+
+Name: numba
+Version: 0.52.0
+numpy version 1.20.3
+Name: Pillow
+Version: 9.0.1
+Name: PyOpenGL
+Version: 3.1.
+pip install PyOpenGL
+pip install --no-binary=PyOpenGL_accelerate PyOpenGL_accelerate
+pip install configobj
+pip install mayavi
+pip install nptyping
