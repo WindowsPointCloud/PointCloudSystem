@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional, Tuple, Union
 
 import numpy as np
-import numpy.typing as npt
+#import numpy.typing as npt
 
 import OpenGL.GL as GL
 from OpenGL import GLU
@@ -19,7 +19,7 @@ DEVICE_PIXEL_RATIO: Optional[float] = (
 
 
 def draw_points(
-    points: Union[List[Point3D], npt.NDArray],
+    points: Union[List[Point3D], np.ndarray],
     color: Color4f = (0, 1, 1, 1),
     point_size: int = 10,
 ) -> None:
@@ -53,7 +53,7 @@ def draw_triangles(vertices: List[Point3D], color: Color4f = (0, 1, 1, 1)) -> No
 
 
 def draw_rectangles(
-    vertices: Union[List[Point3D], npt.NDArray],
+    vertices: Union[List[Point3D], np.ndarray],
     color: Color4f = (0, 1, 1, 1),
     line_width: int = 2,
 ) -> None:
@@ -66,7 +66,7 @@ def draw_rectangles(
 
 
 def draw_cuboid(
-    vertices: Union[List[Point3D], npt.NDArray],
+    vertices: Union[List[Point3D], np.ndarray],
     color: Color4f = (1, 1, 0, 0.5),
     draw_vertices: bool = False,
     vertex_color: Color4f = (0, 1, 1, 1),
