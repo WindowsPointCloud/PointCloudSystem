@@ -1,6 +1,6 @@
 import colorsys
-from typing import List
-
+from typing import Any, List
+from nptyping import NDArray, Float32, Shape
 import numpy as np
 import numpy.typing as npt
 import pkg_resources
@@ -33,8 +33,8 @@ def get_distinct_colors(n: int) -> List[str]:
 
 
 def colorize_points_with_height(
-    points: np.ndarray, z_min: float, z_max: float
-) -> npt.NDArray[np.float32]:
+    points: NDArray[Any, Float32], z_min: float, z_max: float
+) -> NDArray[Any, Float32]:
     palette = np.loadtxt(
         pkg_resources.resource_filename("labelCloud.resources", "rocket-palette.txt")
     )
