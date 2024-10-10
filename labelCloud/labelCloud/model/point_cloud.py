@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List, Optional, Tuple, cast
 
 import numpy as np
-import numpy.typing as npt
+#import numpy.typing as npt
 import OpenGL.GL as GL
 from PyQt5.QtWidgets import QMessageBox
 
@@ -23,7 +23,7 @@ SIZE_OF_FLOAT = ctypes.sizeof(ctypes.c_float)
 
 
 def calculate_init_translation(
-    center: Tuple[float, float, float], mins: npt.NDArray, maxs: npt.NDArray
+    center: Tuple[float, float, float], mins: np.ndarray, maxs: np.ndarray
 ) -> Point3D:
     """Calculates the initial translation (x, y, z) of the point cloud. Considers ...
 
@@ -38,7 +38,7 @@ def calculate_init_translation(
     return tuple(-np.add(center, [0, 0, zoom]))  # type: ignore
 
 
-def consecutive(data: npt.NDArray[np.int64], stepsize=1) -> List[npt.NDArray[np.int64]]:
+def consecutive(data: np.ndarray, stepsize=1) -> List[np.ndarray]:
     """Split an 1-d array of integers to a list of 1-d array where the elements are consecutive"""
     return np.split(data, np.where(np.diff(data) != stepsize)[0] + 1)
 
@@ -47,9 +47,9 @@ class PointCloud(object):
     def __init__(
         self,
         path: Path,
-        points: npt.NDArray[np.float32],
+        points: np.ndarray,
         colors: Optional[np.ndarray] = None,
-        segmentation_labels: Optional[npt.NDArray[np.int8]] = None,
+        segmentation_labels: Optional[np.ndarray] = None,
         init_translation: Optional[Tuple[float, float, float]] = None,
         init_rotation: Optional[Tuple[float, float, float]] = None,
         write_buffer: bool = True,
@@ -67,8 +67,8 @@ class PointCloud(object):
 
         self.vbo = None
         self.center: Point3D = tuple(np.sum(points[:, i]) / len(points) for i in range(3))  # type: ignore
-        self.pcd_mins: npt.NDArray[np.float32] = np.amin(points, axis=0)
-        self.pcd_maxs: npt.NDArray[np.float32] = np.amax(points, axis=0)
+        self.pcd_mins: np.ndarray = np.amin(points, axis=0)
+        self.pcd_maxs: np.ndarray = np.amax(points, axis=0)
         self.init_translation: Point3D = init_translation or calculate_init_translation(
             self.center, self.pcd_mins, self.pcd_maxs
         )
@@ -110,7 +110,7 @@ class PointCloud(object):
 
     def create_buffers(self) -> None:
         """Create 3 different buffers holding points, colors and label colors information"""
-        self.colors = cast(npt.NDArray[np.float32], self.colors)
+        self.colors = cast(np.ndarray, self.colors)
         (
             self.position_vbo,
             self.color_vbo,
@@ -126,9 +126,9 @@ class PointCloud(object):
             GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
 
     @property
-    def label_colors(self) -> npt.NDArray[np.float32]:
+    def label_colors(self) -> np.ndarray:
         """blend the points with label color map"""
-        self.colors = cast(npt.NDArray[np.float32], self.colors)
+        self.colors = cast(np.ndarray, self.colors)
         if self.labels is not None:
             colors = LabelConfig().color_map[LabelConfig().class_order[self.labels]]
             return colors * self.mix_ratio + self.colors * (1 - self.mix_ratio)
@@ -234,7 +234,7 @@ class PointCloud(object):
         return self.labels is not None
 
     def update_selected_points_in_label_vbo(
-        self, points_inside: npt.NDArray[np.bool_]
+        self, points_inside: np.ndarray
     ) -> None:
         """Send the selected updated label colors to label vbo. This function
         assumes the `self.label_colors[points_inside]` have been altered.
@@ -254,7 +254,7 @@ class PointCloud(object):
         label_color = self.label_colors
         stride = label_color.shape[1] * SIZE_OF_FLOAT
         for arr in arrays:
-            colors: npt.NDArray[np.float32] = label_color[arr]
+            colors: np.ndarray = label_color[arr]
             # partially update label_vbo from positions arr[0] to arr[-1]
             GL.glBufferSubData(
                 GL.GL_ARRAY_BUFFER,
@@ -276,7 +276,7 @@ class PointCloud(object):
     def get_translation(self) -> Translation3D:
         return self.trans_x, self.trans_y, self.trans_z
 
-    def get_mins_maxs(self) -> Tuple[npt.NDArray, npt.NDArray]:
+    def get_mins_maxs(self) -> Tuple[np.ndarray, np.ndarray]:
         return self.pcd_mins, self.pcd_maxs
 
     def get_min_max_height(self) -> Tuple[float, float]:
@@ -356,7 +356,7 @@ class PointCloud(object):
         self.rot_x, self.rot_y, self.rot_z = self.init_rotation
 
     def get_filtered_pointcloud(
-        self, indicies: npt.NDArray[np.bool_]
+        self, indicies: np.ndarray
     ) -> Optional["PointCloud"]:
         assert self.points is not None
         assert self.colors is not None
