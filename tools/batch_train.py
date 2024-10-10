@@ -40,7 +40,7 @@ class TrainingThread(QThread):
             EPOCH = 100
             BATCH_SIZE = 4
             WORKER = 1
-            cmd = f'python train.py --cfg_file "{CFG_FILE_ABS}" --epochs "{EPOCH}" --batch_size "{BATCH_SIZE}" --workers "{WORKER}"'
+            cmd = f'set CUDA_LAUNCH_BLOCKING=1 && python train.py --cfg_file "{CFG_FILE_ABS}" --epochs "{EPOCH}" --batch_size "{BATCH_SIZE}" --workers "{WORKER}"'
             self.run_command(cmd, target_subdirectory)
             
             self.finished.emit()  # Emit the finished signal when done
