@@ -2,7 +2,7 @@ import logging
 from typing import List, Optional
 
 import numpy as np
-import numpy.typing as npt
+#import numpy.typing as npt
 
 import OpenGL.GL as GL
 
@@ -44,7 +44,7 @@ class BBox(object):
         self.y_rotation: float = 0
         self.z_rotation: float = 0
         self.classname: str = LabelConfig().get_default_class_name()
-        self.verticies: npt.NDArray = np.zeros((8, 3))
+        self.verticies: np.ndarray = np.zeros((8, 3))
         self.set_axis_aligned_verticies()
 
     # GETTERS
@@ -70,7 +70,7 @@ class BBox(object):
     def get_classname(self) -> str:
         return self.classname
 
-    def get_vertices(self) -> npt.NDArray:
+    def get_vertices(self) -> np.ndarray:
         rotated_vertices = math3d.rotate_bbox_around_center(
             self.get_axis_aligned_vertices(),
             self.center,
@@ -253,7 +253,7 @@ class BBox(object):
             self.height += distance
             self.translate_side(0, 4, distance)
 
-    def is_inside(self, points: npt.NDArray[np.float32]) -> npt.NDArray[np.bool_]:
+    def is_inside(self, points:np.ndarray) -> np.ndarray:
         vertices = self.get_vertices().copy()
 
         #        .------------.
@@ -286,7 +286,5 @@ class BBox(object):
         inside_v2 = np.logical_and(np.sum(v2**2) > u_dot_v2, u_dot_v2 > 0)
         inside_v3 = np.logical_and(np.sum(v3**2) > u_dot_v3, u_dot_v3 > 0)
 
-        points_inside: npt.NDArray[np.bool_] = np.logical_and(
-            np.logical_and(inside_v1, inside_v2), inside_v3
-        )
+        points_inside = np.logical_and(np.logical_and(inside_v1, inside_v2), inside_v3)
         return points_inside
