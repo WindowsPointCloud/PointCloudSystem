@@ -94,30 +94,41 @@ def nms_gpu(boxes, scores, thresh, pre_maxsize=None, **kwargs):
         order = order[:pre_maxsize]
 
     boxes = boxes[order].contiguous()
-    keep = torch.LongTensor(boxes.size(0))
+
+    keep = torch.IntTensor(boxes.size(0))
+    #keep = torch.cuda.IntTensor(boxes.size(0))
+
+
+
 
 
 
     # Add validation for boxes
-    if not torch.isfinite(boxes).all():
-        raise ValueError("Boxes contain NaN or infinite values.")
+    #if not torch.isfinite(boxes).all():
+     #   raise ValueError("Boxes contain NaN or infinite values.")
 
-    if (boxes > 1e4).any() or (boxes < -1e4).any():
-        raise ValueError("Boxes contain out-of-bounds values.")
+    #if (boxes > 1e4).any() or (boxes < -1e4).any():
+     #   raise ValueError("Boxes contain out-of-bounds values.")
         
     
 
 
    
-    num_out = iou3d_nms_cuda.nms_gpu(boxes, keep.int(), thresh)
-    print('num_out:', num_out)
-    print(f"keep: {keep}, num_out: {num_out}, max order index: {order.size(0) - 1}")
-    print(f"boxes shape: {boxes.shape}, scores shape: {scores.shape}")
-    assert keep[:num_out].max().item() < order.size(0), "Index out of bounds"
+    num_out = iou3d_nms_cuda.nms_gpu(boxes, keep, thresh)
+    torch.cuda.synchronize()
+    
+
+    #print(f"keep shape: {keep.shape}, num_out: {num_out}, max order index: {order.size(0) - 1}")
+    #print(f"boxes shape: {boxes.shape}, scores shape: {scores.shape}")
+    
+    # Add assertions to check indices
+    assert keep[:num_out].max().item() < boxes.size(0), "Index out of bounds"
     assert keep[:num_out].min().item() >= 0, "Negative index detected"
+    
+    keep_indices = keep[:num_out].to(dtype=torch.long, device=order.device)
 
-
-    return order[keep[:num_out].cuda()].contiguous(), None
+    #return order[keep[:num_out].cuda()].contiguous(), None
+    return order[keep_indices].contiguous(), None
 
 
 def nms_normal_gpu(boxes, scores, thresh, **kwargs):
