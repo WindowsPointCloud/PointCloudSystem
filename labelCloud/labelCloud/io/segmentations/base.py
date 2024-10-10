@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Dict, Set, Type
 
 import numpy as np
-import numpy.typing as npt
+#import numpy.typing as npt
 
 from ...utils.singleton import SingletonABCMeta
 from ..labels.config import LabelConfig
@@ -18,7 +18,7 @@ class BaseSegmentationHandler(object, metaclass=SingletonABCMeta):
 
     def read_or_create_labels(
         self, label_path: Path, num_points: int
-    ) -> npt.NDArray[np.int8]:
+    ) -> np.ndarray:
         """Read labels per point and its schema"""
         if label_path.exists():
             labels = self._read_labels(label_path)
@@ -31,19 +31,19 @@ class BaseSegmentationHandler(object, metaclass=SingletonABCMeta):
             labels = self._create_labels(num_points)
         return labels
 
-    def overwrite_labels(self, label_path: Path, labels: npt.NDArray[np.int8]) -> None:
+    def overwrite_labels(self, label_path: Path, labels: np.ndarray) -> None:
         return self._write_labels(label_path, labels)
 
     @abstractmethod
-    def _read_labels(self, label_path: Path) -> npt.NDArray[np.int8]:
+    def _read_labels(self, label_path: Path) -> np.ndarray:
         raise NotImplementedError
 
     @abstractmethod
-    def _create_labels(self, num_points: int) -> npt.NDArray[np.int8]:
+    def _create_labels(self, num_points: int) -> np.ndarray:
         raise NotImplementedError
 
     @abstractmethod
-    def _write_labels(self, label_path: Path, labels: npt.NDArray[np.int8]) -> None:
+    def _write_labels(self, label_path: Path, labels: np.ndarray) -> None:
         raise NotImplementedError
 
     @classmethod
