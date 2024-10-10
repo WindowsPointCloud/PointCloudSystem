@@ -76,3 +76,4 @@ class TrainingThread(QThread):
             error_message = e.stderr.strip()
             print(f"Error executing command: {e}")
             raise e
+
