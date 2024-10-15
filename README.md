@@ -72,3 +72,7 @@ cd ../
 1. SharedArray is not supported in windows
 2. If you want to update SpConv (whether it is an upgrade or downgrade), make sure you UNINSTALL the current version first!
 3. 1.10.1 + CUDA 10.2
+
+int/long type for iou3d
+https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598
+https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981607892
