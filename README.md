@@ -72,7 +72,7 @@ cd ../
 Here, we share our troubleshooting and debugging process for the purpose of experience sharing. We hope this sharing helps your installation on Windows OS!
 
 ### 1. GPU requirements
-- As pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-979906767), you need a GPU with the Pascal architecture.
+- As pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-979906767), you need a GPU with the Pascal architecture or newer.
 - Any newer architecture should be workable as well (so far we tested only in RTX2070)
 
 ### 2. CUDA and PyTorch version
