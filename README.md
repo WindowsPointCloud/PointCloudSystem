@@ -74,5 +74,15 @@ cd ../
 3. 1.10.1 + CUDA 10.2
 
 int/long type for iou3d
+https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406
 https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598
 https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981607892
+
+
+maybe can use 10.2
+https://github.com/open-mmlab/OpenPCDet/issues/421#issue-777529509
+
+
+
+SharedArray is not support in window OS
+https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545
