@@ -79,6 +79,10 @@ https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598
 https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981607892
 https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce
 
+EPS
+https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-979801312
+https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200
+
 so we used
 https://github.com/yihuajack/OpenPCDet as base
 
