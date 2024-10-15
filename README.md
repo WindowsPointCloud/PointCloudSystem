@@ -69,16 +69,23 @@ cd ../
 
 ## Troubleshooting
 
+Here, we share our troubleshooting and debugging process for the purpose of experience sharing. We hope this sharing helps your installation on Windows OS!
+
 ### 1. GPU requirements
 - As pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-979906767), you need a GPU with the Pascal architecture.
 - Any newer architecture should be workable as well (so far we tested only in RTX2070)
 
-### 2. CUDA version
-- TODO
+### 2. CUDA and PyTorch version
+- Due to unknown reasons, only a few CUDA + PyTorch combinations can work for OpenPCDet.
+- According to one [comment](https://github.com/open-mmlab/OpenPCDet/issues/421#issue-777529509) and many more (which we have lost track), it seems that CUDA 10.2 is the most stable version, with more successful installations on Windows.
+- After a series of trial-and-error, we set CUDA version to be 10.2, and PyTorch version to be 1.10.1
 
-### 3. Numpy and Numba version
-- TODO
-- 
+### 3. Numba and Numpy version
+- Numba and Numpy version might clash due to unknown reason (this problem does not occur in Linux/Ubuntu)
+- 🤔 We guest that maybe this is caused by our CUDA + PyTorch versions that we use for Windows.
+- After some trial-and-error, we set Numba version to be 0.52.0, and Numpy version as 1.20.3
+- Note that this w
+
 ### 4. SharedArray
 - SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545).
 - Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS.
