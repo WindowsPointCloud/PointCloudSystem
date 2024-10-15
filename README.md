@@ -78,6 +78,9 @@ https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406
 https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598
 https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981607892
 
+so we used
+https://github.com/yihuajack/OpenPCDet as base
+
 
 maybe can use 10.2
 https://github.com/open-mmlab/OpenPCDet/issues/421#issue-777529509
