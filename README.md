@@ -100,7 +100,11 @@ cd ../
 - Else, you can also try changing the code as pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200)
 - Inside `pcdet/ops/iou3d_nms/src/iou3d_cpu.cpp`, add this code `const double EPS=1E-8;`. Or you can also try with `const double EPS=1E-9;`
 
-### NMS .py
+### Torch `LongTensor type` is not working in `pcdet/ops/iou3d_nms/iou3d_nms_utils.py`
+- Convert `torch.LongTensor` to `torch.IntTensor` in `pcdet/ops/iou3d_nms/iou3d_nms_utils.py`
+- You can refer our modification [here](https://github.com/WindowsPointCloud/PointCloudSystem/commit/13358e8cf03f8598f45bc97fc9eecad60fa7e860#diff-5c8e037c9b0712fded73f29e7ef69db6c87088f0917b8a9b0887ae4f003be631R98)
+- ⚠️ This might occur elsewhere, since our code is mainly just focused on `pointpillar` model.
+- Generally, if any problems occur, consider changing `torch.LongTensor` to `torch.IntTensor`
 
 ## Miscellaneous
 1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues. Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
