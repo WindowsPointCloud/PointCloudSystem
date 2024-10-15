@@ -86,9 +86,19 @@ cd ../
 - Specifically, we follow the authors and made the following modification as shown [here](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce)
 - You can also use the authors [forked version](https://github.com/yihuajack/OpenPCDet) (we forgot if we tested on this)
 
-### change long into int32_t (unsigned long long seems no problem yet)
-- TODO
+### Change all `long` type into `int32_t` type in CPP code
+- This issue is pointed by several comments [this](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406), [this](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598), and also [this](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce).
+- Basically, this is the same problem causing the iou3d not working in Windows OS
+- Specifically, change it in `iou3d_nms.cpp` and `iou32_nms_kernel.cu` code.
+- It is unsure if other .cpp code has this problem, but if similar problem arises, then please make the changes.
+- You do not have to change `unsigned long long` type, it seems like no issue arise from this data type.
 
+### EPS error
+- Maybe it is better to change the code as pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200)
+
+
+
+## Miscellaneous
 1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues. Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
 2. If you want to update SpConv (whether it is an upgrade or downgrade), make sure you UNINSTALL the current version first!
 3. 1.10.1 + CUDA 10.2
