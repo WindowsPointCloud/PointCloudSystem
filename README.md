@@ -93,10 +93,11 @@ cd ../
 - It is unsure if other .cpp code has this problem, but if similar problem arises, then please make the changes.
 - You do not have to change `unsigned long long` type, it seems like no issue arise from this data type.
 
-### EPS error
+### EPS error (i.e. "EPS" is undefined in device code)
 - Maybe it is better to change the code as pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200)
+- Inside `pcdet/ops/iou3d_nms/src/iou3d_cpu.cpp`, change the code as `const double EPS=1E-8;`
 
-
+### NMS .py
 
 ## Miscellaneous
 1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues. Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
