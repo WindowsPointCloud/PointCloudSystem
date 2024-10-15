@@ -84,7 +84,8 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - Numba and Numpy version might clash due to unknown reason (this problem does not occur in Linux/Ubuntu)
 - 🤔 We guest that maybe this is caused by our CUDA + PyTorch versions that we use for Windows.
 - After some trial-and-error, we set Numba version to be 0.52.0, and Numpy version as 1.20.3
-- Note that this w
+- ⚠️ Note that the original numpy code in OpenPCDet is written for version 1.24 and above, so we have to modify quite some code in the OpenPCDet for compatbility.
+- We do not show every files that require modifications, but it is pretty straightforward. Our code has been updated with numpy codes for version 1.20.
 
 ### 4. SharedArray
 - SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545).
