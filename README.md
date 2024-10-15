@@ -87,9 +87,9 @@ cd ../
 - You can also use the authors [forked version](https://github.com/yihuajack/OpenPCDet) (we forgot if we tested on this)
 
 ### Change all `long` type into `int32_t` type in CPP code
-- This issue is pointed by several comments [this](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406), [this](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598), and also [this](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce).
-- Basically, this is the same problem causing the iou3d not working in Windows OS
 - Specifically, change it in `iou3d_nms.cpp` and `iou32_nms_kernel.cu` code.
+- This issue is pointed by [this comment](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406), [that comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598), and also [this pull request](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce).
+- Basically, this is the same problem causing the iou3d not working in Windows OS
 - It is unsure if other .cpp code has this problem, but if similar problem arises, then please make the changes.
 - You do not have to change `unsigned long long` type, it seems like no issue arise from this data type.
 
