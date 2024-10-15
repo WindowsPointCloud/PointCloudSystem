@@ -84,7 +84,7 @@ cd ../
 - The solution is pointed out by this [pull request](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406).
 - Please note that the pull request has not been merged. It is possible that the pull request was not merged to avoid potential issues on Linux/Ubuntu, rather than due to any faults in the solution itself.
 - Specifically, we follow the authors and made the following modification as shown [here](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce)
-- You can also use the authors [forked version](https://github.com/yihuajack/OpenPCDet) (we forgot if we tested on this)
+- You can also directly use the [pull request](https://github.com/open-mmlab/OpenPCDet/pull/1040/commits/fe62793d9362b5c794724c3eaf83ddd7db7b23ce#diff-26f144ef929d22db4c52838dc68270ed5cacc6d7e44827de5f3c78944c64d7c6) as the starting point for your OpenPCDet.
 
 ### Change `long` type -> `int32_t` type & Change `float` type -> `constexpr float` type
 - Specifically, change it in `pcdet/ops/iou3d_nms/src/iou3d_nms.cpp` and `pcdet/ops/iou3d_nms/src/iou3d_nms_kernel.cu` code.
