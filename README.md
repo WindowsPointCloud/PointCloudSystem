@@ -106,6 +106,7 @@ cd ../
 - ⚠️ This might occur elsewhere, since our code is mainly just focused on `pointpillar` model.
 - Generally, if any problems occur, consider changing `torch.LongTensor` to `torch.IntTensor`
 
+<!--
 ## Miscellaneous
 1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues. Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
 2. If you want to update SpConv (whether it is an upgrade or downgrade), make sure you UNINSTALL the current version first!
@@ -132,3 +133,4 @@ SharedArray is not support in window OS
 https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545
 So we use
 https://github.com/imaginary-friend94/SharedNumpyArray
+-->
