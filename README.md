@@ -86,8 +86,8 @@ cd ../
 - Specifically, we follow the authors and made the following modification as shown [here](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce)
 - You can also use the authors [forked version](https://github.com/yihuajack/OpenPCDet) (we forgot if we tested on this)
 
-### Change all `long` type into `int32_t` type in CPP code
-- Specifically, change it in `iou3d_nms.cpp` and `iou32_nms_kernel.cu` code.
+### Change `long` type -> `int32_t` type & Change `float` type -> `constexpr float` type
+- Specifically, change it in `pcdet/ops/iou3d_nms/src/iou3d_nms.cpp` and `pcdet/ops/iou3d_nms/src/iou3d_nms_kernel.cu` code.
 - This issue is pointed by [this comment](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406), [that comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598), and also [this pull request](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce).
 - Basically, this is the same problem causing the iou3d not working in Windows OS
 - It is unsure if other .cpp code has this problem, but if similar problem arises, then please make the changes.
