@@ -94,3 +94,5 @@ https://github.com/open-mmlab/OpenPCDet/issues/421#issue-777529509
 
 SharedArray is not support in window OS
 https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545
+So we use
+https://github.com/imaginary-friend94/SharedNumpyArray
