@@ -79,8 +79,15 @@ cd ../
 - We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues.
 - Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
 
-### 
+### iou3d windows build compatibility errors
+- Interestingly, the iou3d codes in OpenPCDet could not work in Windows OS.
+- The solution is pointed out by this [pull request](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406).
+- Please note that the pull request has not been merged. It is possible that the pull request was not merged to avoid potential issues on Linux/Ubuntu, rather than due to any faults in the solution itself.
+- Specifically, we follow the authors and made the following modification as shown [here](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce)
+- You can also use the authors [forked version](https://github.com/yihuajack/OpenPCDet) (we forgot if we tested on this)
 
+### change long into int32_t (unsigned long long seems no problem yet)
+- TODO
 
 1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues. Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
 2. If you want to update SpConv (whether it is an upgrade or downgrade), make sure you UNINSTALL the current version first!
