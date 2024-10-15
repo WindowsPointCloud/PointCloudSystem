@@ -77,6 +77,7 @@ int/long type for iou3d
 https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406
 https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598
 https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981607892
+https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce
 
 so we used
 https://github.com/yihuajack/OpenPCDet as base
