@@ -69,7 +69,7 @@ cd ../
 
 ## Troubleshooting
 
-1. SharedArray is not supported in windows
+1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a [GitHub implementation](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo to avoid version incompatibility issues
 2. If you want to update SpConv (whether it is an upgrade or downgrade), make sure you UNINSTALL the current version first!
 3. 1.10.1 + CUDA 10.2
 
