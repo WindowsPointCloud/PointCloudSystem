@@ -100,7 +100,7 @@ cd ../
 - Else, you can also try changing the code as pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200)
 - Inside `pcdet/ops/iou3d_nms/src/iou3d_cpu.cpp`, add this code `const double EPS=1E-8;`. Or you can also try with `const double EPS=1E-9;`
 
-### Torch `LongTensor type` is not working in `pcdet/ops/iou3d_nms/iou3d_nms_utils.py`
+### 6. Torch `LongTensor type` is not working in `pcdet/ops/iou3d_nms/iou3d_nms_utils.py`
 - Convert `torch.LongTensor` to `torch.IntTensor` in `pcdet/ops/iou3d_nms/iou3d_nms_utils.py`
 - You can refer our modification [here](https://github.com/WindowsPointCloud/PointCloudSystem/commit/13358e8cf03f8598f45bc97fc9eecad60fa7e860#diff-5c8e037c9b0712fded73f29e7ef69db6c87088f0917b8a9b0887ae4f003be631R98)
 - ⚠️ This might occur elsewhere, since our code is mainly just focused on `pointpillar` model.
