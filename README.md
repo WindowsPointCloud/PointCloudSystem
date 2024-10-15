@@ -90,7 +90,7 @@ https://github.com/yihuajack/OpenPCDet as base
 maybe can use 10.2
 https://github.com/open-mmlab/OpenPCDet/issues/421#issue-777529509
 
-
+SharedArray is not supposed in Window OS, as pointed by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a [GitHub implementation](https://github.com/imaginary-friend94/SharedNumpyArray) that could works for Window OS. We integrated the entire library into this repo, so that we can avoid version imcompatible issue.
 
 SharedArray is not support in window OS
 https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545
