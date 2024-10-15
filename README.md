@@ -69,33 +69,34 @@ cd ../
 
 ## Troubleshooting
 
-### GPU requirements
+### 1. GPU requirements
 - As pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-979906767), you need a GPU with the Pascal architecture.
 - Any newer architecture should be workable as well (so far we tested only in RTX2070)
 
-### SharedArray
+### 2. SharedArray
 - SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545).
 - Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS.
 - We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues.
 - Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
 
-### iou3d windows build compatibility errors
+### 3. iou3d windows build compatibility errors
 - Interestingly, the iou3d codes in OpenPCDet could not work in Windows OS.
 - The solution is pointed out by this [pull request](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406).
 - Please note that the pull request has not been merged. It is possible that the pull request was not merged to avoid potential issues on Linux/Ubuntu, rather than due to any faults in the solution itself.
 - Specifically, we follow the authors and made the following modification as shown [here](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce)
-- You can also directly use the [pull request](https://github.com/open-mmlab/OpenPCDet/pull/1040/commits/fe62793d9362b5c794724c3eaf83ddd7db7b23ce#diff-26f144ef929d22db4c52838dc68270ed5cacc6d7e44827de5f3c78944c64d7c6) as the starting point for your OpenPCDet.
+- Modify your `pcdet/ops/iou3d_nms/src/iou3d_nms.cpp` and `pcdet/ops/iou3d_nms/src/iou3d_nms_kernel.cu` files following the provided suggestions.
 
-### Change `long` type -> `int32_t` type & Change `float` type -> `constexpr float` type
-- Specifically, change it in `pcdet/ops/iou3d_nms/src/iou3d_nms.cpp` and `pcdet/ops/iou3d_nms/src/iou3d_nms_kernel.cu` code.
+### 4. Change `long` type -> `int32_t` type & Change `float` type -> `constexpr float` type
+- This issue is the same problem caused by Troubleshoot Item 3 (iou3d windows build compatibility errors).
+- We explicitly show the troubleshooting steps here, in case there is unknown sources of error.
+- Basically, just change the data types in `pcdet/ops/iou3d_nms/src/iou3d_nms.cpp` and `pcdet/ops/iou3d_nms/src/iou3d_nms_kernel.cu` files.
 - This issue is pointed by [this comment](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406), [that comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598), and also [this pull request](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce).
-- Basically, this is the same problem causing the iou3d not working in Windows OS
 - It is unsure if other .cpp code has this problem, but if similar problem arises, then please make the changes.
 - You do not have to change `unsigned long long` type, it seems like no issue arise from this data type.
 
-### EPS error (i.e. "EPS" is undefined in device code)
+### 5. EPS error (i.e. "EPS" is undefined in device code)
 - Unfortunately, we forgot how we resolve this problem.
-- If we are not mistaken, fixing the iou3d and the data type as pointed by the last 2 troubleshooting techniques will resolve this problem.
+- If we are not mistaken, fixing the iou3d and the data type as pointed by the Troubleshoot Item 3 and Troubleshoot Item 4 will resolve this problem.
 - Else, you can also try changing the code as pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200)
 - Inside `pcdet/ops/iou3d_nms/src/iou3d_cpu.cpp`, add this code `const double EPS=1E-8;`. Or you can also try with `const double EPS=1E-9;`
 
