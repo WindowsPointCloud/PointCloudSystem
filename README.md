@@ -94,8 +94,10 @@ cd ../
 - You do not have to change `unsigned long long` type, it seems like no issue arise from this data type.
 
 ### EPS error (i.e. "EPS" is undefined in device code)
-- Maybe it is better to change the code as pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200)
-- Inside `pcdet/ops/iou3d_nms/src/iou3d_cpu.cpp`, change the code as `const double EPS=1E-8;`
+- Unfortunately, we forgot how we resolve this problem.
+- If we are not mistaken, fixing the iou3d and the data type as pointed by the last 2 troubleshooting techniques will resolve this problem.
+- Else, you can also try changing the code as pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-1126938200)
+- Inside `pcdet/ops/iou3d_nms/src/iou3d_cpu.cpp`, add this code `const double EPS=1E-8;`. Or you can also try with `const double EPS=1E-9;`
 
 ### NMS .py
 
