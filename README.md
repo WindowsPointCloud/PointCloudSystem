@@ -68,19 +68,30 @@ cd ../
 
 ## Module Overview
 ```
-tools/batch_preprocess.py: DataPreprocessor.run() 
+# Preprocessing Module (tools/batch_preprocess.py)
+DataPreprocessor.run() 
     ↓
-downsample() → split_points() → modify_labels()
+  downsample() 
     ↓
-tools/batch_augment.py: AugmentationThread.run_augmentation() 
+  split_points() 
     ↓
-augment()
+  modify_labels()
+
+# Augmentation Module (tools/batch_augment.py)
+AugmentationThread.run_augmentation() 
     ↓
-tools/batch_train.py: TrainingThread.run()
+  augment()
+
+# Training Module (tools/batch_train.py)
+TrainingThread.run()
     ↓
-python convert_raw_data.py → python train.py
+  python convert_raw_data.py 
     ↓
-tools/batch_test.py: TestingThread.run()
+  python train.py
+
+# Testing and Inference Module (tools/batch_test.py)
+TestingThread.run()
+
 ```
 
 
