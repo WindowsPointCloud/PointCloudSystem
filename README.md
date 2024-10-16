@@ -6,6 +6,34 @@
 [![](https://img.shields.io/badge/Python-3.8-3776AB?style=flat-square&logo=Python)](https://www.python.org/)
 [![](https://img.shields.io/badge/PyTorch-000000?style=flat-square&logo=PyTorch)](https://pytorch.org/)
 
+## Module Overview
+```
+# Preprocessing Module (tools/batch_preprocess.py)
+DataPreprocessor.run() 
+    ↓
+  downsample() 
+    ↓
+  split_points() 
+    ↓
+  modify_labels()
+
+# Augmentation Module (tools/batch_augment.py)
+AugmentationThread.run_augmentation() 
+    ↓
+  augment()
+
+# Training Module (tools/batch_train.py)
+TrainingThread.run()
+    ↓
+  python convert_raw_data.py 
+    ↓
+  python train.py
+
+# Testing and Inference Module (tools/batch_test.py)
+TestingThread.run()
+
+```
+
 ## System
 🤔 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Windows 10 Pro (version 22H2)
@@ -65,35 +93,6 @@ cd tools
 python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\kitti\pointpillar_7728.pth" --data_path "..\data\kitti\000000.bin"
 cd ../
 ```
-
-## Module Overview
-```
-# Preprocessing Module (tools/batch_preprocess.py)
-DataPreprocessor.run() 
-    ↓
-  downsample() 
-    ↓
-  split_points() 
-    ↓
-  modify_labels()
-
-# Augmentation Module (tools/batch_augment.py)
-AugmentationThread.run_augmentation() 
-    ↓
-  augment()
-
-# Training Module (tools/batch_train.py)
-TrainingThread.run()
-    ↓
-  python convert_raw_data.py 
-    ↓
-  python train.py
-
-# Testing and Inference Module (tools/batch_test.py)
-TestingThread.run()
-
-```
-
 
 ## Troubleshooting
 
