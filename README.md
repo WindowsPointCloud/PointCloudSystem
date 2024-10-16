@@ -37,7 +37,7 @@ TestingThread.run()
 
 ```
 
-## System
+## System Requirement
 🤔 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Windows 10 Pro (version 22H2)
 2. CUDA version: 10.2
