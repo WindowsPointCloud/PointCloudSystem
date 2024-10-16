@@ -7,6 +7,9 @@
 [![](https://img.shields.io/badge/PyTorch-000000?style=flat-square&logo=PyTorch)](https://pytorch.org/)
 
 ## Module Overview
+
+Majority of existing point cloud detection frameworks are implemented and polished for linux/ubuntu system, including our prefered OpenPCDet framework. Hence, this framework is a point cloud object detection system (PointCloudSystem) dedicated for Windows OS. It covers the end-to-end functionalities from data annotation, data preprocessing, data augmentation, training and testing. Specifically, we integrate labelCloud and OpenPCDet into this framework for annotation and training, respectively. We also integrate our custom data preprocessing and augmentation pipeline to facilitate the end-to-end process. The details of the flowchart is provided below:
+
 ```
 # Preprocessing Module (tools/batch_preprocess.py)
 DataPreprocessor.run() 
