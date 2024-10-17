@@ -89,6 +89,15 @@ class ProposalTargetLayer(nn.Module):
         for index in range(batch_size):
             cur_roi, cur_gt, cur_roi_labels, cur_roi_scores = \
                 rois[index], gt_boxes[index], roi_labels[index], roi_scores[index]
+            # Check for NaN or Inf in cur_roi
+            if torch.isnan(cur_roi).any() or torch.isinf(cur_roi).any():
+                print(f"cur_roi contains NaN or Inf at batch index {index}")
+                print(f"cur_roi: {cur_roi}")
+
+            # Check for NaN or Inf in cur_gt
+            if torch.isnan(cur_gt).any() or torch.isinf(cur_gt).any():
+                print(f"cur_gt contains NaN or Inf at batch index {index}")
+                print(f"cur_gt: {cur_gt}")
             k = cur_gt.__len__() - 1
             while k >= 0 and cur_gt[k].sum() == 0:
                 k -= 1
@@ -126,6 +135,8 @@ class ProposalTargetLayer(nn.Module):
 
         fg_num_rois = fg_inds.numel()
         bg_num_rois = hard_bg_inds.numel() + easy_bg_inds.numel()
+        
+        
 
         if fg_num_rois > 0 and bg_num_rois > 0:
             # sampling fg
@@ -139,6 +150,7 @@ class ProposalTargetLayer(nn.Module):
             bg_inds = self.sample_bg_inds(
                 hard_bg_inds, easy_bg_inds, bg_rois_per_this_image, self.roi_sampler_cfg.HARD_BG_RATIO
             )
+            
 
         elif fg_num_rois > 0 and bg_num_rois == 0:
             # sampling fg
@@ -146,6 +158,7 @@ class ProposalTargetLayer(nn.Module):
             rand_num = torch.from_numpy(rand_num).type_as(max_overlaps).long()
             fg_inds = fg_inds[rand_num]
             bg_inds = fg_inds[fg_inds < 0] # yield empty tensor
+            
 
         elif bg_num_rois > 0 and fg_num_rois == 0:
             # sampling bg
@@ -153,6 +166,7 @@ class ProposalTargetLayer(nn.Module):
             bg_inds = self.sample_bg_inds(
                 hard_bg_inds, easy_bg_inds, bg_rois_per_this_image, self.roi_sampler_cfg.HARD_BG_RATIO
             )
+           
         else:
             print('maxoverlaps:(min=%f, max=%f)' % (max_overlaps.min().item(), max_overlaps.max().item()))
             print('ERROR: FG=%d, BG=%d' % (fg_num_rois, bg_num_rois))
