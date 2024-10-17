@@ -101,12 +101,15 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
 
     total_pred_objects = 0
     for anno in det_annos:
+        
+  
         total_pred_objects += anno['name'].__len__()
     logger.info('Average predicted number of objects(%d samples): %.3f'
                 % (len(det_annos), total_pred_objects / max(1, len(det_annos))))
 
     with open(result_dir / 'result.pkl', 'wb') as f:
         pickle.dump(det_annos, f)
+    
 
     result_str, result_dict = dataset.evaluation(
         det_annos, class_names,
