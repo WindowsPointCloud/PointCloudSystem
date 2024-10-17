@@ -8,13 +8,11 @@ import argparse
 import logging
 from PyQt5.QtCore import QThread, pyqtSignal
 
-'''
 # reference
-http://www.open3d.org/docs/release/python_example/io/index.html
-http://www.open3d.org/docs/release/tutorial/geometry/pointcloud.html#Paint-point-cloud
-http://www.open3d.org/docs/latest/tutorial/Advanced/multiway_registration.html
-http://www.open3d.org/docs/0.9.0/tutorial/Basic/working_with_numpy.html
-'''
+# http://www.open3d.org/docs/release/python_example/io/index.html
+# http://www.open3d.org/docs/release/tutorial/geometry/pointcloud.html#Paint-point-cloud
+# http://www.open3d.org/docs/latest/tutorial/Advanced/multiway_registration.html
+# http://www.open3d.org/docs/0.9.0/tutorial/Basic/working_with_numpy.html
 
 ################################
 # Check if a point in bbox or not
@@ -50,7 +48,6 @@ def check_point_within_bbox(point, x_centroid, y_centroid, z_centroid,
         np.abs(aligned_point[2]) <= half_height
     )
     
-    #print("Point is within bbox:", is_within_bbox)
     return is_within_bbox
 
 ################################
@@ -66,7 +63,7 @@ def rotate_point(point, rot_angle_z, rot_origin_x, rot_origin_y):
     new_point = np.array([new_x, new_y, z])
     return new_point
     
-def augment(np_pcd, obj, y_mid, aug_type=None):
+def augment(np_pcd, obj, y_mid, aug_type=None, displacement_range=None, rotation_range=None):
     '''
     all augmentation type
     -1: no augment
@@ -74,7 +71,7 @@ def augment(np_pcd, obj, y_mid, aug_type=None):
     1: move upward
     2: top/down flip
     3: rotate left/right
-
+    
     augmentation is performed at two sections (refer AUGMENT SECTION header below)
     '''
     # no augment
@@ -83,11 +80,11 @@ def augment(np_pcd, obj, y_mid, aug_type=None):
     elif aug_type == 0:
         pass
     elif aug_type == 1:
-        displacement = np.random.uniform(0.2, 0.4, 1)[0]
+        displacement = np.random.uniform(*displacement_range)  # Use the range provided as input
     elif aug_type == 2:
         pass
     elif aug_type == 3:
-        rot_angle_z = np.random.uniform(0.4, 1.5, 1)[0] # radian
+        rot_angle_z = np.random.uniform(*rotation_range)  # Use the range provided as input
         if np.random.rand() > 0.5:
             rot_angle_z *= -1
 
@@ -238,10 +235,24 @@ class AugmentationThread(QThread):
     progress_signal = pyqtSignal(str)  # Signal for progress updates
     error_signal = pyqtSignal(str)      # Signal for error messages
 
-    def __init__(self, ply_directory, label_directory):
+    def __init__(self, ply_directory, label_directory, displacement_range=(0.2, 0.4), rotation_range=(0.4, 1.5), 
+                        augment_per_file=2, legs_to_remove=4, legs_to_keep=5):
         super().__init__()
         self.ply_directory = ply_directory
         self.label_directory = label_directory
+        self.displacement_range = displacement_range
+        self.rotation_range = rotation_range
+        self.augment_per_file = augment_per_file
+        self.legs_to_remove = legs_to_remove
+        self.legs_to_keep = legs_to_keep
+        
+        print(f"Displacement Range: {self.displacement_range}")
+        print(f"Rotation Range: {self.rotation_range}")
+        print(f"Augment per File: {self.augment_per_file}")
+        print(f"Legs to Remove: {self.legs_to_remove}")
+        print(f"Legs to Keep: {self.legs_to_keep}")
+
+        
 
     def run(self):
         try:
@@ -258,14 +269,12 @@ class AugmentationThread(QThread):
             logging.error(f"Error during augmentation: {str(e)}")
             self.error_signal.emit(str(e))
 
-
-
     def run_augmentation(self, label_dir, ply_dir):
 
         filenames = os.listdir(label_dir)
         for fn_idx in range(len(filenames)):
             # augment 2 times for each ply
-            for aug_idx in range(2):
+            for aug_idx in range(self.augment_per_file):
             
                 filename = filenames[fn_idx]
                 ################################
@@ -281,7 +290,6 @@ class AugmentationThread(QThread):
                 #o3d.visualization.draw_geometries([temp])
                 np_pcd = np.asarray(pcd.points)
                 y_mid = (np.max(np_pcd[:,1]) + np.min(np_pcd[:,1])) / 2
-
 
                 ################################
                 # read label
@@ -307,7 +315,6 @@ class AugmentationThread(QThread):
 
                 # get y mid
                 y_mid = (max(all_y_c) + min(all_y_c)) / 2
-
 
                 # arrange according to x value, in ascending order
                 all_x_c = np.array(all_x_c)  
@@ -343,13 +350,13 @@ class AugmentationThread(QThread):
                     aug_list[3] = 3
                     list_of_objs_yet_to_augment.remove(3)
 
-                # random remove 4 legs
-                for i in range(4):
+                # random remove legs_to_remove legs
+                for i in range(self.legs_to_remove):
                     idx = list_of_objs_yet_to_augment.pop(0)
                     aug_list[idx] = 0
 
-                # at least 5 legs are normal
-                for i in range(5):
+                # at least legs_to_keep legs are normal
+                for i in range(self.legs_to_keep):
                     idx = list_of_objs_yet_to_augment.pop(0)
                     aug_list[idx] = -1
 
@@ -363,15 +370,13 @@ class AugmentationThread(QThread):
                 ################################
                 # loop all legs for augmentation
                 ################################
-                #aug_list = [-1 for i in range(len(objs))]
-                #aug_list[3] = 3
                 final_objs = []
                 for obj_idx, obj in enumerate(objs):
-                    #print(obj)
-
+                    
                     # augment here
-                    rand_int = aug_list[obj_idx] #np.random.randint(0, high=3+1, size=None, dtype=int)
-                    np_pcd, obj = augment(np_pcd, obj, y_mid, aug_type=rand_int)
+                    rand_int = aug_list[obj_idx]
+                    np_pcd, obj = augment(np_pcd, obj, y_mid, aug_type=rand_int, 
+                                            displacement_range=self.displacement_range , rotation_range=self.rotation_range)
                     if obj is not None:
                         final_objs.append(obj)
 
@@ -394,4 +399,3 @@ class AugmentationThread(QThread):
                     json.dump(d, f, ensure_ascii=False, indent=4)
                 
                 self.progress_signal.emit(f"Generating new label: {new_label_filename}...")
-
