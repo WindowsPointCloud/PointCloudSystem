@@ -1,5 +1,5 @@
 import logging
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QTextEdit,  QLineEdit, QFileDialog, QMessageBox, QProgressBar
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QTextEdit,  QLineEdit, QFileDialog, QMessageBox, QProgressBar, QDoubleSpinBox, QSpinBox
 
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings, QTimer
@@ -20,6 +20,7 @@ class AugmentationController:
         """Sets the view and initializes the controller."""
         self.view = view
         self.setup_connections()
+        self.initialize_hyperparameters()
 
     def setup_connections(self):
         """Connect buttons and other widgets to their handlers."""
@@ -48,6 +49,33 @@ class AugmentationController:
             browse_ply_button.clicked.connect(self.browse_ply_directory)
         if browse_label_button:
             browse_label_button.clicked.connect(self.browse_label_directory)
+    
+    def initialize_hyperparameters(self):
+        """Initialize the hyperparameter widgets."""
+        self.displacement_range_min = self.view.findChild(QDoubleSpinBox, 'spinBox_displacement_range_min')
+        self.displacement_range_max = self.view.findChild(QDoubleSpinBox, 'spinBox_displacement_range_max')
+        self.rotation_range_min = self.view.findChild(QDoubleSpinBox, 'spinBox_rotation_range_min')
+        self.rotation_range_max = self.view.findChild(QDoubleSpinBox, 'spinBox_rotation_range_max')
+        self.augment_per_file = self.view.findChild(QSpinBox, 'spinBox_augment_per_file')
+        self.wires_to_remove = self.view.findChild(QSpinBox, 'spinBox_wires_to_remove')
+        self.wires_to_keep = self.view.findChild(QSpinBox, 'spinBox_wires_to_keep')
+        
+        # Initialize directory paths
+        current_dir = os.getcwd()  # Get the current working directory
+        parent_dir = os.path.dirname(os.path.dirname(current_dir))  # Go up two levels
+
+        # Set the default paths for ply_dir_edit and label_dir_edit
+        ply_dir = os.path.join(parent_dir, "modified_data")
+        label_dir = os.path.join(parent_dir, "modified_labels")
+
+
+        # Set these paths in the QLineEdit widgets
+        if self.ply_dir_edit:
+            self.ply_dir_edit.setText(ply_dir)
+        if self.label_dir_edit:
+            self.label_dir_edit.setText(label_dir)
+
+
 
     def start_augmentation(self):
         logging.info("Starting augmentation...")
@@ -81,9 +109,33 @@ class AugmentationController:
         logging.info(f"PLY Directory: {ply_directory}")
         logging.info(f"Label Directory: {label_directory}")
         
+        # Validate hyperparameters
+        if not (0 <= self.displacement_range_min.value() <= 1):
+            QMessageBox.critical(self.view, "Error", "Displacement range minimum must be between 0 and 1.")
+            return
+        if not (0 <= self.displacement_range_max.value() <= 1):
+            QMessageBox.critical(self.view, "Error", "Displacement range maximum must be between 0 and 1.")
+            return
+        if not (0 <= self.rotation_range_min.value() <= 2):
+            QMessageBox.critical(self.view, "Error", "Rotation range minimum must be between 0 and 2.")
+            return
+        if not (0 <= self.rotation_range_max.value() <= 2):
+            QMessageBox.critical(self.view, "Error", "Rotation range maximum must be between 0 and 2.")
+            return
+        if not (2 <= self.augment_per_file.value() <= 3):
+            QMessageBox.critical(self.view, "Error", "Augment per file must be between 2 and 3.")
+            return
+        if not (0 <= self.wires_to_remove.value() <= 5):
+            QMessageBox.critical(self.view, "Error", "Wires to remove must be between 0 and 5.")
+            return
+        if not (5 <= self.wires_to_keep.value() <= 6):
+            QMessageBox.critical(self.view, "Error", "Wires to keep must be between 5 and 6.")
+            return
+            
+      
 
         # Create and start the augmentation thread
-        self.augmentation_thread = AugmentationThread(ply_directory, label_directory)
+        self.augmentation_thread = AugmentationThread(ply_directory, label_directory, displacement_range=(self.displacement_range_min.value(), self.displacement_range_max.value()), rotation_range=(self.rotation_range_min.value(), self.rotation_range_max.value()), augment_per_file=self.augment_per_file.value(), legs_to_remove=self.wires_to_remove.value(), legs_to_keep=self.wires_to_keep.value())
         self.augmentation_thread.progress_signal.connect(self.update_log_output)
         self.augmentation_thread.error_signal.connect(self.show_error_message)
         self.augmentation_thread.finished.connect(self.on_augmentation_finished)
