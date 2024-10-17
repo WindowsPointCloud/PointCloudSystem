@@ -59,7 +59,7 @@ def read_all_json_files(label_dir, ply_dir):
 class DataPreprocessor(QThread):
     progress = pyqtSignal(str)
 
-    def __init__(self, input_dir, label_dir):
+    def __init__(self, input_dir, label_dir, k_points, nb_neighbors, std_ratio, roi_range):
         super().__init__()
         self.input_data_dir = input_dir
         self.parent_dir = os.path.dirname(input_dir)  # Get the parent directory
@@ -67,7 +67,20 @@ class DataPreprocessor(QThread):
         self.label_dir = label_dir
         self.modified_label_dir = os.path.join(self.parent_dir, "modified_labels")
         self._is_running = True  # Control flag for thread cancellation
-
+        
+        self.k_points = k_points
+        self.nb_neighbors = nb_neighbors
+        self.std_ratio = std_ratio
+        self.roi_range = roi_range
+        
+        # Check if the directories exist and delete their contents if they do
+        if os.path.exists(self.modified_data_dir):
+            shutil.rmtree(self.modified_data_dir)  # Delete the directory and its contents
+            logging.info(f'{self.modified_data_dir} already exist, recreating new folder....')
+        if os.path.exists(self.modified_label_dir):
+            shutil.rmtree(self.modified_label_dir)  # Delete the directory and its contents
+            logging.info(f'{self.modified_label_dir} already exist, recreating new folder....')
+    
         # Create directories
         os.makedirs(self.modified_data_dir, exist_ok=True)
         os.makedirs(self.modified_label_dir, exist_ok=True)
@@ -93,13 +106,13 @@ class DataPreprocessor(QThread):
                 file_path = os.path.join(self.input_data_dir, file_name)
 
                 try:
-                    filtered_pcd = self.downsample_and_remove_outliers(file_path)
+                    filtered_pcd = self.downsample_and_remove_outliers(file_path,  self.k_points, self.nb_neighbors, self.std_ratio)
                     if filtered_pcd is None:
                         self.progress.emit(f"Filtered point cloud for {file_name} is empty.")
                         logging.warning("Filtered point cloud for %s is empty.", file_name)
                         continue
 
-                    self.split_points(file_name, filtered_pcd, idx, file_names)
+                    self.split_points(file_name, filtered_pcd, idx, file_names, self.roi_range)
                     self.progress.emit(f'{file_name} processed ({idx + 1}/{len(file_names)})')
                     logging.info("File %s processed successfully.", file_name)
 
@@ -116,7 +129,7 @@ class DataPreprocessor(QThread):
             self.progress.emit(f"The directory '{self.modified_data_dir}' is not empty")
             logging.warning("The directory '%s' is not empty", self.modified_data_dir)
 
-    def downsample_and_remove_outliers(self, file_path):
+    def downsample_and_remove_outliers(self, file_path, k_points, nb_neighbors, std_ratio):
         """Downsample the point cloud and remove outliers."""
         try:
             pcd = o3d.io.read_point_cloud(file_path)
@@ -126,11 +139,11 @@ class DataPreprocessor(QThread):
             return None
 
         # Downsampling
-        uni_down_pcd = pcd.uniform_down_sample(every_k_points=8)
+        uni_down_pcd = pcd.uniform_down_sample(every_k_points=k_points)
         logging.info("Downsampled point cloud from %s", file_path)
 
         # Outlier removal
-        cl, ind = uni_down_pcd.remove_statistical_outlier(nb_neighbors=5, std_ratio=1.0)
+        cl, ind = uni_down_pcd.remove_statistical_outlier(nb_neighbors=nb_neighbors, std_ratio=std_ratio)
         logging.info("Removed outliers from point cloud")
 
         inlier_cloud = uni_down_pcd.select_by_index(ind)  # Filter out inliers
@@ -145,7 +158,7 @@ class DataPreprocessor(QThread):
 
         return filtered_pcd
         
-    def split_points(self, file_name, filtered_pcd, idx, file_names):
+    def split_points(self, file_name, filtered_pcd, idx, file_names, roi_range):
         """Split the filtered point cloud into two parts and save them."""
         save_path_1 = os.path.join(self.modified_data_dir, file_name.replace(".ply", "_part1.ply"))
         save_path_2 = os.path.join(self.modified_data_dir, file_name.replace(".ply", "_part2.ply"))
@@ -153,7 +166,7 @@ class DataPreprocessor(QThread):
 
         inlier_cloud_np = np.array(filtered_pcd.points)
 
-        x_range = 5.13  # Fixed ROI
+        x_range = roi_range  # Fixed ROI
         x_mid_thresh = x_range / 2
         x_min_thresh = 0.23
         x_max_thresh = 0.77
