@@ -145,12 +145,19 @@ class DataProcessor(object):
     def sample_points(self, data_dict=None, config=None):
         if data_dict is None:
             return partial(self.sample_points, config=config)
-
+        #print('data_Dict: ',data_dict)
         num_points = config.NUM_POINTS[self.mode]
         if num_points == -1:
             return data_dict
 
         points = data_dict['points']
+        
+        if len(points) == 0:
+            # Handle empty point cloud
+            print("Warning: Empty point cloud encountered.")
+            print('data_Dict: ',data_dict)
+            data_dict['points'] = points  # or handle appropriately
+            return data_dict
         if num_points < len(points):
             pts_depth = np.linalg.norm(points[:, 0:3], axis=1)
             pts_near_flag = pts_depth < 40.0
@@ -167,8 +174,11 @@ class DataProcessor(object):
             np.random.shuffle(choice)
         else:
             choice = np.arange(0, len(points), dtype=np.int32)
-            if num_points > len(points):
-                extra_choice = np.random.choice(choice, num_points - len(points), replace=False)
+            if num_points > len(points):           
+                try:
+                    extra_choice = np.random.choice(choice, num_points - len(points), replace=False)
+                except ValueError:
+                    extra_choice = np.random.choice(choice, num_points - len(points), replace=True)
                 choice = np.concatenate((choice, extra_choice), axis=0)
             np.random.shuffle(choice)
         data_dict['points'] = points[choice]
