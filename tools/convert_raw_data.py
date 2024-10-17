@@ -45,7 +45,7 @@ def convert_ply(input_path, output_path):
     data_pd['z'] = data_pd['z'].map(lambda x: x * pc_mf)
     # record point cloud range
     global point_cloud_ranges
-    point_cloud_ranges[0].append(data_pd['x'].min())
+    point_cloud_ranges[0].append(data_pd['x'].min()) 
     point_cloud_ranges[1].append(data_pd['y'].min())
     point_cloud_ranges[2].append(data_pd['z'].min())
     point_cloud_ranges[3].append(data_pd['x'].max())
@@ -89,6 +89,7 @@ def read_cfg_file(cfg_file):
 # get argument from user
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', type = str, required = False, default = 'custom', help="where is the directory for the labels")
+parser.add_argument('--val_aug', action='store_true', help="raise this argument if you want to include augmented data in val set")
 parser.add_argument('--dir', type = str, required = True, help="where is the directory for the labels")
 parser.add_argument('--cfg_file', type=str, default=None, required = True, help='specify the config for training')
 parser.add_argument('--pc_mf', type=float, default=1, required = True, help='the magnify factor to magnify point clouds')
@@ -127,13 +128,24 @@ parent_directory = os.path.dirname(os.getcwd())  # Get the parent directory of t
 # Join 'data' with the new directory under the parent directory
 new_directory = os.path.join(parent_directory, 'data', new_directory)
 
+'''
+# create custom_<num> if custom directory exists
 for i in range(1, 100, 1):
     temp = f'{new_directory}_{i}'
     if i == 1:
         temp = new_directory
     if not os.path.isdir(temp):
         break
-new_directory = temp
+
+new_directory = temp        
+'''
+# if new_directory exists
+if os.path.exists(new_directory):
+    print(f'Directory {new_directory} exists! Removing ...')
+    shutil.rmtree(new_directory)
+    print('Done removing!')
+    
+# create directory    
 os.makedirs(new_directory)
 print('New directory: ',new_directory)
 # prepare the sub directory for the data
@@ -236,31 +248,36 @@ while True:
     np.random.seed(123)
     np.random.shuffle(ids_with_fail)
 
-    """
-    Method A: separate by percentage
-    """
-    train_ids = ids[:int(len(ids)*0.8)] + ids_with_fail[:int(len(ids_with_fail)*0.8)]
-    val_ids   = ids[int(len(ids)*0.8):] + ids_with_fail[int(len(ids_with_fail)*0.8):]
-
-    """
-    Method B: separate by augmentation
-    """
-    train_ids, val_ids = [], []
-    cache = []
     
-    # this part is for ids_with_fail
-    for id_ in ids_with_fail:
-        if 'augmented' in id_:
-            train_ids.append(id_)
-        else:
-            cache.append(id_)
-    train_ids += cache[:int(len(cache)*0.5)] * 10
-    val_ids   += cache[int(len(cache)*0.5):]
+    # Method A: separate by percentage    
+    if args.val_aug:
+        print('Method A data splitting')
+    
+        
+        train_ids = ids[:int(len(ids)*0.8)] + ids_with_fail[:int(len(ids_with_fail)*0.8)]
+        val_ids   = ids[int(len(ids)*0.8):] + ids_with_fail[int(len(ids_with_fail)*0.8):]
 
-    # this part is to handle ids
-    train_ids += ids[:int(len(ids)*0.5)]
-    val_ids   += ids[int(len(ids)*0.5):]
+    # Method B: separate by augmentation
+    else:        
+        print('Method B data splitting')
 
+        
+        train_ids, val_ids = [], []
+        cache = []
+        
+        # this part is for ids_with_fail
+        for id_ in ids_with_fail:
+            if 'augmented' in id_:
+                train_ids.append(id_)
+            else:
+                cache.append(id_)
+        train_ids += cache[:int(len(cache)*0.5)] * 10
+        val_ids   += cache[int(len(cache)*0.5):]
+
+        # this part is to handle ids
+        train_ids += ids[:int(len(ids)*0.5)]
+        val_ids   += ids[int(len(ids)*0.5):]
+    
     # shuffle training data
     np.random.shuffle(train_ids)
     
@@ -319,6 +336,7 @@ while True:
     if model_name in ['PVRCNN', 'SECONDNet']:
         z_min = point_cloud_ranges[2]
         z_max = point_cloud_ranges[5]
+        print(z_max - z_min, voxel_size_z, (z_max - z_min) / voxel_size_z, z_range)
         if (z_max - z_min) / voxel_size_z <= z_range:
             z_min = z_min
             z_max = z_min + z_range * voxel_size_z
@@ -332,7 +350,7 @@ while True:
             print(f'Current value: {(z_max - z_min) / voxel_size_z}')
 
             # decrease voxel size
-            voxel_size_z -= 0.01
+            voxel_size_z += 0.1
             if voxel_size_z <= 0.01: voxel_size_z = 0.01
             voxel_size_z = np.around(voxel_size_z, decimals=2)
 
