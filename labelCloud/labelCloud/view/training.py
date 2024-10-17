@@ -1,5 +1,5 @@
 import logging
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox, QLineEdit, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox, QLineEdit, QFileDialog, QSpinBox, QComboBox
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings
 import pkg_resources
@@ -9,6 +9,7 @@ import platform
 import os
 import subprocess
 from tools.batch_train import TrainingThread
+import yaml 
 
 
 
@@ -20,12 +21,14 @@ class TrainingController:
         """Sets the view and initializes the controller."""
         self.view = view
         self.setup_connections()
+        self.initialize_hyperparameters()
 
     def setup_connections(self):
         """Connect buttons and other widgets to their handlers."""
         start_button = self.view.findChild(QPushButton, 'startTrainingButton')
         cancel_button = self.view.findChild(QPushButton, 'cancelButton')
         reset_button = self.view.findChild(QPushButton, 'resetButton')
+        open_config_button = self.view.findChild(QPushButton, 'openConfigButton')
         
         # Find the browse buttons
         browse_training_data_button = self.view.findChild(QPushButton, 'browseTrainingDataButton')
@@ -55,7 +58,91 @@ class TrainingController:
         if cancel_button:
             logging.info("Cancel button connected")
             cancel_button.clicked.connect(self.cancel_training)
+            
+        if open_config_button:
+            logging.info("Open Config File button connected")
+            open_config_button.clicked.connect(self.open_config_file)
 
+            
+    def initialize_hyperparameters(self):
+        """Initialize the hyperparameter values in the UI."""
+        # Set default values for hyperparameter widgets
+        self.view.findChild(QSpinBox, 'batchSizeSpinBox').setValue(4)
+        self.view.findChild(QLineEdit, 'learningRateLineEdit').setText("0.003")
+        self.view.findChild(QSpinBox, 'epochSpinBox').setValue(100)
+        self.view.findChild(QComboBox, 'backboneComboBox').setCurrentIndex(0)  # Default to first backbone option
+        self.view.findChild(QLineEdit, 'pointCloudMagnificationLineEdit').setText("20")
+        self.view.findChild(QLineEdit, 'labelMagnificationLineEdit').setText("0.85")
+        
+        # Initialize directory paths
+        current_dir = os.getcwd()  # Get the current working directory
+        parent_dir = os.path.dirname(os.path.dirname(current_dir))  # Go up two levels
+
+        # Set the default paths for ply_dir_edit and label_dir_edit
+        ply_dir = os.path.join(parent_dir, "modified_data")
+        label_dir = os.path.join(parent_dir, "modified_labels")
+
+
+        # Set these paths in the QLineEdit widgets
+        if self.training_data_line_edit:
+            self.training_data_line_edit.setText(ply_dir)
+        if self.label_data_line_edit:
+            self.label_data_line_edit.setText(label_dir)
+            
+    def open_config_file(self):
+        """Open the configuration file based on the selected backbone."""
+        # Get the currently selected backbone architecture
+        backbone_combo_box = self.view.findChild(QComboBox, 'backboneComboBox')
+        selected_backbone = backbone_combo_box.currentText()
+
+     
+        # Get the current directory and go to its parent directory
+        current_dir = os.getcwd()
+        parent_dir = os.path.dirname(current_dir)  # Go to the parent directory
+
+        # Now go to tools/cfgs/custom_models from the parent directory
+        config_dir = os.path.join(parent_dir, 'tools', 'cfgs', 'custom_models')
+
+        # Mapping backbone architecture to config file names
+        config_file_mapping = {
+            'PointPillar': 'pointpillar.yaml',
+            'Point-RCNN': 'pointrcnn.yaml',
+            'PV-RCNN': 'pv_rcnn.yaml'
+        }
+
+        # Get the corresponding config file name
+        config_file_name = config_file_mapping.get(selected_backbone, None)
+
+        if config_file_name:
+            # Combine the directory path with the file name
+            config_file_path = os.path.join(config_dir, config_file_name)
+
+            # Use QFileDialog to allow the user to choose the file or open the default config
+            selected_file, _ = QFileDialog.getOpenFileName(
+                self.view,
+                "Open Config File",
+                config_file_path,
+                "YAML Files (*.yaml);;All Files (*)"
+            )
+            if selected_file:
+                logging.info(f"Config file selected: {selected_file}")
+                # Load or display the selected config file
+                # Step 6: Open the selected config file in Notepad (or default system editor)
+                try:
+                    # On Windows, open with Notepad
+                    if os.name == 'nt':  # Windows
+                        os.system(f'notepad.exe "{selected_file}"')
+                    else:  # macOS or Linux
+                        subprocess.run(['open', selected_file] if os.name == 'posix' else ['xdg-open', selected_file])
+                    
+                except Exception as e:
+                    logging.error(f"Failed to open config file in editor: {e}")
+                    QMessageBox.critical(self.view, "Error", f"Could not open config file in editor: {e}")
+            else:
+                logging.warning("No config file selected.")
+        else:
+            logging.error(f"No config file mapped for backbone: {selected_backbone}")
+            
     def browse_training_data(self):
         """Open a file dialog to browse for the training data directory."""
         training_data_dir = QFileDialog.getExistingDirectory(self.view, 'Select Training Data Directory')
@@ -87,9 +174,17 @@ class TrainingController:
             logging.error("Invalid or empty label data directory.")
             self.show_error_message("Label Data Directory Error", "The label data directory is either empty or invalid. Please select a valid directory.")
             return
+            
+        # Retrieve hyperparameter values from the UI
+        batch_size = self.view.findChild(QSpinBox, 'batchSizeSpinBox').value()
+        learning_rate = float(self.view.findChild(QLineEdit, 'learningRateLineEdit').text())
+        epochs = self.view.findChild(QSpinBox, 'epochSpinBox').value()
+        backbone = self.view.findChild(QComboBox, 'backboneComboBox').currentText()
+        point_cloud_magnification = float(self.view.findChild(QLineEdit, 'pointCloudMagnificationLineEdit').text())
+        label_magnification = float(self.view.findChild(QLineEdit, 'labelMagnificationLineEdit').text())
  
         # Create the training thread and pass the command and directories
-        self.training_thread = TrainingThread(training_data_dir, label_data_dir)
+        self.training_thread = TrainingThread(training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification)
         
         # Connect signals to handle completion and errors
         self.training_thread.finished.connect(self.on_training_finished)
@@ -111,7 +206,8 @@ class TrainingController:
     def reset_hyperparameters(self):
         logging.info("Resetting training hyperparameters...")
         # Add logic to reset the augmentation process
-        # Clear progress bar and charts as needed
+        # Reset hyperparameters to default values
+        self.initialize_hyperparameters()
 
 
 
