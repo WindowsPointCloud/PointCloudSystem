@@ -75,6 +75,128 @@
      </layout>
     </item>
     <item>
+     <widget class="QGroupBox" name="preprocessingGroupBox">
+      <property name="title">
+       <string>Preprocessing Module</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_preprocessing">
+       <item>
+        <widget class="QCheckBox" name="downsampleCheckBox">
+         <property name="text">
+          <string>Downsample Point Cloud</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_downsample">
+         <item>
+          <widget class="QLabel" name="downsampleLabel">
+           <property name="text">
+            <string>Every K Points:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="downsampleSpinBox">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>8</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="removeOutlierCheckBox">
+         <property name="text">
+          <string>Remove Statistical Outlier</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_removeOutlier">
+         <item>
+          <widget class="QLabel" name="nbNeighborsLabel">
+           <property name="text">
+            <string>Neighbors:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="nbNeighborsSpinBox">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>5</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="stdRatioLabel">
+           <property name="text">
+            <string>Std Ratio:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="stdRatioDoubleSpinBox">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>100.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="roiCroppingCheckBox">
+         <property name="text">
+          <string>ROI Cropping</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_roiCropping">
+         <item>
+          <widget class="QLabel" name="roiCroppingLabel">
+           <property name="text">
+            <string>X Range:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="roiCroppingSpinBox">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>100.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>5.130000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_controls">
       <item>
        <widget class="QPushButton" name="button_start">
@@ -84,9 +206,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="button_cancel">
+       <widget class="QPushButton" name="button_reset">
         <property name="text">
-         <string>Cancel</string>
+         <string>Reset</string>
         </property>
        </widget>
       </item>
