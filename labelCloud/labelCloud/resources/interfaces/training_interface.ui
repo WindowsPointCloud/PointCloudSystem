@@ -16,176 +16,6 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_main">
     <item>
-     <widget class="QGroupBox" name="preprocessingGroupBox">
-      <property name="title">
-       <string>Preprocessing Module</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_preprocessing">
-       <item>
-        <widget class="QCheckBox" name="downsampleCheckBox">
-         <property name="text">
-          <string>Downsample Point Cloud</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_downsample">
-         <item>
-          <widget class="QLabel" name="downsampleLabel">
-           <property name="text">
-            <string>Every K Points:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="downsampleSpinBox">
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>100</number>
-           </property>
-           <property name="value">
-            <number>8</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="removeOutlierCheckBox">
-         <property name="text">
-          <string>Remove Statistical Outlier</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_removeOutlier">
-         <item>
-          <widget class="QLabel" name="nbNeighborsLabel">
-           <property name="text">
-            <string>Neighbors:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="nbNeighborsSpinBox">
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>100</number>
-           </property>
-           <property name="value">
-            <number>5</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="stdRatioLabel">
-           <property name="text">
-            <string>Std Ratio:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="stdRatioDoubleSpinBox">
-           <property name="minimum">
-            <double>0.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>100.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>1.0</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="roiCroppingCheckBox">
-         <property name="text">
-          <string>ROI Cropping</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_roiCropping">
-         <item>
-          <widget class="QLabel" name="roiCroppingLabel">
-           <property name="text">
-            <string>X Range:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="roiCroppingSpinBox">
-           <property name="minimum">
-            <double>0.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>100.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>10.0</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_magnify">
-         <item>
-          <widget class="QLabel" name="magnifyPCLable">
-           <property name="text">
-            <string>Magnify Point Cloud:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="magnifyPCSpinBox">
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>100</number>
-           </property>
-           <property name="value">
-            <number>20</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_labelMagnify">
-         <item>
-          <widget class="QLabel" name="labelMagnifyLabel">
-           <property name="text">
-            <string>Label Magnifying Factor:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="labelMagnifyDoubleSpinBox">
-           <property name="minimum">
-            <double>0.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>10.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>1.0</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
      <widget class="QGroupBox" name="trainingGroupBox">
       <property name="title">
        <string>Model Training Module</string>
@@ -221,6 +51,25 @@
          </item>
         </layout>
        </item>
+       <!-- New button added under backbone combobox -->
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_openConfig">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="openConfigButton">
+           <property name="text">
+            <string>Open Config File</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_lr">
          <item>
@@ -231,23 +80,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="learningRateSlider">
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>10000</number>
-           </property>
-           <property name="value">
-            <number>100</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="learningRateValueLabel">
+          <widget class="QLineEdit" name="learningRateLineEdit">
            <property name="text">
             <string>0.01</string>
            </property>
@@ -265,7 +98,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="batchSizeSlider">
+          <widget class="QSpinBox" name="batchSizeSpinBox">
            <property name="minimum">
             <number>1</number>
            </property>
@@ -274,16 +107,6 @@
            </property>
            <property name="value">
             <number>4</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="batchSizeValueLabel">
-           <property name="text">
-            <string>4</string>
            </property>
           </widget>
          </item>
@@ -308,6 +131,42 @@
            </property>
            <property name="value">
             <number>100</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_pointCloudMagnification">
+         <item>
+          <widget class="QLabel" name="pointCloudMagnificationLabel">
+           <property name="text">
+            <string>Point Cloud Magnification Factor:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="pointCloudMagnificationLineEdit">
+           <property name="text">
+            <string>20</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_labelMagnification">
+         <item>
+          <widget class="QLabel" name="labelMagnificationLabel">
+           <property name="text">
+            <string>Label Magnification Factor:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="labelMagnificationLineEdit">
+           <property name="text">
+            <string>0.85</string>
            </property>
           </widget>
          </item>
@@ -369,16 +228,6 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_buttons">
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-       </spacer>
-      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_buttons">
         <item>
