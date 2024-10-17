@@ -19,7 +19,10 @@ def transform_annotations_to_kitti_format(annos, map_name_to_kitti=None, info_wi
 
         for k in range(anno['name'].shape[0]):
             anno['name'][k] = map_name_to_kitti[anno['name'][k]]
-
+            
+        # Replace 'Pede' with 'Pedestrian' in 'name' field
+        anno['name'] = np.where(anno['name'] == 'Pede', 'Pedestrian', anno['name'])
+        #print('Transformed names:', anno['name'])
         anno['bbox'] = np.zeros((len(anno['name']), 4))
         anno['bbox'][:, 2:4] = 50  # [0, 0, 50, 50]
         anno['truncated'] = np.zeros(len(anno['name']))
