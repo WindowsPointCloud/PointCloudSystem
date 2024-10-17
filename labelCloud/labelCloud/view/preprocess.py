@@ -1,5 +1,5 @@
 import logging
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QFileDialog, QTextEdit, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QFileDialog, QTextEdit, QLineEdit, QMessageBox, QCheckBox, QDoubleSpinBox, QSpinBox
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings
 import platform
@@ -19,38 +19,69 @@ class PreprocessController:
         """Sets the view and initializes the controller."""
         self.view = view
         self.setup_connections()
+        self.initialize_hyperparameters()
 
     def setup_connections(self):
         """Connect buttons and other widgets to their handlers."""
         
         start_button = self.view.findChild(QPushButton, 'button_start')
         finish_button = self.view.findChild(QPushButton, 'button_finish')
-        cancel_button = self.view.findChild(QPushButton, 'button_cancel')
+        reset_button = self.view.findChild(QPushButton, 'button_reset')
         
         raw_data_button = self.view.findChild(QPushButton, 'button_browse_raw_data')
         label_files_button = self.view.findChild(QPushButton, 'button_browse_label_files')
        
 
-        raw_data_input = self.view.findChild(QLineEdit, 'lineEdit_raw_data')
-        label_files_input = self.view.findChild(QLineEdit, 'lineEdit_label_files')
+        self.raw_data_input = self.view.findChild(QLineEdit, 'lineEdit_raw_data')
+        self.label_files_input = self.view.findChild(QLineEdit, 'lineEdit_label_files')
        
         
         self.log_output = self.view.findChild(QTextEdit, 'textEdit_log')
         self.log_output.setReadOnly(True)
+        
+
+
 
         if start_button:
-            start_button.clicked.connect(lambda: self.start_preprocessing(raw_data_input.text(), label_files_input.text()))
-        if cancel_button:
-            cancel_button.clicked.connect(self.cancel_preprocessing)
+            start_button.clicked.connect(lambda: self.start_preprocessing(self.raw_data_input.text(), self.label_files_input.text()))
+        if reset_button:
+            reset_button.clicked.connect(self.reset_preprocessing)
         if finish_button:
             finish_button.clicked.connect(self.finish_preprocessing)
             
         # Connect browse buttons
         if raw_data_button:
-            raw_data_button.clicked.connect(lambda: self.browse_folder(raw_data_input))
+            raw_data_button.clicked.connect(lambda: self.browse_folder(self.raw_data_input))
         if label_files_button:
-            label_files_button.clicked.connect(lambda: self.browse_folder(label_files_input))
-      
+            label_files_button.clicked.connect(lambda: self.browse_folder(self.label_files_input))
+    
+    def initialize_hyperparameters(self):
+        """Initialize the hyperparameter widgets."""
+        # Preprocessing elements
+        self.downsample_checkbox = self.view.findChild(QCheckBox, 'downsampleCheckBox')
+        self.downsample_spinbox = self.view.findChild(QSpinBox, 'downsampleSpinBox')
+        self.remove_outlier_checkbox = self.view.findChild(QCheckBox, 'removeOutlierCheckBox')
+        self.nb_neighbors_spinbox = self.view.findChild(QSpinBox, 'nbNeighborsSpinBox')
+        self.std_ratio_spinbox = self.view.findChild(QDoubleSpinBox, 'stdRatioDoubleSpinBox')
+        self.roi_cropping_checkbox = self.view.findChild(QCheckBox, 'roiCroppingCheckBox')
+        self.roi_cropping_spinbox = self.view.findChild(QDoubleSpinBox, 'roiCroppingSpinBox')
+
+        #Set default values
+        if self.downsample_checkbox:
+            self.downsample_checkbox.setChecked(True)
+        if self.remove_outlier_checkbox:
+            self.remove_outlier_checkbox.setChecked(True)
+        if self.roi_cropping_checkbox:
+            self.roi_cropping_checkbox.setChecked(True)
+        if self.downsample_spinbox:
+            self.downsample_spinbox.setValue(8)
+        if self.nb_neighbors_spinbox:
+            self.nb_neighbors_spinbox.setValue(5)
+        if self.std_ratio_spinbox:
+            self.std_ratio_spinbox.setValue(1.0)
+        if self.roi_cropping_spinbox:
+            self.roi_cropping_spinbox.setValue(5.13)
+        
     
     def browse_folder(self, line_edit):
         """Open a dialog to select a folder and set the selected path in the given QLineEdit."""
@@ -79,16 +110,67 @@ class PreprocessController:
             )
             return  # Exit the function if the folder is invalid
             
-       
+      
+     
+        
+        # Validate and log preprocessing module settings
+        downsample_value, nb_neighbors, std_ratio, roi_range = None, None, None, None
+        
+        # Downsample validation
+        if self.downsample_checkbox and self.downsample_checkbox.isChecked():
+            downsample_value = self.downsample_spinbox.value()
+            if downsample_value < 1 or downsample_value > 10:
+                QMessageBox.critical(
+                    self.view,
+                    "Invalid Downsample Value",
+                    "Downsample value must be between 1 and 10.",
+                    QMessageBox.Ok
+                )
+                return
+            self.log_output.append(f"Downsample Point Cloud: Every {downsample_value} points")
+        
+        # Remove outliers validation
+        if self.remove_outlier_checkbox and self.remove_outlier_checkbox.isChecked():
+            nb_neighbors = self.nb_neighbors_spinbox.value()
+            std_ratio = self.std_ratio_spinbox.value()
+            if nb_neighbors < 1 or nb_neighbors > 8:
+                QMessageBox.critical(
+                    self.view,
+                    "Invalid Neighbors Value",
+                    "Number of neighbors must be between 1 and 8.",
+                    QMessageBox.Ok
+                )
+                return
+            if std_ratio < 0 or std_ratio > 1.5:
+                QMessageBox.critical(
+                    self.view,
+                    "Invalid Std Ratio",
+                    "Standard deviation ratio must be between 0 and 1.5.",
+                    QMessageBox.Ok
+                )
+                return
+            self.log_output.append(f"Remove Statistical Outlier: Neighbors={nb_neighbors}, Std Ratio={std_ratio}")
+        
+        # ROI cropping validation
+        if self.roi_cropping_checkbox and self.roi_cropping_checkbox.isChecked():
+            roi_range = self.roi_cropping_spinbox.value()
+            if roi_range < 0 or roi_range > 10.0:
+                QMessageBox.critical(
+                    self.view,
+                    "Invalid ROI Range",
+                    "ROI range must be between 0 and 10.0.",
+                    QMessageBox.Ok
+                )
+                return
+            self.log_output.append(f"ROI Cropping: X Range={roi_range}")
             
-       
         self.log_output.clear()
         self.log_output.append("Starting preprocessing...")
         self.log_output.append(f"Raw data folder: {raw_data_folder}")
         self.log_output.append(f"Label files folder: {label_files_folder}")
         
 
-        self.thread = DataPreprocessor(raw_data_folder, label_files_folder)
+        self.thread = DataPreprocessor(raw_data_folder, label_files_folder, downsample_value, nb_neighbors, std_ratio, roi_range)
         self.thread.progress.connect(self.update_progress)
         self.thread.start()
 
@@ -96,12 +178,13 @@ class PreprocessController:
         self.log_output.append(message)
         self.log_output.verticalScrollBar().setValue(self.log_output.verticalScrollBar().maximum())  # Scroll to bottom  
     
-    def cancel_preprocessing(self):
-        logging.info("Cancelling preprocessing...")
-        if hasattr(self, 'thread'):
-            self.thread.stop()
-        self.log_output.append("Preprocessing cancelled.")
-        self.view.close()
+    def reset_preprocessing(self):
+        logging.info("Reset preprocessing...")
+        self.initialize_hyperparameters()
+        self.raw_data_input.clear()
+        self.label_files_input.clear()
+        self.log_output.clear()
+  
 
     def finish_preprocessing(self):
         logging.info("Finishing preprocessing...")
@@ -171,5 +254,4 @@ class PreprocessWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:
         logging.info("Closing window...")
-        self.controller.cancel_preprocessing()  # Ensure preprocessing is stopped
         event.accept()
