@@ -48,25 +48,71 @@
      </layout>
     </item>
 
-    <!-- Inference Directory -->
+    <!-- Model Checkpoint (Moved under Backbone Selector) -->
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_inferenceDir">
+     <layout class="QHBoxLayout" name="horizontalLayout_modelCheckpoint">
       <item>
-       <widget class="QLabel" name="inferenceDirLabel">
+       <widget class="QLabel" name="modelCheckpointLabel">
         <property name="text">
-         <string>Inference Directory:</string>
+         <string>Model Checkpoint:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="inferenceDirLineEdit"/>
+       <widget class="QLineEdit" name="modelCheckpointLineEdit"/>
       </item>
       <item>
-       <widget class="QPushButton" name="browseInferenceDirButton">
+       <widget class="QPushButton" name="browseModelCheckpointButton">
         <property name="text">
          <string>Browse</string>
         </property>
        </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Inference File/Directory (Edited label) -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_inferenceFile">
+      <item>
+       <widget class="QLabel" name="inferenceFileLabel">
+        <property name="text">
+         <string>Inference File/Directory:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="inferenceFileLineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="browseInferenceFileButton">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Checkbox for 2D or 3D -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2D3DCheckBox">
+      <item>
+       <widget class="QCheckBox" name="is2DCheckBox">
+        <property name="text">
+         <string>3D Model Inference</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -94,29 +140,6 @@
      </layout>
     </item>
 
-    <!-- Model Checkpoint -->
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_modelCheckpoint">
-      <item>
-       <widget class="QLabel" name="modelCheckpointLabel">
-        <property name="text">
-         <string>Model Checkpoint:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="modelCheckpointLineEdit"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="browseModelCheckpointButton">
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-
     <!-- Progress Bar -->
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_progressBar">
@@ -124,51 +147,6 @@
        <widget class="QProgressBar" name="progressBar"/>
       </item>
      </layout>
-    </item>
-
-    <!-- Visualization Button -->
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_visualization">
-      <item>
-       <spacer name="horizontalSpacer_1">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="visualizationButton">
-        <property name="text">
-         <string>Enter Visualization</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-
-    <!-- Spacer to push buttons to the bottom -->
-    <item>
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-     </spacer>
     </item>
 
     <!-- Buttons at the bottom -->
@@ -187,7 +165,14 @@
       <item>
        <widget class="QPushButton" name="startInferenceButton">
         <property name="text">
-         <string>Start Inference</string>
+         <string>Start Model Inference</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="startTestingButton">
+        <property name="text">
+         <string>Start Model Testing</string>
         </property>
        </widget>
       </item>
@@ -217,7 +202,6 @@
       </item>
      </layout>
     </item>
-    
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
