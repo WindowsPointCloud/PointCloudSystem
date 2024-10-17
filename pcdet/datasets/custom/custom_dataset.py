@@ -118,7 +118,8 @@ class CustomDataset(DatasetTemplate):
         def kitti_eval(eval_det_annos, eval_gt_annos, map_name_to_kitti):
             from ..kitti.kitti_object_eval_python import eval as kitti_eval
             from ..kitti import kitti_utils
-
+    
+            
             kitti_utils.transform_annotations_to_kitti_format(eval_det_annos, map_name_to_kitti=map_name_to_kitti)
             kitti_utils.transform_annotations_to_kitti_format(
                 eval_gt_annos, map_name_to_kitti=map_name_to_kitti,
@@ -132,8 +133,13 @@ class CustomDataset(DatasetTemplate):
 
         eval_det_annos = copy.deepcopy(det_annos)
         eval_gt_annos = [copy.deepcopy(info['annos']) for info in self.custom_infos]
+        
+
+        
+ 
 
         if kwargs['eval_metric'] == 'kitti':
+            print('Map class to kitti:', self.map_class_to_kitti)
             ap_result_str, ap_dict = kitti_eval(eval_det_annos, eval_gt_annos, self.map_class_to_kitti)
         else:
             raise NotImplementedError
