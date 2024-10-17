@@ -1,7 +1,7 @@
 DATASET: 'CustomDataset'
 DATA_PATH: '..\\data\\custom'
 
-POINT_CLOUD_RANGE: [0.0, 0.0, 0.06, 28.8, 28.8, 40.72]
+POINT_CLOUD_RANGE: [0.0, 0.0, 0.04, 20.8, 20.8, 30.04]
 
 CLASS_NAMES: ['pass', 'fail']  
 
@@ -63,7 +63,7 @@ DATA_PROCESSOR:
       }
 
     - NAME: transform_points_to_voxels
-      VOXEL_SIZE: [0.2, 0.2, 0.15]
+      VOXEL_SIZE: [0.26, 0.26, 0.75]
       MAX_POINTS_PER_VOXEL: 5
       MAX_NUMBER_OF_VOXELS: {
         'train': 40000, # 1500000
