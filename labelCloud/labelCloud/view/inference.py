@@ -1,5 +1,5 @@
 import logging
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QTextEdit,  QLineEdit, QFileDialog, QMessageBox, QInputDialog, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QTextEdit, QCheckBox, QLineEdit, QFileDialog, QMessageBox, QInputDialog, QComboBox
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings
 import pkg_resources
@@ -23,6 +23,7 @@ class InferenceController:
         """Sets the view and initializes the controller."""
         self.view = view
         self.setup_connections()
+        self.initialize_default_save_prediction_directory()
 
     def setup_connections(self):
         """Connect buttons and other widgets to their handlers."""
@@ -36,6 +37,7 @@ class InferenceController:
         browse_inference_file_button = self.view.findChild(QPushButton, 'browseInferenceFileButton')
         browse_model_checkpoint_button = self.view.findChild(QPushButton, 'browseModelCheckpointButton')
         browse_save_predictions_button = self.view.findChild(QPushButton, 'browseSavePredictionsButton')
+        browse_truth_label_directory_button = self.view.findChild(QPushButton, 'browseTruthLabelDirectoryButton')
 
         # Connect the buttons to their respective methods
         if start_inference_button:
@@ -54,6 +56,32 @@ class InferenceController:
             browse_model_checkpoint_button.clicked.connect(self.browse_model_checkpoint)
         if browse_save_predictions_button:
             browse_save_predictions_button.clicked.connect(self.browse_save_predictions_directory)
+        if browse_truth_label_directory_button:
+            browse_truth_label_directory_button.clicked.connect(self.browse_truth_label_directory)
+        
+    def initialize_default_save_prediction_directory(self):
+        """Initialize the save prediction directory with a default path."""
+        # Get current working directory, go to parent, then append "pred_label"
+        current_directory = Path(os.getcwd()).parents[1]
+        save_prediction_directory = current_directory / "pred_label"
+
+        # If directory exists, remove it and recreate
+        if save_prediction_directory.exists():
+            logging.info(f"Removing existing save prediction directory: {save_prediction_directory}")
+            for item in save_prediction_directory.iterdir():
+                if item.is_file():
+                    item.unlink()
+                elif item.is_dir():
+                    os.rmdir(item)
+            save_prediction_directory.rmdir()
+
+        save_prediction_directory.mkdir(parents=True, exist_ok=True)
+
+        # Set the default value in the QLineEdit
+        save_predictions_line_edit = self.view.findChild(QLineEdit, 'savePredictionsLineEdit')
+        if save_predictions_line_edit:
+            save_predictions_line_edit.setText(str(save_prediction_directory))
+
 
     def start_model_inference(self):
         logging.info("Starting model inference...")
@@ -75,34 +103,87 @@ class InferenceController:
         # Get paths from UI
         inference_file_line_edit = self.view.findChild(QLineEdit, 'inferenceFileLineEdit')
         model_checkpoint_line_edit = self.view.findChild(QLineEdit, 'modelCheckpointLineEdit')
+        save_predictions_line_edit = self.view.findChild(QLineEdit, 'savePredictionsLineEdit')
+        truth_label_directory_line_edit = self.view.findChild(QLineEdit, 'truthLabelDirectoryLineEdit')
+        is_2d_checkbox = self.view.findChild(QCheckBox, 'is2DCheckBox')
 
-        if inference_file_line_edit and model_checkpoint_line_edit:
+        if inference_file_line_edit and model_checkpoint_line_edit and save_predictions_line_edit:
             inference_file_path = inference_file_line_edit.text()
             checkpoint_path = model_checkpoint_line_edit.text()
+            save_predictions_path = save_predictions_line_edit.text()
             file_extension = os.path.splitext(inference_file_path)[1]
+            truth_label_directory = truth_label_directory_line_edit.text() if truth_label_directory_line_edit else ""
+            is_2d = is_2d_checkbox.isChecked() if is_2d_checkbox else False
             print(file_extension)
             print(inference_file_path)
             print(checkpoint_path)
+            print(truth_label_directory)
+            print(save_predictions_path)
+            print(is_2d)
             
             # Check file extension
             if file_extension != '':
-                if file_extension not in [".bin", ".npy"]:
+                if file_extension not in [".bin", ".npy", ".ply"]:
                     QMessageBox.critical(
                         self.view,
                         "Invalid File Extension",
-                        "Only .bin or .npy files are accepted for inference.",
+                        "Only .bin, .npy and .ply files are accepted for inference.",
                         QMessageBox.Ok
                     )
                     inference_file_line_edit.clear()
                     return
                     
-            if file_extension != '':
-                file_extension = '.bin'
+            else:
+                if os.path.isdir(inference_file_path):
+                    files = os.listdir(inference_file_path)
+                    if not files:
+                        QMessageBox.critical(
+                            self.view,
+                            "Empty Directory",
+                            "The selected directory is empty.",
+                            QMessageBox.Ok
+                        )
+                        return
+                    
+                    first_file_extension = os.path.splitext(files[0])[1]
+                    if first_file_extension not in [".bin", ".npy", ".ply"]:
+                        QMessageBox.critical(
+                            self.view,
+                            "Invalid File Extension",
+                            "Only .bin, .npy, or .ply files are accepted for inference.",
+                            QMessageBox.Ok
+                        )
+                        return
+                    
+                    for file in files:
+                        if os.path.splitext(file)[1] != first_file_extension:
+                            QMessageBox.critical(
+                                self.view,
+                                "Inconsistent File Extensions",
+                                "All files in the directory must have the same extension.",
+                                QMessageBox.Ok
+                            )
+                            return
+                    
+                    file_extension = first_file_extension
+                else:
+                    QMessageBox.critical(
+                        self.view,
+                        "Invalid Input",
+                        "The provided path is neither a file nor a directory.",
+                        QMessageBox.Ok
+                    )
+                    return
                 
+          
             # Prepare command   
-            cmd = f'conda activate windowspointcloud && python demo.py --cfg_file "{config_file}" --ckpt "{checkpoint_path}" --data_path "{inference_file_path}" --ext "{file_extension}"'   
+            cmd = f'conda activate windowspointcloud && python demo.py --cfg_file "{config_file}" --ckpt "{checkpoint_path}" --data_path "{inference_file_path}" --ext "{file_extension}" --saved_prediction_label_directory "{save_predictions_path}"'
             
-            #cmd = f'conda activate windowspointcloud && python demo.py --cfg_file "{config_file}" --ckpt "{checkpoint_path}" --data_path "{os.path.dirname(inference_file_path)}" --ext ".npy"'   
+            if truth_label_directory:
+                cmd += f' --truth_label_directory "{truth_label_directory}"'
+            
+            if is_2d:
+                cmd += " --visualize_2d"   
             
             subdirectory = '..\\tools'
 
@@ -228,6 +309,13 @@ class InferenceController:
             save_predictions_line_edit = self.view.findChild(QLineEdit, 'savePredictionsLineEdit')
             if save_predictions_line_edit:
                 save_predictions_line_edit.setText(directory)
+                
+    def browse_truth_label_directory(self):
+        directory = QFileDialog.getExistingDirectory(self.view, "Select Directory for Truth Labels")
+        if directory:
+            truth_label_directory_line_edit = self.view.findChild(QLineEdit, 'truthLabelDirectoryLineEdit')
+            if truth_label_directory_line_edit:
+                truth_label_directory_line_edit.setText(directory)
 
 
 
