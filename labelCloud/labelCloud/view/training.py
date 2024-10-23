@@ -1,5 +1,5 @@
 import logging
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox, QLineEdit, QFileDialog, QSpinBox, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox, QLineEdit, QFileDialog, QSpinBox, QComboBox, QCheckBox
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings
 import pkg_resources
@@ -73,6 +73,11 @@ class TrainingController:
         self.view.findChild(QComboBox, 'backboneComboBox').setCurrentIndex(0)  # Default to first backbone option
         self.view.findChild(QLineEdit, 'pointCloudMagnificationLineEdit').setText("20")
         self.view.findChild(QLineEdit, 'labelMagnificationLineEdit').setText("0.85")
+        
+        # Initialize include augmented data checkbox
+        self.include_augmented_data_checkbox = self.view.findChild(QCheckBox, 'includeAugmentedDataCheckbox')
+        if self.include_augmented_data_checkbox:
+            self.include_augmented_data_checkbox.setChecked(True)
         
         # Initialize directory paths
         current_dir = os.getcwd()  # Get the current working directory
@@ -182,9 +187,15 @@ class TrainingController:
         backbone = self.view.findChild(QComboBox, 'backboneComboBox').currentText()
         point_cloud_magnification = float(self.view.findChild(QLineEdit, 'pointCloudMagnificationLineEdit').text())
         label_magnification = float(self.view.findChild(QLineEdit, 'labelMagnificationLineEdit').text())
+        
+        # Retrieve the value of the include augmented data checkbox
+        include_augmented_data = self.include_augmented_data_checkbox.isChecked()
+        
+        if include_augmented_data:
+            logging.info("Val/Test set include augmented data (Method A)")
  
         # Create the training thread and pass the command and directories
-        self.training_thread = TrainingThread(training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification)
+        self.training_thread = TrainingThread(training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification, include_augmented_data)
         
         # Connect signals to handle completion and errors
         self.training_thread.finished.connect(self.on_training_finished)
