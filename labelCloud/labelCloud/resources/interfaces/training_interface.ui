@@ -51,13 +51,18 @@
          </item>
         </layout>
        </item>
-       <!-- New button added under backbone combobox -->
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_openConfig">
          <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
            </property>
           </spacer>
          </item>
@@ -223,6 +228,16 @@
          </item>
         </layout>
        </item>
+       <item>
+        <widget class="QCheckBox" name="includeAugmentedDataCheckbox">
+         <property name="text">
+          <string>Include augmented data in val/test set</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -237,6 +252,12 @@
           </property>
           <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </spacer>
         </item>
@@ -268,6 +289,12 @@
           </property>
           <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </spacer>
         </item>
