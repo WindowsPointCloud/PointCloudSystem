@@ -100,7 +100,7 @@
       <item>
        <widget class="QCheckBox" name="is2DCheckBox">
         <property name="text">
-         <string>3D Model Inference</string>
+         <string>2D Model Inference</string>
         </property>
        </widget>
       </item>
@@ -113,6 +113,29 @@
          <enum>QSizePolicy::Expanding</enum>
         </property>
        </spacer>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Truth Label Directory -->
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_truthLabelDirectory">
+      <item>
+       <widget class="QLabel" name="truthLabelDirectoryLabel">
+        <property name="text">
+         <string>Truth Label Directory:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="truthLabelDirectoryLineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="browseTruthLabelDirectoryButton">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
