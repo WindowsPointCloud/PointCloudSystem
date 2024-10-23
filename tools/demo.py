@@ -124,9 +124,9 @@ def save_predictions_to_csv(pred_dicts, file_name):
     columns = ['x', 'y', 'z', 'dx', 'dy', 'dz', 'rot', 'cls', 'conf']
     pred_list = []
     for i in range(len(pred_dicts[0]['pred_boxes'])):
-        x, y, z, dx, dy, dz, rot = pred_dicts[0]['pred_boxes'][i][:7]
-        cls = int(pred_dicts[0]['pred_labels'][i])
-        conf = float(pred_dicts[0]['pred_scores'][i])
+        x, y, z, dx, dy, dz, rot = pred_dicts[0]['pred_boxes'][i][:7].cpu().numpy()
+        cls = int(pred_dicts[0]['pred_labels'][i].cpu().numpy())
+        conf = float(pred_dicts[0]['pred_scores'][i].cpu().numpy())
         pred_list.append([x, y, z, dx, dy, dz, rot, cls, conf])
     
     df = pd.DataFrame(pred_list, columns=columns)
