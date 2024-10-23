@@ -16,7 +16,7 @@ class TrainingThread(QThread):
     finished = pyqtSignal()
     error = pyqtSignal(str)
 
-    def __init__(self, training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification):
+    def __init__(self, training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification, include_augmented_data = True):
         super().__init__()
         self.training_data_dir = training_data_dir
         self.label_data_dir = label_data_dir
@@ -26,6 +26,7 @@ class TrainingThread(QThread):
         self.backbone = backbone
         self.point_cloud_magnification = point_cloud_magnification
         self.label_magnification = label_magnification
+        self.include_augmented_data = include_augmented_data
 
     def run(self):
         try:
@@ -43,9 +44,11 @@ class TrainingThread(QThread):
             NAME='custom'
             CFG_FILE_ABS = os.path.abspath(os.path.join('..', 'tools', 'cfgs', 'custom_models', config_file_name))
             print(CFG_FILE_ABS)
-            cmd = f'python convert_raw_data.py --name "{NAME}" --dir "{self.label_data_dir}" --cfg_file "{CFG_FILE_ABS}" --pc_mf "{self.point_cloud_magnification}" --dxdy_mf "{self.label_magnification}"'
+            cmd = f'python convert_raw_data.py --name "{NAME}"  --dir "{self.label_data_dir}" --cfg_file "{CFG_FILE_ABS}" --pc_mf "{self.point_cloud_magnification}" --dxdy_mf "{self.label_magnification}"'
+            if self.include_augmented_data:
+                cmd += " --val_aug"   
             target_subdirectory = os.path.join('..', 'tools')
-            self.run_command(cmd, target_subdirectory, exit_cmd = True)
+            self.run_command(cmd, target_subdirectory, exit_cmd = False)
             
             DATASET_CFG_FILE_ABS = os.path.abspath(os.path.join('..', 'tools', 'cfgs', 'dataset_configs', 'custom_dataset.yaml'))
             print(DATASET_CFG_FILE_ABS)
