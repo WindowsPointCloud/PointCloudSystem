@@ -150,6 +150,12 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - ⚠️ This might occur elsewhere, since our code is mainly just focused on `pointpillar` model.
 - Generally, if any problems occur, consider changing `torch.LongTensor` to `torch.IntTensor`
 
+## Miscellaneous
+1. How to interpret the metrics
+- Please refer [this explanation](https://github.com/open-mmlab/OpenPCDet/issues/432#issuecomment-808099795), which explains better than anyone else!
+- We mostly follows the AP_R40@0.50 metric, which means the Average Precision at IoU thresholds 0.50, with 40 points approximation on the Precision-Recall curve.
+- For recall, we follow the recall_rcnn_0.5, which is the overall recall (averaged across all classes) at IoU threshold of 0.5.
+
 <!--
 ## Miscellaneous
 1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues. Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
