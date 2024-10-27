@@ -97,6 +97,44 @@ python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\k
 cd ../
 ```
 
+## Sample Training Results
+
+<table border="1">
+  <tr>
+    <th>Backbone</th>
+    <th colspan="3">Exclude Augmented Data in Test Set</th>
+    <th colspan="3">Include Augmented Data in Test Set</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td>AP (Pass)</td>
+    <td>AP (Fail)</td>
+    <td>Recall</td>
+    <td>AP (Pass)</td>
+    <td>AP (Fail)</td>
+    <td>Recall</td>
+  </tr>
+  <tr>
+    <td>PointPillar</td>
+    <td>99.88</td>
+    <td>78.53</td>
+    <td>93.16</td>
+    <td>99.61</td>
+    <td>98.35</td>
+    <td>88.50</td>
+  </tr>
+  <tr>
+    <td>PV-RCNN</td>
+    <td>82.47</td>
+    <td>16.17</td>
+    <td>78.48</td>
+    <td>82.47</td>
+    <td>51.37</td>
+    <td>71.84</td>
+  </tr>
+</table>
+
+
 ## Troubleshooting
 
 Here, we share our troubleshooting and debugging process for the purpose of experience sharing. We hope this sharing helps your installation on Windows OS!
