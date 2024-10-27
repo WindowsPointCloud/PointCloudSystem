@@ -101,12 +101,11 @@ cd ../
 
 <table border="1">
   <tr>
-    <th>Backbone</th>
+    <th rowspan="2">Backbone</th>
     <th colspan="3">Exclude Augmented Data in Test Set</th>
     <th colspan="3">Include Augmented Data in Test Set</th>
   </tr>
   <tr>
-    <td></td>
     <td>AP (Pass)</td>
     <td>AP (Fail)</td>
     <td>Recall</td>
@@ -133,6 +132,7 @@ cd ../
     <td>71.84</td>
   </tr>
 </table>
+
 
 
 ## Troubleshooting
