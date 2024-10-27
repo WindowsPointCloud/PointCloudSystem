@@ -151,7 +151,8 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - Generally, if any problems occur, consider changing `torch.LongTensor` to `torch.IntTensor`
 
 ## Miscellaneous
-1. How to interpret the metrics
+
+### 1. How to interpret the metrics
 - Please refer [this explanation](https://github.com/open-mmlab/OpenPCDet/issues/432#issuecomment-808099795), which explains better than anyone else!
 - We mostly follows the AP_R40@0.50 metric, which means the Average Precision at IoU thresholds 0.50, with 40 points approximation on the Precision-Recall curve.
 - For recall, we follow the recall_rcnn_0.5, which is the overall recall (averaged across all classes) at IoU threshold of 0.5.
