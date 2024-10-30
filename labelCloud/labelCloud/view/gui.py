@@ -323,7 +323,7 @@ class GUI(QtWidgets.QMainWindow):
     def connect_events(self) -> None:
         # POINTCLOUD CONTROL
         self.button_next_pcd.clicked.connect(
-            lambda: self.controller.next_pcd(save=True)
+            lambda: self.controller.next_pcd(save=False)
         )
         self.button_prev_pcd.clicked.connect(self.controller.prev_pcd)
 
@@ -733,6 +733,7 @@ class GUI(QtWidgets.QMainWindow):
             self.controller.pcd_manager.label_manager.label_strategy.update_label_folder(
                 path_to_folder
             )
+            self.controller.bbox_controller.set_bboxes(self.controller.pcd_manager.get_labels_from_file())
             logging.info("Changed label folder to %s!" % path_to_folder)
 
     def update_default_object_class_menu(
