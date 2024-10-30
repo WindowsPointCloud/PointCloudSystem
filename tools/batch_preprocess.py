@@ -54,6 +54,7 @@ def read_all_json_files(label_dir, ply_dir):
 
         except Exception as e:
             logging.error(f"Error processing file {file_path}: {e}")
+            
 
 
 class DataPreprocessor(QThread):
@@ -77,9 +78,11 @@ class DataPreprocessor(QThread):
         if os.path.exists(self.modified_data_dir):
             shutil.rmtree(self.modified_data_dir)  # Delete the directory and its contents
             logging.info(f'{self.modified_data_dir} already exist, recreating new folder....')
+            self.progress.emit(f'{self.modified_data_dir} already exist, recreating new folder....')
         if os.path.exists(self.modified_label_dir):
             shutil.rmtree(self.modified_label_dir)  # Delete the directory and its contents
             logging.info(f'{self.modified_label_dir} already exist, recreating new folder....')
+            self.progress.emit(f'{self.modified_label_dir} already exist, recreating new folder....')
     
         # Create directories
         os.makedirs(self.modified_data_dir, exist_ok=True)
@@ -94,6 +97,7 @@ class DataPreprocessor(QThread):
             for idx, file_name in enumerate(file_names):
                 if not file_name.endswith('.ply'):
                     logging.warning("Skipping non-Ply file: %s", file_name)
+                    self.progress.emit(f"Skipping non-Ply file: {file_name}")
                     continue
 
                 if not self._is_running:
@@ -124,6 +128,9 @@ class DataPreprocessor(QThread):
             read_all_json_files(self.modified_label_dir, self.modified_data_dir)   
             
             self.progress.emit('Data preprocessing completed!')
+            
+            self.progress.emit(f"Preprocessed data save to {self.modified_data_dir}")
+            self.progress.emit(f"Preprocessed label save to {self.modified_label_dir}")
             logging.info("Data preprocessing completed!")
         else:
             self.progress.emit(f"The directory '{self.modified_data_dir}' is not empty")
