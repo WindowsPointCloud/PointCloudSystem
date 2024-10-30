@@ -45,6 +45,17 @@ class ColorButton(QtWidgets.QPushButton):
 
         """
         dlg = QtWidgets.QColorDialog(self)
+        dlg.setStyleSheet("background-color: None;")  # Set to default background
+        
+        # Find the QDialogButtonBox and reset the styles for its buttons
+        button_box = dlg.findChild(QtWidgets.QDialogButtonBox)
+        if button_box:
+            for button in button_box.buttons():
+                button.setStyleSheet("background-color: None;")  # Reset each button's background
+
+        
+
+            
         if self._color:
             dlg.setCurrentColor(QtGui.QColor(self._color))
 
