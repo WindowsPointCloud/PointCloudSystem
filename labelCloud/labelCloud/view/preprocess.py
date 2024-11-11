@@ -14,6 +14,8 @@ from tools.batch_preprocess import DataPreprocessor
 class PreprocessController:
     def __init__(self):
         self.view = None
+        self.thread = None
+
 
     def startup(self, view):
         """Sets the view and initializes the controller."""
@@ -24,9 +26,13 @@ class PreprocessController:
     def setup_connections(self):
         """Connect buttons and other widgets to their handlers."""
         
-        start_button = self.view.findChild(QPushButton, 'button_start')
-        finish_button = self.view.findChild(QPushButton, 'button_finish')
-        reset_button = self.view.findChild(QPushButton, 'button_reset')
+        self.view.start_button = self.view.findChild(QPushButton, 'button_start')
+        self.view.finish_button = self.view.findChild(QPushButton, 'button_finish')
+        self.view.reset_button = self.view.findChild(QPushButton, 'button_reset')
+        
+        start_button = self.view.button_start
+        finish_button = self.view.button_finish
+        reset_button = self.view.button_reset
         
         raw_data_button = self.view.findChild(QPushButton, 'button_browse_raw_data')
         label_files_button = self.view.findChild(QPushButton, 'button_browse_label_files')
@@ -110,7 +116,48 @@ class PreprocessController:
             )
             return  # Exit the function if the folder is invalid
             
-      
+        # Validate raw data folder contents
+        valid_raw_extensions = {'.bin', '.ply', '.npy'}
+        raw_files = os.listdir(raw_data_folder)
+        if not raw_files:
+            QMessageBox.critical(
+                self.view,
+                "Empty Raw Data Folder",
+                "The raw data folder is empty. Please select a folder containing point cloud files.",
+                QMessageBox.Ok
+            )
+            return
+
+        invalid_raw_files = [f for f in raw_files if not os.path.splitext(f)[1].lower() in valid_raw_extensions]
+        if invalid_raw_files:
+            QMessageBox.critical(
+                self.view,
+                "Invalid Raw Data Files",
+                f"The raw data folder contains invalid file types. Only .bin, .ply, or .npy files are allowed.\nInvalid files: {', '.join(invalid_raw_files)}",
+                QMessageBox.Ok
+            )
+            return
+
+        # Validate label files folder contents
+        label_files = os.listdir(label_files_folder)
+        if not label_files:
+            QMessageBox.critical(
+                self.view,
+                "Empty Label Files Folder",
+                "The label files folder is empty. Please select a folder containing .json files.",
+                QMessageBox.Ok
+            )
+            return
+
+        invalid_label_files = [f for f in label_files if not f.lower().endswith('.json')]
+        if invalid_label_files:
+            QMessageBox.critical(
+                self.view,
+                "Invalid Label Files",
+                f"The label files folder contains invalid file types. Only .json files are allowed.\nInvalid files: {', '.join(invalid_label_files)}",
+                QMessageBox.Ok
+            )
+            return
      
         
         # Validate and log preprocessing module settings
@@ -172,6 +219,7 @@ class PreprocessController:
 
         self.thread = DataPreprocessor(raw_data_folder, label_files_folder, downsample_value, nb_neighbors, std_ratio, roi_range)
         self.thread.progress.connect(self.update_progress)
+        self.thread.finished.connect(self.on_preprocessing_finished)
         self.thread.start()
 
     def update_progress(self, message):
@@ -184,13 +232,20 @@ class PreprocessController:
         self.raw_data_input.clear()
         self.label_files_input.clear()
         self.log_output.clear()
+        
+    def on_preprocessing_finished(self):
+        """Handler when preprocessing is complete."""
+        self.log_output.append("Preprocessing complete.")
+        QMessageBox.information(self.view, "Process Complete", "Data preprocessing is finished.")
+        self.view.button_start.setEnabled(True)  # Enable the start button after completion
   
 
     def finish_preprocessing(self):
-        logging.info("Finishing preprocessing...")
-        # Add logic to finalize preprocessing
+        if self.thread and self.thread.isRunning():
+                self.thread.stop()  # Signal the thread to stop
+                self.thread.wait()  # Wait for the thread to finish
         self.view.close()
-
+        
 class PreprocessWindow(QMainWindow):
     def __init__(self, control: PreprocessController):
         super(PreprocessWindow, self).__init__()
@@ -253,5 +308,22 @@ class PreprocessWindow(QMainWindow):
         return False
 
     def closeEvent(self, event) -> None:
-        logging.info("Closing window...")
-        event.accept()
+        try:
+            if self.controller.thread is not None and self.controller.thread.isRunning():
+                reply = QMessageBox.warning(
+                    self,
+                    "Process Running",
+                    "The preprocessing task is still running. Do you really want to exit?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.No
+                )
+                if reply == QMessageBox.Yes:
+                    self.controller.thread.terminate()  # Force terminate the thread if user confirms
+                    event.accept()  # Close the window
+                else:
+                    event.ignore()  # Prevent the window from closing
+            else:
+                event.accept()  # Close the window if no background task is running
+        except Exception as e:
+            logging.error("Exception in closeEvent: %s", str(e), exc_info=True)
+            event.accept()  # Close the window to prevent further issues
