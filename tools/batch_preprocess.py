@@ -95,26 +95,42 @@ class DataPreprocessor(QThread):
 
         if not os.listdir(self.modified_data_dir):  # Check if the directory is empty
             for idx, file_name in enumerate(file_names):
-                if not file_name.endswith('.ply'):
-                    logging.warning("Skipping non-Ply file: %s", file_name)
-                    self.progress.emit(f"Skipping non-Ply file: {file_name}")
-                    continue
-
+                # Check for cancellation at the start of each loop iteration
                 if not self._is_running:
                     self.progress.emit("Preprocessing cancelled.")
                     logging.info("Preprocessing cancelled by user.")
                     return
+
+                if not file_name.endswith('.ply'):
+                    logging.warning("Skipping non-Ply file: %s", file_name)
+                    self.progress.emit(f"Skipping non-Ply file: {file_name}")
+                    continue
 
                 self.progress.emit(f'Processing {file_name}...')
                 logging.info("Processing file: %s", file_name)
                 file_path = os.path.join(self.input_data_dir, file_name)
 
                 try:
-                    filtered_pcd = self.downsample_and_remove_outliers(file_path,  self.k_points, self.nb_neighbors, self.std_ratio)
+                    # Check for cancellation before starting this potentially long operation
+                    if not self._is_running:
+                        self.progress.emit("Preprocessing cancelled.")
+                        logging.info("Preprocessing cancelled by user.")
+                        return
+
+                    filtered_pcd = self.downsample_and_remove_outliers(
+                        file_path, self.k_points, self.nb_neighbors, self.std_ratio
+                    )
+
                     if filtered_pcd is None:
                         self.progress.emit(f"Filtered point cloud for {file_name} is empty.")
                         logging.warning("Filtered point cloud for %s is empty.", file_name)
                         continue
+
+                    # Check for cancellation before starting the next potentially long operation
+                    if not self._is_running:
+                        self.progress.emit("Preprocessing cancelled.")
+                        logging.info("Preprocessing cancelled by user.")
+                        return
 
                     self.split_points(file_name, filtered_pcd, idx, file_names, self.roi_range)
                     self.progress.emit(f'{file_name} processed ({idx + 1}/{len(file_names)})')
@@ -123,18 +139,23 @@ class DataPreprocessor(QThread):
                 except Exception as e:
                     self.progress.emit(f"Error processing {file_name}: {str(e)}")
                     logging.error("Error processing file %s: %s", file_name, str(e))
-             
-            # fix the path of the labels
-            read_all_json_files(self.modified_label_dir, self.modified_data_dir)   
-            
+
+            # Check for cancellation before the final aggregation step
+            if not self._is_running:
+                self.progress.emit("Preprocessing cancelled.")
+                logging.info("Preprocessing cancelled by user.")
+                return
+
+            # Fix the path of the labels
+            read_all_json_files(self.modified_label_dir, self.modified_data_dir)
             self.progress.emit('Data preprocessing completed!')
-            
-            self.progress.emit(f"Preprocessed data save to {self.modified_data_dir}")
-            self.progress.emit(f"Preprocessed label save to {self.modified_label_dir}")
+            self.progress.emit(f"Preprocessed data saved to {self.modified_data_dir}")
+            self.progress.emit(f"Preprocessed label saved to {self.modified_label_dir}")
             logging.info("Data preprocessing completed!")
         else:
             self.progress.emit(f"The directory '{self.modified_data_dir}' is not empty")
             logging.warning("The directory '%s' is not empty", self.modified_data_dir)
+
 
     def downsample_and_remove_outliers(self, file_path, k_points, nb_neighbors, std_ratio):
         """Downsample the point cloud and remove outliers."""
