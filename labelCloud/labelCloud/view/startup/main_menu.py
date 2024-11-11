@@ -19,7 +19,7 @@ from PyQt5.QtCore import QSettings
 class MainMenu(QMainWindow):
     def __init__(self):
         super().__init__()
-        
+        self.open_windows = []
         # Determine the path to the UI file
         self.ui_path = self._get_ui_path("main_menu_interface.ui")
         uic.loadUi(self.ui_path, self)
@@ -95,6 +95,12 @@ class MainMenu(QMainWindow):
 
 
         logging.info(f"Showing {window_class.__name__} window...")
+        
+        # Keep a reference to the view to prevent it from being garbage collected
+        self.open_windows.append(view)
+
+        # Optionally, remove the reference when the window is closed
+        view.destroyed.connect(lambda: self.open_windows.remove(view))
 
         # self.close()
         # Uncomment the following line if you want to start the event loop
@@ -107,29 +113,7 @@ class MainMenu(QMainWindow):
         # Add other platform-specific checks if necessary
         return False
 
-    # def start_gui(self):
-    #     app = QApplication.instance() or QApplication(sys.argv)
 
-    #     # Setup Model-View-Control structure
-    #     control = Controller()
-    #     view = GUI(control)
-
-    #     app.installEventFilter(view)
-
-    #     # Start GUI
-    #     view.show()
-
-    #     app.setStyle("Fusion")
-    #     desktop = QDesktopWidget().availableGeometry()
-    #     width = (desktop.width() - view.width()) // 2
-    #     height = (desktop.height() - view.height()) // 2
-    #     view.move(width, height)
-
-    #     # Close the main menu page when annotate_pushButton is clicked
-    #     self.annotate_pushButton.clicked.connect(self.close)
-
-    #     logging.info("Showing Annotation GUI...")
-    #     # sys.exit(app.exec_())
 
     def get_stylesheet(self):
         return """
