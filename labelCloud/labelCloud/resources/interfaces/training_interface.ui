@@ -39,11 +39,6 @@
            </item>
            <item>
             <property name="text">
-             <string>Point-RCNN</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>PV-RCNN</string>
             </property>
            </item>
