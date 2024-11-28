@@ -119,8 +119,34 @@ cd ../
 ```
 
 ## Convert to .exe
+Install pyinstaller
+```
+pip install pyinstaller
+```
 
-TODO
+Convert
+```
+pyinstaller --onefile --noconsole --icon=your_icon.ico labelCloud.py
+
+or
+
+pyinstaller --onefile --noconsole labelCloud.py
+```
+
+Edit labelCloud.spec
+```
+       datas=[
+	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
+      ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.ico', 'resources/icons'),
+	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.svg', 'resources/icons'),
+	   ('C:\\Users\\user\\anaconda3\\envs\\windowspointcloud\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
+	],
+```
+
+Convert again
+```
+pyinstaller labelCloud.spec
+```
 
 ## Sample Training Results
 
