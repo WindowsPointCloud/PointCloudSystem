@@ -38,7 +38,7 @@ TestingThread.run()
 
 
 ### 📋 Table of content
- 1. [System Requirement](#System-Requirement)
+ 1. [System Requirement](#📝-System-Requirement)
  2. [Setup](#Setup)
  3. [Run the GUI](#Run-the-GUI)
  4. [Convert labelCloud.py to .exe](#Convert-labelCloud.py-to-.exe)
