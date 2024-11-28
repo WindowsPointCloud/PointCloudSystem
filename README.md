@@ -118,10 +118,11 @@ python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\k
 cd ../
 ```
 
-## Convert to .exe
-Go to the directory if you haven't already
+## Convert labelCloud.py to .exe
+Go to the `labelCloud` directory if you haven't already
 ```
-
+cd PointCloudSystem
+cd labelCloud
 ```
 
 Install pyinstaller
@@ -129,7 +130,7 @@ Install pyinstaller
 pip install pyinstaller
 ```
 
-Convert
+Convert labelCloud.py to .exe
 ```
 pyinstaller --onefile --noconsole --icon=your_icon.ico labelCloud.py
 
