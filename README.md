@@ -180,7 +180,7 @@ pyinstaller labelCloud.spec
 Now, you should get a `/dist` folder inside `PointCloudSystem/labelCloud`. Inside the `/dist` folder, you should have the `labelCloud.exe`. Copy the `labelCloud.exe` and paste it inside `PointCloudSystem/labelCloud`, alongside with your `labelCloud.py`. The tree directory should look something as follows:
 ``` 
 PointCloudSystem/labelCloud
-├── spec
+├── dist
 │   ├── labelCloud.exe
 │   ├── [and other files and directories ...]
 ├── labelCloud.exe
