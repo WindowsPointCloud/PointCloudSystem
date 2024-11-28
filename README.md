@@ -118,6 +118,10 @@ python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\k
 cd ../
 ```
 
+## Convert to .exe
+
+TODO
+
 ## Sample Training Results
 
 <table border="1">
