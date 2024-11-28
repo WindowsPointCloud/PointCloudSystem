@@ -1,4 +1,4 @@
-# PointCloudSystem
+![image](https://github.com/user-attachments/assets/fae53c29-aa42-4ff7-b1fb-20ab135d4edb)# PointCloudSystem
 
 <!-- https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0 -->
 [![](https://img.shields.io/badge/Windows-10-0078D6?style=flat-square&logo=Windows)](https://www.microsoft.com/en-us/windows/)
@@ -133,7 +133,7 @@ or
 pyinstaller --onefile --noconsole labelCloud.py
 ```
 
-Edit labelCloud.spec
+Edit labelCloud.spec. Add this datas into labelCloud.spec
 ```
        datas=[
 	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
