@@ -38,7 +38,7 @@ TestingThread.run()
 ```
 
 ## System Requirement 
-🤔 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
+Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious 🤔, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Windows 10 Pro (version 22H2)
 2. CUDA version: 10.2
 3. Python version: 3.8
@@ -48,7 +48,7 @@ TestingThread.run()
 So far, we have been able to reimplement this repository as long as the following system conditions are met. Ensure you are using Windows 10 and CUDA 10.2. We will guide you through setting up the remaining Python dependencies in the next section.
 
 ## ⌛ Setup
-⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
+Please follow the sequence! ⚠️ Any other sequence may result in unknown errors which no one has solved before.
 
 Conda environment
 ```bash
