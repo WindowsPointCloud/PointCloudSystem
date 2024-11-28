@@ -185,6 +185,7 @@ PointCloudSystem/labelCloud
 │   ├── [and other files and directories ...]
 ├── labelCloud.exe
 ├── labelCloud.py
+├── labelCloud.spec
 └── ...
 ```
 
