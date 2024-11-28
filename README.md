@@ -162,7 +162,7 @@ TODO
 
 ## Troubleshooting
 
-Here, we share our troubleshooting and debugging process for the purpose of experience sharing. Specifically, these troubleshooting steps are what we summarized after migrating the original OpenPCDet from Linux/Ubuntu to Windows OS. Ideally, this codebase should work if you installed it following our [system requirements](https://github.com/WindowsPointCloud/PointCloudSystem/edit/main/README.md#system-requirement). However, you might have a different hardware system, which might require another set of software dependencies. If so, you might need to adjust some of the software dependencies based on our troubleshooting summary. We hope this sharing helps with your installation on Windows OS!
+Here, we share our troubleshooting and debugging process for the purpose of experience sharing. Specifically, these troubleshooting steps are what we summarized after migrating the original OpenPCDet from Linux/Ubuntu to Windows OS. Ideally, this codebase should work if you installed it following our [system requirements](https://github.com/WindowsPointCloud/PointCloudSystem?tab=readme-ov-file#system-requirement). However, you might have a different hardware system, which might require another set of software dependencies. If so, you might need to adjust some of the software dependencies based on our troubleshooting summary. We hope this sharing helps with your installation on Windows OS!
 
 ### 1. GPU requirements
 - As pointed out by [this comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-979906767), you need a GPU with the Pascal architecture or newer.
