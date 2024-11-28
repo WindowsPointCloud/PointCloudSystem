@@ -111,7 +111,6 @@ class TrainingController:
         # Mapping backbone architecture to config file names
         config_file_mapping = {
             'PointPillar': 'pointpillar.yaml',
-            'Point-RCNN': 'pointrcnn.yaml',
             'PV-RCNN': 'pv_rcnn.yaml'
         }
 
