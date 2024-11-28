@@ -39,7 +39,12 @@ TestingThread.run()
 
 ### 📋 Table of content
  1. [System Requirement](#System-Requirement)
- 2. [Setup](Setup)
+ 2. [Setup](#Setup)
+ 3. [Run the GUI](#Run-the-GUI)
+ 4. [Convert labelCloud.py to .exe](#Convert-labelCloud.py-to-.exe)
+ 5. [Sample Training Results](#Sample-Training-Results)
+ 6. [Troubleshooting](#Troubleshooting)
+ 7. [Miscellaneous](#Miscellaneous)
 
 
 
@@ -183,7 +188,7 @@ PointCloudSystem/labelCloud
 └── ...
 ```
 
-## Sample Training Results :
+## Sample Training Results
 
 <table border="1">
   <tr>
