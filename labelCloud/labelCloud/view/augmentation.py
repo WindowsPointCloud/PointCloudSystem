@@ -167,15 +167,6 @@ class AugmentationController:
         self.view.findChild(QProgressBar, 'progressBar').setRange(0, 0)  # Indeterminate state (moving)
         self.view.findChild(QProgressBar, 'progressBar').setVisible(True)
         
-    def update_progress_bar(self):
-        """Update the progress bar visually."""
-        # This is where you can animate or update the bar if needed
-        # However, in indeterminate mode, it is not necessary
-
-        # If using a determinate mode, you'd update the value here
-        # self.progress_bar.setValue(new_value)
-
-        # Here we keep it simple since it's indeterminate
 
     def on_augmentation_finished(self):
         """Cleanup when the augmentation thread is finished."""
