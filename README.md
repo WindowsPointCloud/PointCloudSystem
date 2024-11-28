@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/fae53c29-aa42-4ff7-b1fb-20ab135d4edb)# PointCloudSystem
+# PointCloudSystem
 
 <!-- https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0 -->
 [![](https://img.shields.io/badge/Windows-10-0078D6?style=flat-square&logo=Windows)](https://www.microsoft.com/en-us/windows/)
@@ -133,7 +133,7 @@ or
 pyinstaller --onefile --noconsole labelCloud.py
 ```
 
-You should get a file called `labelCloud.spec` after conversion. Open the .spec file, and A=add this `datas` into the file.
+You should get a file called `labelCloud.spec` after conversion. Open the .spec file, and add this `datas` into the file. Make sure you change the parent path accordingly. You can refer this [image](https://github.com/user-attachments/assets/fae53c29-aa42-4ff7-b1fb-20ab135d4edb) as reference of how to put the `datas` into `labelCloud.spec` file.
 ```
        datas=[
 	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
@@ -143,7 +143,7 @@ You should get a file called `labelCloud.spec` after conversion. Open the .spec 
 	],
 ```
 
-Convert again
+Convert again to make sure the pyinstaller take account into our dependencies listed in the `datas` in `labelCloud.spec`.
 ```
 pyinstaller labelCloud.spec
 ```
