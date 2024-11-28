@@ -1,132 +1,101 @@
-import argparse
+import open3d as o3d
+import numpy as np
+import os
+import shutil
+from PyQt5.QtCore import QThread, pyqtSignal
+import json
+import copy
 import logging
+import subprocess
+import sys
 
-from labelCloud import __version__
+from tools.batch_preprocess import read_all_json_files
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Label 3D bounding boxes inside point clouds."
-    )
-    parser.add_argument(
-        "-e",
-        "--example",
-        action="store_true",
-        help="Setup a project with an example point cloud and label.",
-    )
-    parser.add_argument(
-        "-v", "--version", action="version", version="%(prog)s " + __version__
-    )
-    args = parser.parse_args()
+class TrainingThread(QThread):
+    # Define signals to communicate back to the main thread
+    finished = pyqtSignal()
+    error = pyqtSignal(str)
 
-    if args.example:
-        setup_example_project()
+    def __init__(self, training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification, include_augmented_data = True):
+        super().__init__()
+        self.training_data_dir = training_data_dir
+        self.label_data_dir = label_data_dir
+        self.batch_size = batch_size
+        self.learning_rate = learning_rate
+        self.epochs = epochs
+        self.backbone = backbone
+        self.point_cloud_magnification = point_cloud_magnification
+        self.label_magnification = label_magnification
+        self.include_augmented_data = include_augmented_data
 
-    start_gui()
+    def run(self):
+        try:
+            if self.backbone == 'PointPillar':
+                config_file_name = 'pointpillar.yaml'
+            elif self.backbone == 'Point-RCNN':
+                config_file_name = 'pointrcnn.yaml'  
+            elif self.backbone == 'PV-RCNN':
+                config_file_name = 'pv_rcnn.yaml'
+                
+                
+            read_all_json_files(self.label_data_dir, self.training_data_dir)
+            #PC_MF=20
+            #DXDY_MF=0.85
+            NAME='custom'
+            CFG_FILE_ABS = os.path.abspath(os.path.join('..', 'tools', 'cfgs', 'custom_models', config_file_name))
+            print(CFG_FILE_ABS)
+            cmd = f'python convert_raw_data.py --name "{NAME}"  --dir "{self.label_data_dir}" --cfg_file "{CFG_FILE_ABS}" --pc_mf "{self.point_cloud_magnification}" --dxdy_mf "{self.label_magnification}"'
+            if self.include_augmented_data:
+                cmd += " --val_aug"   
+            target_subdirectory = os.path.join('..', 'tools')
+            self.run_command(cmd, target_subdirectory, exit_cmd = True)
+            
+            DATASET_CFG_FILE_ABS = os.path.abspath(os.path.join('..', 'tools', 'cfgs', 'dataset_configs', 'custom_dataset.yaml'))
+            print(DATASET_CFG_FILE_ABS)
+            cmd = f'set CUDA_LAUNCH_BLOCKING=1 && python -m pcdet.datasets.custom.custom_dataset create_custom_infos {DATASET_CFG_FILE_ABS}'
+            self.run_command(cmd, exit_cmd = True)
+            
+            #EPOCH = 100
+            #BATCH_SIZE = 4
+            WORKER = 1
+            cmd = f'set CUDA_LAUNCH_BLOCKING=1 && python train.py --cfg_file "{CFG_FILE_ABS}" --lr "{self.learning_rate}" --epochs "{self.epochs}" --batch_size "{self.batch_size}" --workers "{WORKER}"'
+            self.run_command(cmd, target_subdirectory)
+            
+            self.finished.emit()  # Emit the finished signal when done
+        except Exception as e:
+            logging.error(f"An error occurred during training: {e}", exc_info=True)
+            self.error.emit(str(e))  # Emit an error signal with the exception message
 
+    def run_command(self, command, target_subdirectory=None, exit_cmd = False):
+        """
+        Execute a command in the shell.
+        """
+        try:
+            # switch to the target subdirectory
+            if target_subdirectory is not None:
+                cwd = os.getcwd()
+                os.chdir(target_subdirectory)
+                print(f"Original directory: {cwd}")
+                print(f"Target directory: {target_subdirectory}")
+                print(f"Current directory after change: {os.getcwd()}")
+                print(f"Executing command: {command}")
 
-def setup_example_project() -> None:
-    import shutil
-    from pathlib import Path
-
-    import pkg_resources
-
-    from labelCloud.control.config_manager import config
-
-    logging.info(
-        "Starting labelCloud in example mode.\n"
-        "Setting up project with example point cloud ,label and default config."
-    )
-    cwdir = Path().cwd()
-
-    # Create folders
-    pcd_folder = cwdir.joinpath(config.get("FILE", "pointcloud_folder"))
-    pcd_folder.mkdir(exist_ok=True)
-    label_folder = cwdir.joinpath(config.get("FILE", "label_folder"))
-    label_folder.mkdir(exist_ok=True)
-
-    # Copy example files
-    shutil.copy(
-        pkg_resources.resource_filename("labelCloud.resources", "default_config.ini"),
-        str(cwdir.joinpath("config.ini")),
-    )
-    shutil.copy(
-        pkg_resources.resource_filename(
-            "labelCloud.resources.examples", "exemplary.ply"
-        ),
-        str(pcd_folder.joinpath("exemplary.ply")),
-    )
-    shutil.copy(
-        pkg_resources.resource_filename("labelCloud.resources", "default_classes.json"),
-        str(label_folder.joinpath("_classes.json")),
-    )
-    shutil.copy(
-        pkg_resources.resource_filename(
-            "labelCloud.resources.examples", "exemplary.json"
-        ),
-        str(label_folder.joinpath("exemplary.json")),
-    )
-    logging.info(
-        f"Setup example project in {cwdir}:"
-        "\n - config.ini"
-        "\n - pointclouds/exemplary.ply"
-        "\n - labels/exemplary.json"
-    )
-
-    
-
-# def start_gui():
-#     import sys
+            # run the command in a new cmd window and activate the conda environment
+            if exit_cmd:
+                process = subprocess.Popen(f'start /wait cmd /c "conda activate windowspointcloud && {command} && exit"', shell=True)
+            else:
+                process = subprocess.Popen(f'start /wait cmd /k "conda activate windowspointcloud && {command}"', shell=True)
+                
+            
+            # Wait for the process to finish, which will happen when the user closes the cmd window
    
-#     from PyQt5.QtWidgets import QApplication, QDesktopWidget
+            process.wait()  # Blocks until the process is finished or closed by the user
+            logging.info("Command finished execution.")
 
-#     from labelCloud.control.controller import Controller
-#     from labelCloud.view.gui import GUI
-
-#     app = QApplication(sys.argv)
-#     # PyQt5 version: 5.15.9
-#     # Qt version: 5.15.2
-
-#     # Setup Model-View-Control structure
-#     control = Controller()
-#     view = GUI(control)
-
-#     # Install event filter to catch user interventions
-#     app.installEventFilter(view)
-
-#     # Start GUI
-#     view.show()
-
-#     app.setStyle("Fusion")
-#     desktop = QDesktopWidget().availableGeometry()
-#     width = (desktop.width() - view.width()) // 2
-#     height = (desktop.height() - view.height()) // 2
-#     view.move(width, height)
-
-#     logging.info("Showing GUI...")
-#     sys.exit(app.exec_())
-
-def start_gui():
-    import sys
-    from PyQt5.QtWidgets import QApplication, QDesktopWidget
-    from labelCloud.control.controller import Controller
-    from labelCloud.view.startup.main_menu import MainMenu
-    from labelCloud.view.gui import GUI 
-
-    # app = QApplication.instance() or QApplication(sys.argv)
-    app = QApplication(sys.argv)
-    
-    # Show MainMenu first
-    main_menu = MainMenu()
-    main_menu.show()
-
-    app.setStyle("Fusion")
-    desktop = QDesktopWidget().availableGeometry()
-    width = (desktop.width() - main_menu.width()) // 2
-    height = (desktop.height() - main_menu.height()) // 2
-    main_menu.move(width, height)
-    
-    logging.info("Showing Main Menu..............")
-    sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    main()
+            # switch back to the original directory
+            if target_subdirectory is not None:
+                os.chdir(cwd)
+        except subprocess.CalledProcessError as e:
+            error_message = e.stderr.strip()
+            print(f"Error executing command: {e}")
+            raise e
