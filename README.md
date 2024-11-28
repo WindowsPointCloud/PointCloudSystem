@@ -119,6 +119,11 @@ cd ../
 ```
 
 ## Convert to .exe
+Go to the directory if you haven't already
+```
+
+```
+
 Install pyinstaller
 ```
 pip install pyinstaller
