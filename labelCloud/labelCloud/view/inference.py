@@ -1,5 +1,5 @@
 import logging
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QTextEdit, QCheckBox, QLineEdit, QFileDialog, QMessageBox, QInputDialog, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QTextEdit, QCheckBox, QLineEdit, QFileDialog, QMessageBox, QInputDialog, QComboBox, QProgressBar
 from PyQt5 import uic
 from PyQt5.QtCore import QSize, QSettings
 import pkg_resources
@@ -81,10 +81,28 @@ class InferenceController:
         save_predictions_line_edit = self.view.findChild(QLineEdit, 'savePredictionsLineEdit')
         if save_predictions_line_edit:
             save_predictions_line_edit.setText(str(save_prediction_directory))
+    
+    def start_progress_bar(self):
+        """Start the timer for the indeterminate progress bar."""
+        progress_bar = self.view.findChild(QProgressBar, 'progressBar')
+        progress_bar.setRange(0, 0)  # Set to indeterminate state (moving)
+        progress_bar.setVisible(True)
 
+        
+    def stop_progress_bar(self):
+        """Stop the progress bar and hide it."""
+        progress_bar = self.view.findChild(QProgressBar, 'progressBar')
+        progress_bar.setRange(0, 1)  # Reset range to make it non-moving (just a placeholder)
+        progress_bar.setValue(0)  # Reset value
+        progress_bar.setVisible(False)
+
+        
 
     def start_model_inference(self):
         logging.info("Starting model inference...")
+        
+        # Start the progress bar timer
+        self.start_progress_bar()
         # Get the selected backbone architecture
         backbone_combo_box = self.view.findChild(QComboBox, 'backboneComboBox')
         if backbone_combo_box:
@@ -93,8 +111,6 @@ class InferenceController:
                 config_file = r"cfgs\custom_models\pointpillar.yaml"
             elif selected_backbone == "PV-RCNN":
                 config_file = r"cfgs\custom_models\pv-rcnn.yaml"
-            elif selected_backbone == "Point-RCNN":
-                config_file = r"cfgs\custom_models\point-rcnn.yaml"
             else:
                 logging.error("Unsupported backbone architecture selected.")
                 return
@@ -192,6 +208,7 @@ class InferenceController:
                 logging.info("Starting demo...") 
                 run_command(cmd, subdirectory)
                 logging.info("Ending demo... with virtual env")
+                
             except Exception as e:
                 # Log the error
                 logging.error(f"An error occurred during visualization: {e}", exc_info=True)
@@ -202,9 +219,12 @@ class InferenceController:
                     f"An error occurred while starting the visualization:\n{str(e)}",
                     QMessageBox.Ok
                 )
+            finally:
+                self.stop_progress_bar()
 
     def start_model_testing(self):
         logging.info("Starting model testing...")
+        self.start_progress_bar()
         
         # Get paths from UI
        
@@ -246,6 +266,7 @@ class InferenceController:
     def on_testing_complete(self, message):
         logging.info(message)
         QMessageBox.information(self.view, "Testing Complete", message, QMessageBox.Ok)
+        self.stop_progress_bar()
 
 
     def reset_process(self):
