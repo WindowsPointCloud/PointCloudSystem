@@ -118,6 +118,18 @@ python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\k
 cd ../
 ```
 
+## Run the GUI
+Go to the `labelCloud` directory if you haven't already
+```
+cd PointCloudSystem
+cd labelCloud
+```
+
+Run the `labelCloud.py`
+```
+python labelCloud.py
+```
+
 ## Convert labelCloud.py to .exe
 Go to the `labelCloud` directory if you haven't already
 ```
