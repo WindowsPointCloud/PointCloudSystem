@@ -145,6 +145,6 @@ Name: PyOpenGL
 Version: 3.1.
 pip install PyOpenGL
 pip install --no-binary=PyOpenGL_accelerate PyOpenGL_accelerate
-pip install configobj
-pip install mayavi
-pip install nptyping
+pip install configobj==5.0.9
+pip install mayavi==4.8.2
+pip install nptyping==2.5.0
