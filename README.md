@@ -76,15 +76,36 @@ python setup.py develop
 cd ../
 
 # Some other dependencies
-pip install numba==0.58.1 #python 3.8 and above
+pip install numba==0.52.0
+pip install numpy==1.20.3
 pip install open3d==0.18.0
 pip install mayavi==4.8.2
 pip install scipy==1.10.1
 pip install scikit-image==0.21.0
 pip install scikit-build==0.18.1
 
-# Finally, setup the openpcdet (which will auto install the remaining dependencies)
+# Setup OpenPCDet
 python setup.py develop
+
+# Install the remaining dependencies
+pip install pandas==1.5.3
+pip install plyfile==1.0.1
+pip install opencv-python==4.7.0.72
+pip install av2==0.2.1
+pip install kornia==0.5.8
+pip install mayavi==4.8.2
+pip install PyQt5==5.15.9
+pip install open3d==0.18.0
+pip install chardet==5.2.0
+
+# Some of these dependencies are strict requirements
+pip install numpy==1.20.3
+pip install pillow==9.0.1
+pip install PyOpenGL==3.1.0
+pip install --no-binary=PyOpenGL_accelerate PyOpenGL_accelerate
+pip install configobj==5.0.9
+pip install mayavi==4.8.2
+pip install nptyping==2.5.0
 
 # Lastly, rename SharedNumpyArray to SharedArray
 python -c "import os; os.rename('SharedNumpyArray', 'SharedArray')"
