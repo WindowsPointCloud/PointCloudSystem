@@ -6,7 +6,7 @@
 [![](https://img.shields.io/badge/Python-3.8-3776AB?style=flat-square&logo=Python)](https://www.python.org/)
 [![](https://img.shields.io/badge/PyTorch-000000?style=flat-square&logo=PyTorch)](https://pytorch.org/)
 
-## Module Overview
+## 📚 Module Overview
 
 Most existing point cloud detection frameworks are implemented and optimized for Linux/Ubuntu systems, including our preferred OpenPCDet framework. Therefore, this framework is a point cloud object detection system (`PointCloudSystem`) dedicated to `Windows OS`. It covers end-to-end functionalities from data annotation, data preprocessing, data augmentation, to training and testing. Specifically, we integrate `labelCloud` and `OpenPCDet` into this framework for annotation and training, respectively. Additionally, we incorporate our custom data preprocessing and augmentation pipeline to facilitate the end-to-end process. The details of the flowchart are provided below:
 
@@ -37,7 +37,7 @@ TestingThread.run()
 
 ```
 
-## System Requirement
+## System Requirement 
 🤔 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Windows 10 Pro (version 22H2)
 2. CUDA version: 10.2
@@ -177,7 +177,7 @@ PointCloudSystem/labelCloud
 └── ...
 ```
 
-## Sample Training Results
+## Sample Training Results :
 
 <table border="1">
   <tr>
@@ -215,7 +215,7 @@ PointCloudSystem/labelCloud
 
 
 
-## Troubleshooting
+## 🛠 Troubleshooting
 
 Here, we share our troubleshooting and debugging process for the purpose of experience sharing. Specifically, these troubleshooting steps are what we summarized after migrating the original OpenPCDet from Linux/Ubuntu to Windows OS. Ideally, this codebase should work if you installed it following our [system requirements](https://github.com/WindowsPointCloud/PointCloudSystem?tab=readme-ov-file#system-requirement). However, you might have a different hardware system, which might require another set of software dependencies. If so, you might need to adjust some of the software dependencies based on our troubleshooting summary. We hope this sharing helps with your installation on Windows OS!
 
@@ -269,7 +269,9 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - ⚠️ This might occur elsewhere, since our code is mainly just focused on `pointpillar` model.
 - Generally, if any problems occur, consider changing `torch.LongTensor` to `torch.IntTensor`
 
-## Miscellaneous
+
+
+## 🧰 Miscellaneous
 
 ### 1. How to interpret the metrics
 - Please refer [this explanation](https://github.com/open-mmlab/OpenPCDet/issues/432#issuecomment-808099795), which explains better than anyone else!
