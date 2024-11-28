@@ -34,8 +34,14 @@ TrainingThread.run()
 
 # Testing and Inference Module (tools/batch_test.py)
 TestingThread.run()
-
 ```
+
+
+### 📋 Table of content
+ 1. [System Requirement](#System-Requirement)
+ 2. [Setup](Setup)
+
+
 
 ## System Requirement 
 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious 🤔, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
