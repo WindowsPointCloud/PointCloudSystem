@@ -38,13 +38,13 @@ TestingThread.run()
 
 
 ### 📋 Table of content
- 1. [System Requirement](#📝-System-Requirement)
- 2. [Setup](#Setup)
- 3. [Run the GUI](#Run-the-GUI)
- 4. [Convert labelCloud.py to .exe](#Convert-labelCloud.py-to-.exe)
- 5. [Sample Training Results](#Sample-Training-Results)
- 6. [Troubleshooting](#Troubleshooting)
- 7. [Miscellaneous](#Miscellaneous)
+ 1. [System Requirement](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-system-requirement)
+ 2. [Setup](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-setup)
+ 3. [Run the GUI](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#%EF%B8%8F-run-the-gui)
+ 4. [Convert labelCloud.py to .exe](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-convert-labelcloudpy-to-exe)
+ 5. [Sample Training Results](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-sample-training-results)
+ 6. [Troubleshooting](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-troubleshooting)
+ 7. [Miscellaneous](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-miscellaneous)
 
 
 
