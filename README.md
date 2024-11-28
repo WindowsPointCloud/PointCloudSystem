@@ -47,7 +47,7 @@ TestingThread.run()
 
 So far, we have been able to reimplement this repository as long as the following system conditions are met. Ensure you are using Windows 10 and CUDA 10.2. We will guide you through setting up the remaining Python dependencies in the next section.
 
-## Setup
+## ⌛ Setup
 ⚠️ Please follow the sequence! Any other sequence may result in unknown errors which no one has solved before.
 
 Conda environment
@@ -118,7 +118,7 @@ python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\k
 cd ../
 ```
 
-## Run the GUI
+## 🖥️ Run the GUI
 Go to the `labelCloud` directory if you haven't already
 ```
 cd PointCloudSystem
@@ -130,7 +130,7 @@ Run the `labelCloud.py`
 python labelCloud.py
 ```
 
-## Convert labelCloud.py to .exe
+## 🔁 Convert labelCloud.py to .exe
 Go to the `labelCloud` directory if you haven't already
 ```
 cd PointCloudSystem
