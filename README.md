@@ -133,7 +133,7 @@ or
 pyinstaller --onefile --noconsole labelCloud.py
 ```
 
-Edit labelCloud.spec. Add this datas into labelCloud.spec
+You should get a file called `labelCloud.spec` after conversion. Open the .spec file, and A=add this `datas` into the file.
 ```
        datas=[
 	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
