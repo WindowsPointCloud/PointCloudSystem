@@ -90,12 +90,12 @@ pyinstaller --onefile --noconsole --icon=your_icon.ico labelCloud.py
 pyinstaller --onefile --noconsole labelCloud.py
 
 in the spec file:
-        datas=[
-	  ('C:\\Users\\PCA\\temp\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
-      ('C:\\Users\\PCA\\temp\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.ico', 'resources/icons'),
-	   ('C:\\Users\\user\\anaconda3\\envs\\mimosdet\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
+       datas=[
+	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
+      ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.ico', 'resources/icons'),
+	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.svg', 'resources/icons'),
+	   ('C:\\Users\\user\\anaconda3\\envs\\windowspointcloud\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
 	],
-    hiddenimports=['cumm.tensorview'], not sure this one useful or not
 
 
 Directory of C:\Users\PCA\labelCloud\dist
