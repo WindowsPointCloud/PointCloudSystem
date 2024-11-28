@@ -166,6 +166,8 @@ Convert again to make sure the pyinstaller take account into our dependencies li
 pyinstaller labelCloud.spec
 ```
 
+Now, you should get a `/dist` folder inside `PointCloudSystem/labelCloud`. Inside the `/dist` folder, you should have the `labelCloud.exe`. Copy the `labelCloud.exe` and paste it inside `PointCloudSystem/labelCloud`, alongside with your `labelCloud.py`
+
 ## Sample Training Results
 
 <table border="1">
