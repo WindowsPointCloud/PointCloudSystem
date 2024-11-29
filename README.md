@@ -265,7 +265,7 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - This issue is the same problem caused by Troubleshoot Item 5 (iou3d windows build compatibility errors).
 - We explicitly show the troubleshooting steps here, in case there is unknown sources of error.
 - Basically, just change the data types in `pcdet/ops/iou3d_nms/src/iou3d_nms.cpp` and `pcdet/ops/iou3d_nms/src/iou3d_nms_kernel.cu` files.
-- This issue is pointed by [this comment](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406), [that comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598), and also [this pull request](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce).
+- This issue is pointed by [this comment](https://github.com/open-mmlab/OpenPCDet/pull/1040#issue-1315829406), [that comment](https://github.com/open-mmlab/OpenPCDet/issues/681#issuecomment-981505598), and also [this pull request](https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce). The explanation is provided [here](https://github.com/open-mmlab/OpenPCDet/issues/1287#issue-1616648384)
 - It is unsure if other .cpp code has this problem, but if similar problem arises, then please make the changes.
 - You do not have to change `unsigned long long` type, it seems like no issue arise from this data type.
 
