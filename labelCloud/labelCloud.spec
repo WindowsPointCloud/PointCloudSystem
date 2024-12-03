@@ -9,6 +9,7 @@ a = Analysis(
 	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
       ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.ico', 'resources/icons'),
 	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.svg', 'resources/icons'),
+	   ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\*.txt', 'resources'),
 	   ('C:\\Users\\user\\anaconda3\\envs\\windowspointcloud\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
 	],
     hiddenimports=[],
@@ -41,3 +42,5 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
 )
+
+
