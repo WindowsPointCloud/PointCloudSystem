@@ -294,6 +294,8 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - Then, please follow our guide listed [here](documentations/Configure_Microsoft_Visual_Studio_Path.md).
 
 ### 11. subprocess.CalledProcessError: Command '['ninja', '-v']' returned non-zero exit status 1.
+- When you are running `python setup.py develop` to setup OpenPCDet, you might face the above error.
+- To solve this, go to 
 uildExtension.with_options(use_ninja=False)}
 
 
