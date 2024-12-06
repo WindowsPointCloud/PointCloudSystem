@@ -291,7 +291,7 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - The complete error is `unsupported Microsoft Visual Studio version! Only the versions between 2017 and 2022 (inclusive) are supported! The nvcc flag '-allow-unsupported-compiler' can be used to override this version check; however, using an unsupported host compiler may cause compilation failure or incorrect run time execution. Use at your own risk.`
 - Sometimes, you will face this error even if you are using the correct version. This is because you might have more than one installed version, and/or the environment variable `Path` is not configured correctly.
 - To solve this, first make sure you are using a Microsoft Visual Studio version between 2017 and 2022 (inclusive).
-- Then, please add the Microsoft Visual Studio path to the environment variable `Path`. Specifically, in the Windows homepage `search bar` type `Edit the system environment variables` and click it. In the `Advanced` selection, click `Environment Variables`. A popup window should appear, with top interface named `User Variables for [Username]`, and the bottom interface named `System variables`. Scroll down and find a variable called `Path`. Click and press edit, and another popup window will appear. Then, add the path to your Microsoft Visual Studio. In my case, the path to our Microsoft Visual Studio is `C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\`.
+- Then, please follow our guide listed [here](documentations/Configure_Microsoft_Visual_Studio_Path.md)
 
 
 ## 🧰 Miscellaneous
