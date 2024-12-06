@@ -290,7 +290,7 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 ### 10. Unsupported Microsoft Visual Studio version
 - The complete error is `unsupported Microsoft Visual Studio version! Only the versions between 2017 and 2022 (inclusive) are supported! The nvcc flag '-allow-unsupported-compiler' can be used to override this version check; however, using an unsupported host compiler may cause compilation failure or incorrect run time execution. Use at your own risk.`
 - Sometimes, you will face this error even if you are using the correct version. This is because you might have more than one installed version, and/or the environment variable `Path` is not configured correctly.
-- To solve this, first make sure you are using a Microsoft Visual Studio version between 2017 and 2022 (inclusive).
+- To solve this, first make sure you had installed a Microsoft Visual Studio version between 2017 and 2022 (inclusive).
 - Then, please follow our guide listed [here](documentations/Configure_Microsoft_Visual_Studio_Path.md)
 
 
