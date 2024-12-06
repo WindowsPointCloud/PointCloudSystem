@@ -42,4 +42,4 @@ Press ok and you may now close all the windows for environment variables & syste
 ⚠️ Note: We are not sure if this is a must, but we always restart. We just recommend doing so.
 
 ## Step 4: Check if succeed
-Now please run `python setup.py develop` to setup OpenPCDet again. You should be able to resolve the error `unsupported Microsoft Visual Studio version! Only the versions between 2017 and 2022 (inclusive) are supported! The nvcc flag '-allow-unsupported-compiler' can be used to override this version check; however, using an unsupported host compiler may cause compilation failure or incorrect run time execution. Use at your own risk.`
+Now please run `python setup.py develop` to setup OpenPCDet again. You should be able to resolve the error `unsupported Microsoft Visual Studio version!`. Note that you might saw this error when running `python setup.py develop` for SharedNumpyArray. But you just have to run again to avoid this problem.
