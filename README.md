@@ -285,6 +285,7 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 ### 9. How to change CUDA version in Windows?
 - If you have more than one CUDA installed, then you might need to swap the environment variables to link the correct path of CUDA for the Windows system. Note that Windows may not automatically configure the path correctly when you install new CUDA, so please take note.
 - Firstly, you can use this command `nvcc --version` to check the CUDA version. Note that `nvidia-smi` might show a different CUDA version. But we always follow the version showed by `nvcc --version`. You can refer [this explanation](https://stackoverflow.com/a/53504578) to understand more.
+- If `nvcc --version` shows a version which is not the one you want, please refer the steps [here](documentations/SwapCUDAVersion.md)
 
 ### 10. Unsupported Microsoft Visual Studio version
 - The complete error is `unsupported Microsoft Visual Studio version! Only the versions between 2017 and 2022 (inclusive) are supported! The nvcc flag '-allow-unsupported-compiler' can be used to override this version check; however, using an unsupported host compiler may cause compilation failure or incorrect run time execution. Use at your own risk.`
