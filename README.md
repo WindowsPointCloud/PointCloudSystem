@@ -301,6 +301,8 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 
 ### 12. fatal error: THC/THC.h: No such file or directory
 - If we are not mistaken, this problem is likely to occur if you are using `torch>=1.11`.
+- Go to directory `PointCloudSystem/pcdet/ops/pointnet2/pointnet2_batch/src` and directory `PointCloudSystem/pcdet/ops/pointnet2/pointnet2_stack/src`. For each `.cpp` codes in these two directories, uncomment `include <THC/THC.h>` and `extern THCState *state;`. Example of uncommenting is shown below:
+- ![image](https://github.com/user-attachments/assets/ebd8ded3-5724-4ef6-908e-d3f593edab8e)
 
 
 ## 🧰 Miscellaneous
