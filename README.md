@@ -312,6 +312,15 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - We mostly follows the AP_R40@0.50 metric, which means the Average Precision at IoU thresholds 0.50, with 40 points approximation on the Precision-Recall curve.
 - For recall, we follow the recall_rcnn_0.5, which is the overall recall (averaged across all classes) at IoU threshold of 0.5.
 
+## Acknowledgements and References
+We really appreciate the open-source community for coming up with solutions to the different problems we faced.
+1. https://blog.csdn.net/weixin_49252254/article/details/135087124
+2. https://github.com/Uzukidd/OpenPCDet-Win11-Compatible/blob/master/README.md
+3. https://github.com/bycloudai/SwapCudaVersionWindows
+4. https://github.com/yihuajack/OpenPCDet/commit/fe62793d9362b5c794724c3eaf83ddd7db7b23ce
+5. https://github.com/imaginary-friend94/SharedNumpyArray
+6. and etc (which we have quoted along throughout the README
+
 <!--
 ## Miscellaneous
 1. SharedArray is not supported on Windows OS, as pointed out by multiple [GitHub issues](https://github.com/open-mmlab/OpenPCDet/issues/1043#issue-1315948545). Fortunately, we found a GitHub implementation called [SharedNumpyArray](https://github.com/imaginary-friend94/SharedNumpyArray) that works for Windows OS. We integrated the entire library into this repo as `PointCloudSystem/SharedNumpyArray`, to avoid version incompatibility issues. Please follow the setup instructions as pointed above to setup the `SharedNumpyAray`, and rename it as `SharedArray` so that it can works like an actual SharedArray module.
