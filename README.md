@@ -299,6 +299,9 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - Replace the code `BuildExtension` with `BuildExtension.with_options(use_ninja=False)`
 - This should mitigate the problem.
 
+### 12. fatal error: THC/THC.h: No such file or directory
+- If we are not mistaken, this problem is likely to occur if you are using `torch>=1.11`.
+
 
 ## 🧰 Miscellaneous
 
