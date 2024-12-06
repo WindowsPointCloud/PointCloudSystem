@@ -1,33 +1,6 @@
 # Configure Microsoft Visual Studio Path
 
-Here I will do a quick run down on how to swap CUDA versions.
-
-For ease, I will be demonstrating switching from **CUDA 11.6** to **CUDA 11.3**, the same methods apply to other versions.
-## Step 0: Check CUDA Version
-Check what version of CUDA you have. You can enter this to any command prompt (cmd, anaconda, etc)
-```
-nvcc --version
-```
-* if you get something like this:
-    ```
-    'nvcc' is not recognized as an internal or external command,
-     operable program or batch file.
-    ```
-    This means you don't have any CUDA installed. You can download your desired CUDA Toolkit version [here](https://developer.nvidia.com/cuda-toolkit-archive) (everything default would be fine)
-    
-    A quick rule of thumb: 
-    * NVIDIA GPU >= 30 series --> CUDA 11.0+
-    * NVIDIA GPU < 30 series --> CUDA 10.2 (CUDA 10.0 & 10.1 kinda outdated, use 10.2 unless specified)
-    
-    You can also check your GPU compatibility [here](https://github.com/pytorch/pytorch/issues/31285#issuecomment-641434931) for NVIDIA GPU < 30 series. If your GPU has CC >= 3.7, then it supports PyTorch.
-    
-    If you just freshly downloaded CUDA, then you would not need to proceed in the following steps, because you would have the CUDA version you want. You can do another quick check with `nvcc --version` to check your version in any command prompt.
-    
-* if you get something like this:
-
-  ![image](https://user-images.githubusercontent.com/29135514/151626349-6d0d3507-68f0-423e-a04f-a49724e93b01.png)
-  
-  Then it means you have CUDA installed. And in my case, it's CUDA 11.6. I will be swapping to CUDA 11.3 in the following steps.
+Here, we show how you can easily change the Microsoft Visual Studio Path so that Windows uses the correct version you want.
     
 ## Step 1: Locate System Environment Variables
 Open up your environment variables. You can search "env" in the search tab, it should look something like this.
