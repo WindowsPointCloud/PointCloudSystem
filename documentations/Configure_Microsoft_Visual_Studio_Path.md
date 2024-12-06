@@ -16,19 +16,7 @@ Then it should open up a window like this
    <img src="https://user-images.githubusercontent.com/29135514/151625921-57d87224-720e-44ab-9480-32e9a8b6f424.png" width="600">
 </p>
 
-## Step 2: Change System Variables
-Double check on `CUDA_PATH` and this window should pop up
-<p align="center">
-   <img src="https://user-images.githubusercontent.com/29135514/151626793-e6ea1837-4547-44a7-b39c-7a63f078354d.png" width="600">
-</p>
-Then enter the target version of your CUDA there. In my case it's changing 11.6 to 11.3
-<p align="center">
-   <img src="https://user-images.githubusercontent.com/29135514/151626887-c7c239a2-3f06-4705-a242-511df611c16c.png" width="600">
-</p>
-
-Press ok and proceed next step.
-
-## Step 3: Change System Paths
+## Step 2: Change System Paths
 Scroll down and find `Path`, double click to open
 <p align="center">
    <img src="https://user-images.githubusercontent.com/29135514/151627109-59345099-d736-44ac-b38c-37d61cb9e624.png" width="600">
@@ -43,19 +31,9 @@ So it should look like this after moving
 </p>
 Press ok and you may now close all the windows for environment variables & system properties.
 
-## Step 4: Restart your computer
+## Step 3: Restart your computer (Optional)
 
-⚠️ Note: The original tutorial did not mention this step, but we find that generally restarting the computer is necessary, especially if you have multiple CUDA versions!
+⚠️ Note: We are not sure if this is a must, but we always restart. We just recommend doing so.
 
-## Step 5: Check if succeed
-**Close** the last command prompt, and **open a new one**. Enter the following command:
-```
-nvcc --version
-```
-![image](https://user-images.githubusercontent.com/29135514/151627878-c6dddbab-adf6-4e79-b5cf-3dfb462b1e1d.png)
-
-If it outputs your desired version, then you have succeed in swapping CUDA version.
-
-## Acknowledgement
-
-We want to thank [this repo](https://github.com/bycloudai/SwapCudaVersionWindows) for teaching how to swap CUDA Toolkit Versions on Windows with ease. The tutorial is so good, that we directly copy it to here. Thanks again for the contribution by the user `byCloudAI`.
+## Step 4: Check if succeed
+Now please run `python setup.py develop` to setup OpenPCDet again. You should be able to resolve the error `unsupported Microsoft Visual Studio version! Only the versions between 2017 and 2022 (inclusive) are supported! The nvcc flag '-allow-unsupported-compiler' can be used to override this version check; however, using an unsupported host compiler may cause compilation failure or incorrect run time execution. Use at your own risk.`
