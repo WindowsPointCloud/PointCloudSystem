@@ -282,10 +282,13 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - ⚠️ This might occur elsewhere, since our code is mainly just focused on `pointpillar` model.
 - Generally, if any problems occur, consider changing `torch.LongTensor` to `torch.IntTensor`
 
-### 9. Unsupported Microsoft Visual Studio version
+### 9. How to change CUDA version in Windows?
+- If you have more than one CUDA installed, then you might need to swap the environment variables to link the correct path of CUDA for the Windows system. Note that Windows may not automatically configure the path correctly when you install new CUDA, so please take note.
+
+### 10. Unsupported Microsoft Visual Studio version
 - The complete error is `unsupported Microsoft Visual Studio version! Only the versions between 2017 and 2022 (inclusive) are supported! The nvcc flag '-allow-unsupported-compiler' can be used to override this version check; however, using an unsupported host compiler may cause compilation failure or incorrect run time execution. Use at your own risk.`
 - Sometimes, you will face this error even if you are using the correct version. This is because you might have more than one installed version, and/or the environment variable `Path` is not configured correctly.
-- To solve this, firstly make sure you are using the Microsoft Visual Studio version between 2017 and 2022 (inclusive).
+- To solve this, first make sure you are using a Microsoft Visual Studio version between 2017 and 2022 (inclusive).
 - Then, please add the Microsoft Visual Studio path to the environment variable `Path`. Specifically, in the Windows homepage `search bar` type `Edit the system environment variables` and click it. In the `Advanced` selection, click `Environment Variables`. A popup window should appear, with top interface named `User Variables for [Username]`, and the bottom interface named `System variables`. Scroll down and find a variable called `Path`. Click and press edit, and another popup window will appear. Then, add the path to your Microsoft Visual Studio. In my case, the path to our Microsoft Visual Studio is `C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\`.
 
 
