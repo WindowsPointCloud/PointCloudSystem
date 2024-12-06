@@ -70,7 +70,11 @@ So it should look like this after moving
 </p>
 Press ok and you may now close all the windows for environment variables & system properties.
 
-## Step 4: Check if succeed
+## Step 4: Restart your computer
+
+⚠️ Note: The original tutorial did not mention this step, but we find that generally restarting the computer is necessary, especially if you have multiple CUDA versions!
+
+## Step 5: Check if succeed
 **Close** the last command prompt, and **open a new one**. Enter the following command:
 ```
 nvcc --version
