@@ -29,12 +29,10 @@ Scroll down and see if your desired Microsoft Visual Studio path is inside here.
 <p align="center">
    <img src="https://github.com/user-attachments/assets/1b8c8581-987e-4a6e-bacb-438ed2dbee80" width="600">
 </p>
-If your desired Microsoft Visual Studio Path is not listed here:
-- Click `add` to add your path to the system environments
-if the listed path is not your desired Microsoft Visual Studio version
-- double click and change it
+
+If there is no Microsoft Visual Studio path listed OR the listed path is not your desired version, try doing so:
 <p align="center">
-   <img src="https://github.com/user-attachments/assets/b2388c14-8b5d-48c6-92de-f68cff91aa1c" width="600">
+   <img src="https://github.com/user-attachments/assets/635d309d-7f84-4e3d-8896-7954d126129b" width="600">
 </p>
 
 Press ok and you may now close all the windows for environment variables & system properties.
