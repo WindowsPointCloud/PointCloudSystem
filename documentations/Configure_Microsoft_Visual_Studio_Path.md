@@ -11,7 +11,7 @@ Then open it. Then click "Environment Variables"
 <p align="center">
    <img src="https://user-images.githubusercontent.com/29135514/151625750-dc5fc2ec-ef62-4f06-a87e-78c61f4dfc01.png" width="400">
 </p>
-Then it should open up a winodw like this
+Then it should open up a window like this
 <p align="center">
    <img src="https://user-images.githubusercontent.com/29135514/151625921-57d87224-720e-44ab-9480-32e9a8b6f424.png" width="600">
 </p>
