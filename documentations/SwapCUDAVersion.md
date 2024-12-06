@@ -1,9 +1,5 @@
 # Swap CUDA Toolkit Versions on Windows
 
-## Acknowledgement
-
-We want to thank [this repo](https://github.com/bycloudai/SwapCudaVersionWindows) for teaching how to swap CUDA Toolkit Versions on Windows with ease. The tutorial is so good, that we directly copy it to here. Thanks again for the contribution by the user `byCloudAI`.
-
 Here I will do a quick run down on how to swap CUDA versions.
 
 For ease, I will be demonstrating switching from **CUDA 11.6** to **CUDA 11.3**, the same methods apply to other versions.
@@ -82,3 +78,7 @@ nvcc --version
 ![image](https://user-images.githubusercontent.com/29135514/151627878-c6dddbab-adf6-4e79-b5cf-3dfb462b1e1d.png)
 
 If it outputs your desired version, then you have succeed in swapping CUDA version.
+
+## Acknowledgement
+
+We want to thank [this repo](https://github.com/bycloudai/SwapCudaVersionWindows) for teaching how to swap CUDA Toolkit Versions on Windows with ease. The tutorial is so good, that we directly copy it to here. Thanks again for the contribution by the user `byCloudAI`.
