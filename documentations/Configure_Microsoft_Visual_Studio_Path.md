@@ -21,13 +21,13 @@ Scroll down and find `Path`, double click to open
 <p align="center">
    <img src="https://user-images.githubusercontent.com/29135514/151627109-59345099-d736-44ac-b38c-37d61cb9e624.png" width="600">
 </p>
-You should see your current version on the very top. You going have to move your desired version to the very top
+You should see a pop up window like this
 <p align="center">
-   <img src="https://user-images.githubusercontent.com/29135514/151627505-f7fb27ba-86ef-415d-9f1c-cb666364ab45.png" width="600">
+   <img src="https://github.com/user-attachments/assets/2d51351d-d334-4218-809d-fbdb34317466" width="600">
 </p>
-So it should look like this after moving
+Scroll down and see if your desired Microsoft Visual Studio path is inside here. For example, I saw my Microsoft Visual Studio Path has been added to `Path`
 <p align="center">
-   <img src="https://user-images.githubusercontent.com/29135514/151627544-0ec9dcce-6b13-4d34-b627-b530fd42aad2.png" width="600">
+   <img src="https://github.com/user-attachments/assets/1b8c8581-987e-4a6e-bacb-438ed2dbee80" width="600">
 </p>
 Press ok and you may now close all the windows for environment variables & system properties.
 
