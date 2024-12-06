@@ -300,7 +300,8 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - This should mitigate the problem.
 
 ### 12. fatal error: THC/THC.h: No such file or directory
-- If we are not mistaken, this problem is likely to occur if you are using `torch>1.10`. Originally, OpenPCDet recommend using `torch<=1.10`. However, newer CUDA versions do not support lower version torch. Hence, it is inevitable for most of us to use `torch>1.10`.
+- If we are not mistaken, this problem is likely to occur if you are using `torch>1.10`. That is why we set the torch version to `torch=1.10` for this repo. The reason is because OpenPCDet recommends using `torch<=1.10`.
+- However, we found that newer CUDA versions do not support lower version torch. Hence, it is inevitable for most of us to use `torch>1.10`.
 - To solve this, go to directory `PointCloudSystem/pcdet/ops/pointnet2/pointnet2_batch/src` and directory `PointCloudSystem/pcdet/ops/pointnet2/pointnet2_stack/src`. For each `.cpp` codes in these two directories, uncomment `include <THC/THC.h>` and `extern THCState *state;`. Example of uncommenting is shown below:
 - ![image](https://github.com/user-attachments/assets/ebd8ded3-5724-4ef6-908e-d3f593edab8e)
 
