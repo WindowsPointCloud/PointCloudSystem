@@ -238,7 +238,8 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 ### 2. CUDA and PyTorch version
 - Due to unknown reasons, only a few CUDA + PyTorch combinations can work for OpenPCDet.
 - According to one [comment](https://github.com/open-mmlab/OpenPCDet/issues/421#issue-777529509) and many more (which we have lost track), it seems that CUDA 10.2 is the most stable version, with more successful installations on Windows.
-- After a series of trial-and-error, we set CUDA version to be 11.6, and PyTorch version to be 1.13.1
+- `Updates 1`: We found that OpenPCDet recommends using `torch<=1.10`, which is only supported by the older CUDA versions. One of the CUDA versions which support the older torch version is `CUDA 10.2`. However, Linux/Ubuntu users may not face as many issues compared to Windows user. But the issues are manageable following our troubleshooting guides below.
+- `Updates 2`: Other than `CUDA 10.2`, we added a branch to this repo for CUDA 11.6 using `torch==1.13.1`
 
 ### 3. Numba and Numpy version
 - Numba and Numpy version might clash due to unknown reason (this problem does not occur in Linux/Ubuntu)
