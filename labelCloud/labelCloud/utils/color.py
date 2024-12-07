@@ -54,11 +54,13 @@ def get_palette_path(filename):
     if getattr(sys, 'frozen', False):
         # Running in a PyInstaller bundle
         base_path = Path(sys._MEIPASS)
+        return base_path / "resources" / filename
     else:
         # Running in a development environment
         base_path = Path(__file__).resolve().parent.parent.parent
+        return base_path / "labelCloud" / "resources" / filename
     
-    return base_path / "resources" / filename
+    
 
 def hex_to_rgb(hex: str) -> Color3f:
     """Converts a hex color to a list of RGBA values.
