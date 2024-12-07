@@ -11,11 +11,12 @@ import subprocess
 class TestingThread(QThread):
     testing_complete = pyqtSignal(str)
 
-    def __init__(self, checkpoint_path, config_file):
+    def __init__(self, checkpoint_path, config_file, virtual_env):
         super().__init__()
 
         self.checkpoint_path = checkpoint_path
         self.config_file = config_file
+        self.virtual_env = virtual_env
 
     def run(self):
         logging.info("Running model testing in a separate thread...")
@@ -28,7 +29,7 @@ class TestingThread(QThread):
             target_subdirectory = os.path.join('..', 'tools')
             
             # Run the command
-            self.run_command(cmd, target_subdirectory)
+            self.run_command(self.virtual_env, cmd, target_subdirectory)
             
             # Emit signal when testing is complete
             self.testing_complete.emit("Testing completed successfully.")
@@ -36,7 +37,7 @@ class TestingThread(QThread):
             logging.error(f"An error occurred during testing: {e}", exc_info=True)
             self.testing_complete.emit(f"An error occurred during testing: {str(e)}")
             
-    def run_command(self, command, target_subdirectory=None):
+    def run_command(self, virtual_env, command, target_subdirectory=None):
         """
         Execute a command in the shell.
         """
@@ -51,7 +52,7 @@ class TestingThread(QThread):
                 print(f"Executing command: {command}")
 
             # run the command in a new cmd window and activate the conda environment
-            process = subprocess.Popen(f'start /wait cmd /k "conda activate windowspointcloud && {command}"', shell=True)
+            process = subprocess.Popen(f'start /wait cmd /k "conda activate {virtual_env} && {command}"', shell=True)
             
             # Wait for the process to finish, which will happen when the user closes the cmd window
             process.wait()  # Blocks until the process is finished or closed by the user
