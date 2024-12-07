@@ -38,6 +38,7 @@ class TrainingController:
         # Find the QLineEdit widgets for displaying the selected directories
         self.training_data_line_edit = self.view.findChild(QLineEdit, 'trainingDataLineEdit')
         self.label_data_line_edit = self.view.findChild(QLineEdit, 'labelDataLineEdit')
+        self.venv_line_edit = self.view.findChild(QLineEdit, 'virtualEnvLineEdit')
         
         # Connect the browse buttons to the corresponding methods
         if browse_training_data_button:
@@ -78,6 +79,10 @@ class TrainingController:
         self.include_augmented_data_checkbox = self.view.findChild(QCheckBox, 'includeAugmentedDataCheckbox')
         if self.include_augmented_data_checkbox:
             self.include_augmented_data_checkbox.setChecked(True)
+            
+        self.debug_mode_checkbox = self.view.findChild(QCheckBox, 'debugModeCheckbox')
+        if self.debug_mode_checkbox:
+            self.debug_mode_checkbox.setChecked(False)
         
         # Initialize directory paths
         current_dir = os.getcwd()  # Get the current working directory
@@ -93,7 +98,21 @@ class TrainingController:
             self.training_data_line_edit.setText(ply_dir)
         if self.label_data_line_edit:
             self.label_data_line_edit.setText(label_dir)
-            
+        if self.venv_line_edit:
+            self.venv_line_edit.setText("windowspointcloud")
+
+    def conda_env_exists(self, env_name):
+        try:
+            # Run 'conda env list' command
+            result = subprocess.run(['conda', 'env', 'list'], stdout=subprocess.PIPE, text=True, check=True)
+            # Check if the environment name exists in the output
+            env_list = result.stdout
+            return env_name in env_list
+        except subprocess.CalledProcessError as e:
+            print(f"Error occurred while checking Conda environments: {e}")
+            logging.error(f"Error occurred while checking Conda environments: {e}")
+            return False
+       
     def open_config_file(self):
         """Open the configuration file based on the selected backbone."""
         # Get the currently selected backbone architecture
@@ -168,6 +187,16 @@ class TrainingController:
         label_data_dir = self.label_data_line_edit.text()
         logging.info(f"Training data from: {training_data_dir}, Labels from: {label_data_dir}")
         
+        virtual_env = self.venv_line_edit.text()
+        logging.info(f"Virtual environment: {virtual_env}")
+        
+        if not self.conda_env_exists(virtual_env):
+            print(f"Conda environment '{virtual_env}' does not exist.")
+            logging.error(f"Conda environment '{virtual_env}' does not exist.")
+            self.show_error_message(f"Conda environment '{virtual_env}' does not exist.", "Please make sure to conda create the virtual environment before proceeding!")
+            self.venv_line_edit.setText(" ")
+            return
+                
         # Check if the directories are valid
         if not training_data_dir or not os.path.isdir(training_data_dir):
             logging.error("Invalid or empty training data directory.")
@@ -192,9 +221,19 @@ class TrainingController:
         
         if include_augmented_data:
             logging.info("Val/Test set include augmented data (Method A)")
+            
+        # Retrieve the value of debug mode
+        if self.debug_mode_checkbox.isChecked():
+            exit_cmd = False
+            logging.info("Debug mode set to True")
+        else:
+            exit_cmd = True
+            logging.info("Debug mode set to False")
+        
+  
  
         # Create the training thread and pass the command and directories
-        self.training_thread = TrainingThread(training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification, include_augmented_data)
+        self.training_thread = TrainingThread(training_data_dir, label_data_dir, batch_size, learning_rate, epochs, backbone, point_cloud_magnification, label_magnification, virtual_env, include_augmented_data, exit_cmd)
         
         # Connect signals to handle completion and errors
         self.training_thread.finished.connect(self.on_training_finished)
