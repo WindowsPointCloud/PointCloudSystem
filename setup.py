@@ -52,7 +52,7 @@ if __name__ == '__main__':
         license='Apache License 2.0',
         packages=find_packages(exclude=['tools', 'data', 'output']),
         cmdclass={
-            'build_ext': BuildExtension,
+            'build_ext': BuildExtension.with_options(use_ninja=False),
         },
         ext_modules=[
             make_cuda_ext(
