@@ -118,7 +118,7 @@ pip install configobj==5.0.9
 pip install mayavi==4.8.2
 pip install nptyping==2.5.0
 
-# OPTIONAL (ONLY IF APPLICABLE) To fix rotate_iou.py openpcdet numba.cuda.cudadrv.error.NvvmError: Failed to compile
+# Encouraged: To fix rotate_iou.py openpcdet numba.cuda.cudadrv.error.NvvmError: Failed to compile
 pip uninstall numba==0.52.0
 pip uninstall numpy==1.20.3
 pip install numpy==1.20.3
