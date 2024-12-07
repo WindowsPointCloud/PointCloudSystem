@@ -53,12 +53,6 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
           </spacer>
          </item>
          <item>
@@ -182,6 +176,46 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_dataDirectory">
        <item>
+        <layout class="QVBoxLayout" name="verticalLayout_virtualEnv">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_virtualEnv">
+           <item>
+            <widget class="QLabel" name="virtualEnvLabel">
+             <property name="text">
+              <string>Virtual Environment Name:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="virtualEnvLineEdit"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="virtualEnvMessageLabel">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>5</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>300</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Please make sure to use the correct virtual environment name</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_trainingData">
          <item>
           <widget class="QLabel" name="trainingDataLabel">
@@ -224,14 +258,28 @@
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="includeAugmentedDataCheckbox">
-         <property name="text">
-          <string>Include augmented data in val/test set</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_includeDebugCheckboxes">
+         <item>
+          <widget class="QCheckBox" name="includeAugmentedDataCheckbox">
+           <property name="text">
+            <string>Include augmented data in val/test set</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="debugModeCheckbox">
+           <property name="text">
+            <string>Debug Mode</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -244,15 +292,6 @@
          <spacer name="horizontalSpacer_1">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
           </property>
          </spacer>
         </item>
@@ -281,15 +320,6 @@
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
           </property>
          </spacer>
         </item>
