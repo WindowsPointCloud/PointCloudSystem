@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 import os
 from labelCloud.utils.command import run_command
+import subprocess
 
 from tools.batch_test import TestingThread
 
@@ -32,6 +33,9 @@ class InferenceController:
         start_testing_button = self.view.findChild(QPushButton, 'startTestingButton')
         reset_button = self.view.findChild(QPushButton, 'resetButton')
         cancel_button = self.view.findChild(QPushButton, 'cancelButton')
+        
+        self.venv_line_edit = self.view.findChild(QLineEdit, 'virtualEnvLineEdit')
+        self.venv_line_edit.setText("windowspointcloud")
 
 
         browse_inference_file_button = self.view.findChild(QPushButton, 'browseInferenceFileButton')
@@ -221,10 +225,33 @@ class InferenceController:
                 )
             finally:
                 self.stop_progress_bar()
-
+                
+    def conda_env_exists(self, env_name):
+        try:
+            # Run 'conda env list' command
+            result = subprocess.run(['conda', 'env', 'list'], stdout=subprocess.PIPE, text=True, check=True)
+            # Check if the environment name exists in the output
+            env_list = result.stdout
+            return env_name in env_list
+        except subprocess.CalledProcessError as e:
+            print(f"Error occurred while checking Conda environments: {e}")
+            logging.error(f"Error occurred while checking Conda environments: {e}")
+            return False
+            
     def start_model_testing(self):
         logging.info("Starting model testing...")
         self.start_progress_bar()
+        
+        
+        virtual_env = self.venv_line_edit.text()
+        logging.info(f"Virtual environment: {virtual_env}")
+        
+        if not self.conda_env_exists(virtual_env):
+            print(f"Conda environment '{virtual_env}' does not exist.")
+            logging.error(f"Conda environment '{virtual_env}' does not exist.")
+            self.show_error_message(f"Conda environment '{virtual_env}' does not exist.", "Please make sure to conda create the virtual environment before proceeding!")
+            self.venv_line_edit.setText(" ")
+            return
         
         # Get paths from UI
        
@@ -259,7 +286,7 @@ class InferenceController:
                     return
 
             # Create and start the testing thread
-            self.testing_thread = TestingThread( checkpoint_path, config_file)
+            self.testing_thread = TestingThread( checkpoint_path, config_file, virtual_env)
             self.testing_thread.testing_complete.connect(self.on_testing_complete)
             self.testing_thread.start()
 
@@ -285,6 +312,8 @@ class InferenceController:
             testing_dir_line_edit.clear()
         if save_predictions_line_edit:
             save_predictions_line_edit.clear()
+            
+        self.venv_line_edit.setText("windowspointcloud")
 
     def cancel_process(self):
         logging.info("Cancelling process...")
@@ -338,7 +367,13 @@ class InferenceController:
             if truth_label_directory_line_edit:
                 truth_label_directory_line_edit.setText(directory)
 
-
+    def show_error_message(self, title, message):
+        """Display an error message using QMessageBox."""
+        msg_box = QMessageBox(self.view)
+        msg_box.setIcon(QMessageBox.Critical)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.exec_()
 
 
 
