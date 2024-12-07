@@ -72,11 +72,11 @@ cd PointCloudSystem
 
 Install pytorch and spconv. Find the installation command via [pytorch get started](https://pytorch.org/get-started/previous-versions/) and [spconv repo](https://github.com/traveller59/spconv)
 ```
-# Install torch version 1.10.1 + CUDA 10.2!
-pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu102/torch_stable.html
+# Install torch version 1.13.1 + CUDA 11.6!
+pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
 
 # Install the corresponding spconv version
-pip install spconv-cu102==2.3.6
+pip install spconv-cu116==2.3.6
 ```
 
 Install the remaining dependencies and setup the OpenPCDet code
@@ -117,6 +117,15 @@ pip install --no-binary=PyOpenGL_accelerate PyOpenGL_accelerate
 pip install configobj==5.0.9
 pip install mayavi==4.8.2
 pip install nptyping==2.5.0
+
+# OPTIONAL (ONLY IF APPLICABLE) To fix rotate_iou.py openpcdet numba.cuda.cudadrv.error.NvvmError: Failed to compile
+pip uninstall numba==0.52.0
+pip uninstall numpy==1.20.3
+pip install numpy==1.20.3
+pip install numba==0.53.0
+
+# To edit the BASE_CONFIG path automatically in the pointpillar.yaml file
+pip install ruamel.yaml==0.18.6
 
 # Lastly, rename SharedNumpyArray to SharedArray
 python -c "import os; os.rename('SharedNumpyArray', 'SharedArray')"
