@@ -251,10 +251,9 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - `Updates 2`: Other than `CUDA 10.2`, we added a branch to this repo for `CUDA 11.6` using `torch==1.13.1`
 
 ### 3. Numba and Numpy version
-- Numba and Numpy version might clash due to unknown reason (this problem does not occur in Linux/Ubuntu)
-- 🤔 We guest that maybe this is caused by our CUDA + PyTorch versions that we use for Windows.
-- After some trial-and-error, we set Numba version to be 0.52.0, and Numpy version as 1.20.3
 - You can find the Numba and Numpy compatibility for different Python versions in [this link](https://numba.readthedocs.io/en/stable/user/installing.html)
+- However, Numba and Numpy version might sometimes also clash due to unknown reason (this problem is less usual in Linux/Ubuntu)
+- After some trial-and-error, we set `numpy==1.20.3` while numba version may be `numba==0.52.0` or `numba==0.53.0`, depending on CUDA 10.2 or CUDA 11.6.
 - ⚠️ Note that the original numpy code in OpenPCDet is written for version 1.24 and above, so we have to modify quite some code in the OpenPCDet for compatbility.
 - We do not show every files that require modifications, but it is pretty straightforward. Our codebase has been updated with numpy codes for version 1.20.
 
