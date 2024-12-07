@@ -314,6 +314,10 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 - To solve this, go to directory `PointCloudSystem/pcdet/ops/pointnet2/pointnet2_batch/src` and directory `PointCloudSystem/pcdet/ops/pointnet2/pointnet2_stack/src`. For each `.cpp` codes in these two directories, uncomment `include <THC/THC.h>` and `extern THCState *state;`. Example of uncommenting is shown below:</br>
 ![image](https://github.com/user-attachments/assets/ebd8ded3-5724-4ef6-908e-d3f593edab8e)
 
+### 13. rotate_iou.py openpcdet numba.cuda.cudadrv.error.NvvmError: Failed to compile
+- If you face this issue, then most likely is your numba version is not compatible with your python version, numpy version , and (maybe) hardware.
+- You can find the Numba and Numpy compatibility for different Python versions in [this link](https://numba.readthedocs.io/en/stable/user/installing.html)
+- For CUDA 11.6 + python 3.8, then `numba==0.53.0` and `numpy==1.20.3` should work for you.
 
 ## 🧰 Miscellaneous
 
