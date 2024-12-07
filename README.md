@@ -2,7 +2,7 @@
 
 <!-- https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0 -->
 [![](https://img.shields.io/badge/Windows-10-0078D6?style=flat-square&logo=Windows)](https://www.microsoft.com/en-us/windows/)
-[![](https://img.shields.io/badge/Cuda-11.6-6B8E23?style=flat-square&logo=Nvidia)](https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exelocal)
+[![](https://img.shields.io/badge/Cuda-11.6-6B8E23?style=flat-square&logo=Nvidia)](https://developer.nvidia.com/cuda-11.6-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exelocal)
 [![](https://img.shields.io/badge/Python-3.8-3776AB?style=flat-square&logo=Python)](https://www.python.org/)
 [![](https://img.shields.io/badge/PyTorch-000000?style=flat-square&logo=PyTorch)](https://pytorch.org/)
 
@@ -57,7 +57,7 @@ Installing OpenPCDet (and generally all other 3D object detection repositories) 
 5. CPU: Intel(R) Xeon(R) E-2176G CPU @ 3.70GHz
 6. Microsoft Visual Studio 2019
 
-So far, we have been able to reimplement this repository as long as the following system conditions are met. Ensure you are using Windows 10 and CUDA 10.2. We will guide you through setting up the remaining Python dependencies in the next section.
+So far, we have been able to reimplement this repository as long as the following system conditions are met. Ensure you are using Windows 10 and CUDA 11.6. We will guide you through setting up the remaining Python dependencies in the next section.
 
 ## ⌛ Setup
 Please follow the sequence! ⚠️ Any other sequence may result in unknown errors which no one has solved before.
