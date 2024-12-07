@@ -36,7 +36,6 @@ TrainingThread.run()
 TestingThread.run()
 ```
 
-
 ### 📋 Table of content
  1. [System Requirement](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-system-requirement)
  2. [Setup](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-setup)
@@ -308,7 +307,12 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 
 ## 🧰 Miscellaneous
 
-### 1. How to interpret the metrics
+### 1. For other CUDA version(s):
+- We tested the PointCloudSystem module on other CUDA version(s) as well. Note that for different CUDA version(s), you might need a slightly different installation process and slightly different codes. We have edited the relevant codes and provided the installation guide in the following branch(es).
+- CUDA 10.2: [cuda102 branch](https://github.com/WindowsPointCloud/PointCloudSystem/tree/cuda102)
+
+  
+### 2. How to interpret the metrics
 - Please refer [this explanation](https://github.com/open-mmlab/OpenPCDet/issues/432#issuecomment-808099795), which explains better than anyone else!
 - We mostly follows the AP_R40@0.50 metric, which means the Average Precision at IoU thresholds 0.50, with 40 points approximation on the Precision-Recall curve.
 - For recall, we follow the recall_rcnn_0.5, which is the overall recall (averaged across all classes) at IoU threshold of 0.5.
