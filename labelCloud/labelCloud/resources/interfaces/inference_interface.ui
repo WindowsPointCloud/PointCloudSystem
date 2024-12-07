@@ -43,7 +43,7 @@
      </layout>
     </item>
 
-    <!-- Model Checkpoint (Moved under Backbone Selector) -->
+    <!-- Model Checkpoint -->
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_modelCheckpoint">
       <item>
@@ -66,7 +66,49 @@
      </layout>
     </item>
 
-    <!-- Inference File/Directory (Edited label) -->
+    <!-- Virtual Environment Name -->
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_virtualEnv">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_virtualEnv">
+        <item>
+         <widget class="QLabel" name="virtualEnvLabel">
+          <property name="text">
+           <string>Virtual Environment Name:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="virtualEnvLineEdit"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="virtualEnvMessageLabel">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>5</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Please make sure to use the correct virtual environment name</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- Inference File/Directory -->
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_inferenceFile">
       <item>
