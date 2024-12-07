@@ -2,7 +2,7 @@
 
 <!-- https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0 -->
 [![](https://img.shields.io/badge/Windows-10-0078D6?style=flat-square&logo=Windows)](https://www.microsoft.com/en-us/windows/)
-[![](https://img.shields.io/badge/Cuda-10.2-6B8E23?style=flat-square&logo=Nvidia)](https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exelocal)
+[![](https://img.shields.io/badge/Cuda-11.6-6B8E23?style=flat-square&logo=Nvidia)](https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exelocal)
 [![](https://img.shields.io/badge/Python-3.8-3776AB?style=flat-square&logo=Python)](https://www.python.org/)
 [![](https://img.shields.io/badge/PyTorch-000000?style=flat-square&logo=PyTorch)](https://pytorch.org/)
 
@@ -51,9 +51,9 @@ TestingThread.run()
 ## 📝 System Requirement 
 Installing OpenPCDet (and generally all other 3D object detection repositories) on a Windows device can be extremely tedious 🤔, as most of the open-source dependencies for OpenPCDet are not well-maintained on Windows. Therefore, we explicitly define our device system as follows for your reference:
 1. Operating System (OS): Windows 10 Pro (version 22H2)
-2. CUDA version: 10.2
+2. CUDA version: 11.6
 3. Python version: 3.8
-4. PyTorch version: 1.10.1
+4. PyTorch version: 1.13.1
 5. CPU: Intel(R) Xeon(R) E-2176G CPU @ 3.70GHz
 6. Microsoft Visual Studio 2019
 
@@ -239,7 +239,7 @@ Here, we share our troubleshooting and debugging process for the purpose of expe
 ### 2. CUDA and PyTorch version
 - Due to unknown reasons, only a few CUDA + PyTorch combinations can work for OpenPCDet.
 - According to one [comment](https://github.com/open-mmlab/OpenPCDet/issues/421#issue-777529509) and many more (which we have lost track), it seems that CUDA 10.2 is the most stable version, with more successful installations on Windows.
-- After a series of trial-and-error, we set CUDA version to be 10.2, and PyTorch version to be 1.10.1
+- After a series of trial-and-error, we set CUDA version to be 11.6, and PyTorch version to be 1.13.1
 
 ### 3. Numba and Numpy version
 - Numba and Numpy version might clash due to unknown reason (this problem does not occur in Linux/Ubuntu)
