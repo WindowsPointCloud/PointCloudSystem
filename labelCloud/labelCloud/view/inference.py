@@ -114,7 +114,7 @@ class InferenceController:
             if selected_backbone == "PointPillar":
                 config_file = r"cfgs\custom_models\pointpillar.yaml"
             elif selected_backbone == "PV-RCNN":
-                config_file = r"cfgs\custom_models\pv-rcnn.yaml"
+                config_file = r"cfgs\custom_models\pv_rcnn.yaml"
             else:
                 logging.error("Unsupported backbone architecture selected.")
                 return
@@ -278,7 +278,7 @@ class InferenceController:
                 if selected_backbone == "PointPillar":
                     config_file = r"cfgs\custom_models\pointpillar.yaml"
                 elif selected_backbone == "PV-RCNN":
-                    config_file = r"cfgs\custom_models\pv-rcnn.yaml"
+                    config_file = r"cfgs\custom_models\pv_rcnn.yaml"
                 elif selected_backbone == "Point-RCNN":
                     config_file = r"cfgs\custom_models\point-rcnn.yaml"
                 else:
