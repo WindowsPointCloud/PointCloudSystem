@@ -119,6 +119,16 @@ class InferenceController:
                 logging.error("Unsupported backbone architecture selected.")
                 return
                 
+        virtual_env = self.venv_line_edit.text()
+        logging.info(f"Virtual environment: {virtual_env}")
+        
+        if not self.conda_env_exists(virtual_env):
+            print(f"Conda environment '{virtual_env}' does not exist.")
+            logging.error(f"Conda environment '{virtual_env}' does not exist.")
+            self.show_error_message(f"Conda environment '{virtual_env}' does not exist.", "Please make sure to conda create the virtual environment before proceeding!")
+            self.venv_line_edit.setText(" ")
+            return
+        
         print(config_file)
         # Get paths from UI
         inference_file_line_edit = self.view.findChild(QLineEdit, 'inferenceFileLineEdit')
@@ -197,7 +207,7 @@ class InferenceController:
                 
           
             # Prepare command   
-            cmd = f'conda activate windowspointcloud && python demo.py --cfg_file "{config_file}" --ckpt "{checkpoint_path}" --data_path "{inference_file_path}" --ext "{file_extension}" --saved_prediction_label_directory "{save_predictions_path}"'
+            cmd = f'conda activate {virtual_env} && python demo.py --cfg_file "{config_file}" --ckpt "{checkpoint_path}" --data_path "{inference_file_path}" --ext "{file_extension}" --saved_prediction_label_directory "{save_predictions_path}"'
             
             if truth_label_directory:
                 cmd += f' --truth_label_directory "{truth_label_directory}"'
@@ -279,8 +289,7 @@ class InferenceController:
                     config_file = r"cfgs\custom_models\pointpillar.yaml"
                 elif selected_backbone == "PV-RCNN":
                     config_file = r"cfgs\custom_models\pv_rcnn.yaml"
-                elif selected_backbone == "Point-RCNN":
-                    config_file = r"cfgs\custom_models\point-rcnn.yaml"
+              
                 else:
                     logging.error("Unsupported backbone architecture selected.")
                     return
