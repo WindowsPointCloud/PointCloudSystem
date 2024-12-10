@@ -5,12 +5,12 @@ a = Analysis(
     ['labelCloud.py'],
     pathex=[],
     binaries=[],
-	datas=[
-	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
-      ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.ico', 'resources/icons'),
-	  ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.svg', 'resources/icons'),
-	   ('D:\\Hum\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\*.txt', 'resources'),
-	   ('C:\\Users\\user\\anaconda3\\envs\\windowspointcloud\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
+   datas=[
+	  ('D:\\hum_final\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\interfaces\\*.ui', 'resources/interfaces'),
+      ('D:\\hum_final\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.ico', 'resources/icons'),
+	  ('D:\\hum_final\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\icons\\*.svg', 'resources/icons'),
+	   ('D:\\hum_final\\PointCloudSystem\\labelCloud\\labelCloud\\resources\\*.txt', 'resources'),
+	   ('C:\\Users\\user\\anaconda3\\envs\\cuda116\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
 	],
     hiddenimports=[],
     hookspath=[],
@@ -42,5 +42,3 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
 )
-
-
