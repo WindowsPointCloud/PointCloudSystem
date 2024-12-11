@@ -148,3 +148,55 @@ pip install --no-binary=PyOpenGL_accelerate PyOpenGL_accelerate
 pip install configobj==5.0.9
 pip install mayavi==4.8.2
 pip install nptyping==2.5.0
+
+
+conda remove --name cuda116 --all
+
+update and repair ms vs 2019
+c++ for windows development
+edit the system environment variables
+environment variables
+Path
+New
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\
+
+
+conda create --name cuda116 python=3.8 -y
+conda activate cuda116
+
+D:
+cd hum_final
+
+git clone https://github.com/WindowsPointCloud/PointCloudSystem.git
+cd PointCloudSystem
+
+
+pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
+pip install spconv-cu116==2.3.6
+
+issue rotate_iou.py openpcdet numba.cuda.cudadrv.error.NvvmError: Failed to compile
+https://github.com/open-mmlab/OpenPCDet/issues/1016
+found numba support numpy < 1.20
+action: unintall numba 0.52
+install numba 0.53
+
+# to edit the _BASE_CONFIG_ path automatically in the pointpillar.yaml file
+pip install ruamel.yaml
+
+OSError: Error loading libspeex-1-5cfc095fa5eadd2e65de2fbb4dadf085.dll; The operation completed successfully.
+https://github.com/adang1345/delvewheel/issues/51
+
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+av2 0.2.1 requires numpy>=1.21.5, but you have numpy 1.20.3 which is incompatible.
+
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+av2 0.2.1 requires numpy>=1.21.5, but you have numpy 1.20.3 which is incompatible.
+scikit-image 0.21.0 requires numpy>=1.21.1, but you have numpy 1.20.3 which is incompatible.
+
+
+cd tools
+python demo.py --cfg_file "cfgs\kitti_models\pv_rcnn.yaml" --ckpt "..\data\kitti\pv_rcnn_8369.pth" --data_path "..\data\kitti\000000.bin"
+cd ../
+
+
+
