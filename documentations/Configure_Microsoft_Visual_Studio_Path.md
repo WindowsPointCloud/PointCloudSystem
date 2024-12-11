@@ -25,7 +25,7 @@ You should see a pop up window like this
 <p align="center">
    <img src="https://github.com/user-attachments/assets/2d51351d-d334-4218-809d-fbdb34317466" width="600">
 </p>
-Scroll down and see if your desired Microsoft Visual Studio path is inside here. For example, I saw my Microsoft Visual Studio Path has been added to `Path`
+Scroll down and see if your desired Microsoft Visual Studio path is inside here. For example, I saw my Microsoft Visual Studio Path <b>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\<\b> has been added to `Path`
 <p align="center">
    <img src="https://github.com/user-attachments/assets/1b8c8581-987e-4a6e-bacb-438ed2dbee80" width="600">
 </p>
