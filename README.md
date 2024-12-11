@@ -43,7 +43,7 @@ TestingThread.run()
  4. [Convert labelCloud.py to .exe](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-convert-labelcloudpy-to-exe)
  5. [Sample Training Results](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-sample-training-results)
  6. [Troubleshooting](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-troubleshooting)
- 7. [Known Errors](hehe)
+ 7. [Known Errors](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#%EF%B8%8F-known-errors)
  8. [Miscellaneous](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-miscellaneous)
 
 
