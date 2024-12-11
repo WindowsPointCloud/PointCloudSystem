@@ -43,7 +43,8 @@ TestingThread.run()
  4. [Convert labelCloud.py to .exe](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-convert-labelcloudpy-to-exe)
  5. [Sample Training Results](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-sample-training-results)
  6. [Troubleshooting](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-troubleshooting)
- 7. [Miscellaneous](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-miscellaneous)
+ 7. [Known Errors](hehe)
+ 8. [Miscellaneous](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/README.md#-miscellaneous)
 
 
 
@@ -141,6 +142,11 @@ cd tools
 python demo.py --cfg_file "cfgs\kitti_models\pointpillar.yaml" --ckpt "..\data\kitti\pointpillar_7728.pth" --data_path "..\data\kitti\000000.bin"
 cd ../
 ```
+
+## ⁉️ Known Errors
+1. Note that you might face errors related to `av2 0.2.1 requires numpy>=1.21.5, but you have numpy 1.20.3 which is incompatible.` and `scikit-image 0.21.0 requires numpy>=1.21.1, but you have numpy 1.20.3 which is incompatible.`. Don't worry, it would not affect our code, has we have natively fixed this issue. 
+2. Also, you may or may not face `OSError: Error loading libspeex-1-5cfc095fa5eadd2e65de2fbb4dadf085.dll; The operation completed successfully`. This is an issue with Windows OS, which is not fatal. Just rerun (or click the run button) again, and things will run properly. Once the code is running, then it will not appear again.
+
 
 ## 🖥️ Run the GUI
 Go to the `labelCloud` directory if you haven't already
