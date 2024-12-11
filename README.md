@@ -144,7 +144,7 @@ cd ../
 ```
 
 ## ⁉️ Known Warning Errors
-1. Note that you might face errors related to `av2 0.2.1 requires numpy>=1.21.5, but you have numpy 1.20.3 which is incompatible` and `scikit-image 0.21.0 requires numpy>=1.21.1, but you have numpy 1.20.3 which is incompatible`. Don't worry, it would not affect our code, has we have natively fixed this issue. 
+1. Note that you might face errors related to numpy, such as `av2 0.2.1 requires numpy>=1.21.5, but you have numpy 1.20.3 which is incompatible` and `scikit-image 0.21.0 requires numpy>=1.21.1, but you have numpy 1.20.3 which is incompatible`. Don't worry, it would not affect our code, has we have natively fixed this issue. 
 2. Also, you may or may not face `OSError: Error loading libspeex-1-5cfc095fa5eadd2e65de2fbb4dadf085.dll; The operation completed successfully`. This is an issue with Windows OS, which is not fatal. Just rerun (or click the run button) again, and things will run properly. Once the code is running, then it will not appear again.
 
 
