@@ -190,6 +190,16 @@ You should get a file called `labelCloud.spec` after conversion. Open the .spec 
 	   ('C:\\Users\\user\\anaconda3\\envs\\windowspointcloud\\Lib\\site-packages\\cumm\\include', 'cumm/include'),
 	],
 ```
+If you are improving and/or adding features to the system and require error log, then please set debug=True in `labelCloud.spec`:
+```
+exe = EXE(
+ debug=False, # # set to True to open console for debugging purpose
+…
+   …
+    console=False, # set to True to open console for debugging purpose
+…
+)
+```
 
 Convert again to make sure the pyinstaller take account into our dependencies listed in the `datas` in `labelCloud.spec`.
 ```
