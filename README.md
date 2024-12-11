@@ -61,6 +61,10 @@ So far, we have been able to reimplement this repository as long as the followin
 ## ⌛ Setup
 Please follow the sequence! ⚠️ Any other sequence may result in unknown errors which no one has solved before.
 
+Prerequisites
+1. Install the appropriate version of CUDA (CUDA 11.6 in our case), then set the path correctly in the environment variables following our guides [here](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/documentations/Swap_CUDA_Version.md) if you have multiple CUDA versions.
+2. Install the appropriate version of Microsoft Visual Studio (2019 version in our case), then set the path correctly in the environment variables following our guides [here](https://github.com/WindowsPointCloud/PointCloudSystem/blob/main/documentations/Configure_Microsoft_Visual_Studio_Path.md).
+
 Conda environment
 ```bash
 conda create --name windowspointcloud python=3.8 -y
